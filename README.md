@@ -26,26 +26,24 @@ Siga as etapas abaixo para configurar e executar o Bubbles em seu ambiente local
    
 3. Navegue até o diretório do projeto:
    
-```cd bubbles```
+   ```cd bubbles```
 
 4. Instale as dependências:
    
-``` npm install ```
+   ``` npm install ```
 
 6. Inicie o servidor de desenvolvimento:
 
-``` npm start ```
+   ``` npm start ```
 
 5. Acesse o Bubbles em seu navegador:
    
-```http://localhost:3000```
+   ```http://localhost:3000```
 
 # ✌🏻 Contribuição
 Nós adoramos contribuições! Se você deseja melhorar o Bubbles, siga estas etapas:
 
-Faça um fork deste repositório.
-
-Crie uma nova branch com uma descrição significativa da sua contribuição:
+Faça um fork deste repositório. Crie uma nova branch com uma descrição significativa da sua contribuição:
 
 git checkout -b feature/nova-funcionalidade
 Faça as alterações e adições necessárias.
@@ -56,7 +54,6 @@ Envie um pull request explicando suas mudanças e por que elas são importantes.
 Este projeto está licenciado sob a Licença MIT - consulte o arquivo LICENSE para obter detalhes.
 
 Siga-nos nas redes sociais:
-
 - Twitter: @BubblesSocial
 - Facebook: BubblesSocial
 Para qualquer dúvida ou suporte, entre em contato conosco em contato@bubbles.com.
