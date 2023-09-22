@@ -16,40 +16,43 @@ O Bubbles é uma plataforma de rede social construída em React, projetada para 
 - **Pesquisa Inteligente**: Encontre facilmente usuários e conteúdo por meio de nossa pesquisa avançada.
 - **Responsivo**: O Bubbles é totalmente responsivo, permitindo uma experiência perfeita em dispositivos móveis e desktop.
 
-## Instalação
+## 🖥️ Instalação
 
 Siga as etapas abaixo para configurar e executar o Bubbles em seu ambiente local:
 
 1. Clone este repositório:
 
    ```git clone https://github.com/seu-usuario/bubbles.git```
-2. Navegue até o diretório do projeto:
+   
+3. Navegue até o diretório do projeto:
+   
 ```cd bubbles```
 
-3. Instale as dependências:
+4. Instale as dependências:
+   
 ``` npm install ```
 
-4. Inicie o servidor de desenvolvimento:
+6. Inicie o servidor de desenvolvimento:
 
 ``` npm start ```
 
 5. Acesse o Bubbles em seu navegador:
+   
 ```http://localhost:3000```
 
-# Contribuição
+# ✌🏻 Contribuição
 Nós adoramos contribuições! Se você deseja melhorar o Bubbles, siga estas etapas:
 
 Faça um fork deste repositório.
 
 Crie uma nova branch com uma descrição significativa da sua contribuição:
 
-
 git checkout -b feature/nova-funcionalidade
 Faça as alterações e adições necessárias.
 
 Envie um pull request explicando suas mudanças e por que elas são importantes.
 
-# Licença
+# 📃 Licença
 Este projeto está licenciado sob a Licença MIT - consulte o arquivo LICENSE para obter detalhes.
 
 Siga-nos nas redes sociais:
