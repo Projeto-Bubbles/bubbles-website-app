@@ -10,7 +10,7 @@ interface ButtonProps {
 function Button(props: ButtonProps) {
   return (
     <button
-      className={`flex gap-2 ${props.color} items-center rounded-full px-4 py-1 text-gray-700 font-bold uppercase`}
+      className={`flex gap-2 ${props.color} items-center rounded-full px-4 py-1 text-gray-700 text-md font-bold uppercase`}
     >
       {props.icon && <span>{props.icon}</span>}
       {props.text}

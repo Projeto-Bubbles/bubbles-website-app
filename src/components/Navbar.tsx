@@ -4,7 +4,7 @@ import { SignIn, UserCirclePlus } from 'phosphor-react';
 function Navbar() {
   return (
     <>
-      <nav className="bg-slate-200 flex justify-between py-6 px-8">
+      <nav className="flex justify-between py-6 px-8">
         <div className="w-24">
           <img src="../src/assets/bubbles-logo-glass.png" alt="logo" />
         </div>
