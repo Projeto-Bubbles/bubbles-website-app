@@ -1,5 +1,4 @@
-import React, { ReactNode } from 'react';
-import { Icon } from 'phosphor-react';
+import { ReactNode } from 'react';
 
 interface ButtonProps {
   text: string;
