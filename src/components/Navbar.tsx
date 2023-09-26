@@ -4,23 +4,23 @@ import { SignIn, UserCirclePlus } from 'phosphor-react';
 function Navbar() {
   return (
     <>
-      <nav className="flex justify-between py-6 px-8">
+      <nav className="w-screen bg-slate-100 flex justify-between py-6 px-8 fixed z-10">
         <div className="w-24">
           <img src="../src/assets/bubbles-logo-glass.png" alt="logo" />
         </div>
-        <div className="flex items-center gap-20 w-max">
-          <ul className="flex gap-10">
+        <div className="flex items-center gap-16 w-max">
+          <ul className="flex gap-16 text-lg">
             <a href="">
-              <li className="font-medium">Home</li>
+              <li>Home</li>
             </a>
             <a href="">
-              <li className="font-medium">Sobre nós</li>
+              <li>Sobre nós</li>
             </a>
             <a href="">
-              <li className="font-medium">Comunidade</li>
+              <li>Comunidade</li>
             </a>
             <a href="">
-              <li className="font-medium">Time</li>
+              <li>Time</li>
             </a>
           </ul>
 
@@ -34,7 +34,9 @@ function Navbar() {
             <Button
               text="Cadastrar"
               color="bg-blue-200"
-              icon={<UserCirclePlus size={20} color="#182b3e" weight="duotone" />}
+              icon={
+                <UserCirclePlus size={20} color="#182b3e" weight="duotone" />
+              }
             />
           </div>
         </div>
