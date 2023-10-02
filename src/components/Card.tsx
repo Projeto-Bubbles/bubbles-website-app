@@ -1,10 +1,4 @@
-import { ReactNode } from 'react';
-
-interface CardProps {
-  title: string;
-  description: string;
-  icon?: ReactNode;
-}
+import { CardProps } from '../interfaces/ComponentsInterfaces';
 
 function Card(props: CardProps) {
   return (

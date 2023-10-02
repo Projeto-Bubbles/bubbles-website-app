@@ -1,10 +1,4 @@
-import { ReactNode } from 'react';
-
-interface ButtonProps {
-  text: string;
-  color: string;
-  icon?: ReactNode; // Permite que você passe um ícone como prop
-}
+import { ButtonProps } from '../interfaces/ComponentsInterfaces';
 
 function Button(props: ButtonProps) {
   return (
