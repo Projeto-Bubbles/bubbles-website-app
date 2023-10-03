@@ -5,7 +5,7 @@ import { icons } from '../utils/constants';
 function Member(props: MemberProps) {
   return (
     <div className="w-64 flex flex-col justify-center items-center gap-1 group">
-      <div className="w-3/4 h-96 rounded-full bg-slate-300 z-10 transition-all ease-in-out duration-300 hover:w-full flex-row justify-center items-center relative overflow-hidden group">
+      <div className="w-3/4 h-96 rounded-full bg-slate-300 z-10 transition-all ease-in-out duration-300 group-hover:w-full flex-row justify-center items-center relative overflow-hidden group">
         <div className="h-full">
           <img
             src={props.photo}
