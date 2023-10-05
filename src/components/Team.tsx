@@ -3,9 +3,9 @@ import { members } from '../data/members';
 
 function Team() {
   return (
-    <div className="w-screen flex justify-center flex-col gap-4 items-center pt-28">
+    <div className="w-screen flex justify-center flex-col gap-10 items-center pt-28">
       <div>
-        <h1>Conheça nosso time</h1>
+        <h1 className='text-[4rem]'>Conheça nosso time</h1>
       </div>
 
       <div className="w-3/4 flex justify-between items-center">
