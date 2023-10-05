@@ -27,7 +27,7 @@ export const members = [
     photo: '../src/assets/members/member_paulo.png',
     name: 'Paulo',
     lastName: 'Alvares',
-    role: 'Documentação',
+    role: 'DBA',
     social: {
       linkedin: '#',
       instagram: '#',
