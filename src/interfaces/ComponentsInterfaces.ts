@@ -10,6 +10,7 @@ export interface CardProps {
   title: string;
   description: string;
   icon?: ReactNode;
+  color: string;
 }
 
 export interface MemberProps {
