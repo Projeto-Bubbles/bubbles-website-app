@@ -1,5 +1,5 @@
 import { cardHeroInfos } from '../data/cardHeroInfos';
-import Blur from './Blur';
+// import Blur from './Blur';
 import Card from './Card';
 
 function Hero() {
@@ -10,7 +10,7 @@ function Hero() {
         <strong>fure a Bubble.</strong>
       </h1>
 
-      <Blur />
+      {/* <Blur /> */}
 
       <div className="grid grid-cols-3 w-3/4 gap-24 translate-y-10">
         {cardHeroInfos.map((info, index) => (
