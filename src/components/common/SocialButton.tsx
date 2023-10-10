@@ -1,4 +1,4 @@
-import { SocialButtonProps } from '../interfaces/ComponentsInterfaces';
+import { SocialButtonProps } from '../../interfaces/ComponentsInterfaces';
 
 function SocialButton(props: SocialButtonProps) {
   return (

@@ -1,8 +1,8 @@
-import Container from '../Container';
-import Footer from '../Footer';
-import Hero from '../Hero';
-import Navbar from '../Navbar';
-import Team from '../Team';
+import Container from '../common/Container';
+import Footer from '../common/Footer';
+import Hero from '../common/Hero';
+import Navbar from '../common/Navbar';
+import Team from '../common/Team';
 
 function Institutional() {
   return (

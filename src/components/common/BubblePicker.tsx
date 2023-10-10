@@ -1,4 +1,4 @@
-import { BubblePickerProps } from '../interfaces/ComponentsInterfaces';
+import { BubblePickerProps } from '../../interfaces/ComponentsInterfaces';
 import { useState } from 'react';
 
 function BubblePicker(props: BubblePickerProps) {
