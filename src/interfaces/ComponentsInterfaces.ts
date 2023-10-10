@@ -6,6 +6,12 @@ export interface ButtonProps {
   icon?: ReactNode; // Permite que você passe um ícone como prop
 }
 
+export interface BubblePickerProps {
+  name: string;
+  icon: ReactNode;
+  color: string;
+}
+
 export interface CardProps {
   title: string;
   description: string;

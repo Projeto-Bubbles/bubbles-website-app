@@ -1,15 +1,9 @@
-import Hero from './components/Hero';
-import Navbar from './components/Navbar';
-import Team from './components/Team';
-import Footer from './components/Footer';
+import SelectionBubbles from './components/pages/SelectionBubbles';
 
 function App() {
   return (
     <>
-      <Navbar />
-      <Hero />
-      <Team />
-      <Footer/>
+      <SelectionBubbles />
     </>
   );
 }
