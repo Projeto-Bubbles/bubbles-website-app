@@ -1,4 +1,4 @@
-import { CardProps } from '../interfaces/ComponentsInterfaces';
+import { CardProps } from '../../interfaces/ComponentsInterfaces';
 
 function Card(props: CardProps) {
   return (
