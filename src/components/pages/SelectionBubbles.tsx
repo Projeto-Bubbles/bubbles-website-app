@@ -1,23 +1,21 @@
 import { ArrowRight } from 'phosphor-react';
 import Navbar from '../common/Navbar';
 import Button from '../common/Button';
-import { BubblePickerProps } from '../../interfaces/ComponentsInterfaces';
+import { Bubble } from '../../interfaces/ComponentsInterfaces';
 import { bubbles } from '../../data/bubbles';
 import { useEffect, useState } from 'react';
 import BubblePicker from '../common/BubblePicker';
 
 function SelectionBubbles() {
-  const bubblesList: BubblePickerProps[] = bubbles(32);
+  const bubblesList: Bubble[] = bubbles(32);
 
-  const [selectedBubbles, setSelectedBubbles] = useState<BubblePickerProps[]>(
-    []
-  );
+  const [selectedBubbles, setSelectedBubbles] = useState<Bubble[]>([]);
 
   useEffect(() => {
     console.log(selectedBubbles);
   }, [selectedBubbles]);
 
-  const toggleBubble = (bubble: BubblePickerProps) => {
+  const toggleBubble = (bubble: Bubble) => {
     if (selectedBubbles.some((b) => b.name === bubble.name)) {
       setSelectedBubbles(
         selectedBubbles.filter((element) => element.name !== bubble.name)

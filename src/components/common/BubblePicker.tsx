@@ -1,7 +1,7 @@
-import { BubblePickerProps } from '../../interfaces/ComponentsInterfaces';
+import { Bubble } from '../../interfaces/ComponentsInterfaces';
 import { useState } from 'react';
 
-function BubblePicker(props: BubblePickerProps) {
+function BubblePicker(props: Bubble) {
   const [isClicked, setIsClicked] = useState(false);
 
   const handleClick = () => {

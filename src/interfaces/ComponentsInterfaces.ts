@@ -6,10 +6,10 @@ export interface ButtonProps {
   icon?: ReactNode; // Permite que você passe um ícone como prop
 }
 
-export interface BubblePickerProps {
+export interface Bubble {
   name: string;
-  icon: ReactNode;
-  color: string;
+  icon?: ReactNode;
+  color?: string;
 }
 
 export interface CardProps {
@@ -29,6 +29,12 @@ export interface MemberProps {
     github: string;
     email: string;
   };
+}
+
+export interface SidebarTopicProps {
+  icon: ReactNode;
+  text: string;
+  isLogout?: boolean;
 }
 
 export interface SocialButtonProps {

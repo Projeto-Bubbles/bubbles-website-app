@@ -7,7 +7,7 @@ import Team from '../common/Team';
 function Institutional() {
   return (
     <>
-      <Navbar />
+      <Navbar withMenu={true} />
       <Hero />
       <Container
         title="Fora da bolha, dentro do mundo."

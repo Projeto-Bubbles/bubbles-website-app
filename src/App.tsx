@@ -1,9 +1,9 @@
-import SelectionBubbles from './components/pages/SelectionBubbles';
+import { Outlet } from 'react-router-dom';
 
 function App() {
   return (
     <>
-      <SelectionBubbles />
+      <Outlet />
     </>
   );
 }

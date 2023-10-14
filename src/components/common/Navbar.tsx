@@ -1,16 +1,19 @@
 import Button from './Button';
 import { SignIn, UserCirclePlus } from 'phosphor-react';
+import { Link } from 'react-router-dom';
 
 function Navbar(props: { withMenu?: boolean }) {
   return (
     <>
       <nav
         className={`w-screen bg-slate-100 flex ${
-          props.withMenu ? 'justify-between fixed' : 'justify-start'
-        } py-6 px-8 z-10`}
+          props.withMenu ? 'justify-between' : 'justify-start'
+        } py-6 px-8 z-10 fixed`}
       >
         <div className="w-24">
-          <img src="../src/assets/bubbles-logo-glass.png" alt="logo" />
+          <Link to={'/'}>
+            <img src="../src/assets/bubbles-logo-glass.png" alt="logo" />
+          </Link>
         </div>
 
         {props.withMenu && (
