@@ -1,6 +1,6 @@
 import SocialButton from './SocialButton';
-import { MemberProps } from '../interfaces/ComponentsInterfaces';
-import { icons } from '../utils/constants';
+import { MemberProps } from '../../interfaces/ComponentsInterfaces';
+import { icons } from '../../utils/constants';
 
 function Member(props: MemberProps) {
   return (
@@ -17,13 +17,18 @@ function Member(props: MemberProps) {
           <h1 className="text-2xl leading-none">
             {props.name} <br /> <strong>{props.lastName}</strong>
           </h1>
-          <p className="text-xs uppercase tracking-widest font-bold">{props.role}</p>
+          <p className="text-xs uppercase tracking-widest font-bold">
+            {props.role}
+          </p>
         </div>
       </div>
 
       <div className="w-full flex justify-between items-center opacity-0 transition-all ease-in-out duration-500 group-hover:opacity-100 pt-2">
         {Object.values(props.social).map((value, index) => (
-          <div key={index} className={`${index === 0 || index === 3 ? 'self-start mb-8' : ''}`}>
+          <div
+            key={index}
+            className={`${index === 0 || index === 3 ? 'self-start mb-8' : ''}`}
+          >
             <SocialButton icon={icons[index]} link={value} />
           </div>
         ))}
