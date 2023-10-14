@@ -5,6 +5,7 @@ import Team from '../common/Team';
 import MoreBubbles from '../common/MoreBubbles';
 import OutBubbles from '../common/OutBubbles';
 import Blur from './../common/Blur';
+import Benefits from '../common/Benefits';
 
 function Institutional() {
   return (
@@ -15,6 +16,7 @@ function Institutional() {
       <OutBubbles />
       <Blur />
       <MoreBubbles />
+      <Benefits />
       <Team />
       <Footer />
     </>
