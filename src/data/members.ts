@@ -1,4 +1,6 @@
-export const members = [
+import { MemberProps } from '../interfaces/ComponentsInterfaces';
+
+export const members: MemberProps[] = [
   {
     photo: '../src/assets/members/member_gabriel.png',
     name: 'Gabriel',
@@ -27,7 +29,7 @@ export const members = [
     photo: '../src/assets/members/member_paulo.png',
     name: 'Paulo',
     lastName: 'Alvares',
-    role: 'Documentação',
+    role: 'DBA',
     social: {
       linkedin: '#',
       instagram: '#',

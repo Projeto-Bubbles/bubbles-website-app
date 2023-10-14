@@ -3,16 +3,16 @@ import SocialButton from './SocialButton';
 
 function Footer() {
   return (
-    <footer className="w-full flex justify-center items-center">
+    <footer className="w-full flex justify-center items-center pb-16">
       <div className="flex justify-between items-center w-3/4 py-4">
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-4">
           <h2 className="font-bold uppercase text-gray-700 text-2xl">
             Redes Sociais
           </h2>
           <span>
             Lorem ipsum dolor sit amet consectetur. dolor sit amet consecte
           </span>
-          <div className="flex gap-2">
+          <div className="flex gap-6">
             {icons.map((icon, index) => (
               <SocialButton key={index} icon={icon} link={socialLinks[index]} />
             ))}

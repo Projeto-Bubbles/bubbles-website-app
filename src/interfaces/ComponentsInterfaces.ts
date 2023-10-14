@@ -3,7 +3,8 @@ import { ReactNode } from 'react';
 export interface ButtonProps {
   text: string;
   color: string;
-  icon?: ReactNode; // Permite que você passe um ícone como prop
+  icon?: ReactNode;
+  onClick?: () => void;
 }
 
 export interface Bubble {
@@ -16,6 +17,7 @@ export interface CardProps {
   title: string;
   description: string;
   icon?: ReactNode;
+  color: string;
 }
 
 export interface MemberProps {

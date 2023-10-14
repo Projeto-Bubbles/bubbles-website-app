@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../common/Navbar';
 import SidebarTopic from '../common/SidebarTopic';
 import {
@@ -9,10 +10,13 @@ import {
 } from 'phosphor-react';
 
 function Feed() {
+  const navigate = useNavigate();
+
   return (
     <>
       <Navbar />
       <main className="bg-[url('../../src/assets/bubbles-effect.png')] bg-cover flex justify-start ">
+        {/* Sidebar */}
         <div
           role="sidebar"
           className="h-screen flex flex-col justify-between items-left fixed pt-28 p-6"
@@ -41,7 +45,7 @@ function Feed() {
               text="Eventos"
             />
           </div>
-          <div>
+          <div onClick={() => navigate('/')}>
             <SidebarTopic
               icon={<ArrowLeft size={14} color="#B1C5E1" weight="duotone" />}
               text="Sair"
@@ -50,6 +54,7 @@ function Feed() {
           </div>
         </div>
 
+        {/* Feed Content */}
         <div className="m-auto">
           <div>ra´paz</div>
           <div>ra´paz</div>

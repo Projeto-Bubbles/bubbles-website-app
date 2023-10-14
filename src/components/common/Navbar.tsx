@@ -8,7 +8,7 @@ function Navbar(props: { withMenu?: boolean }) {
       <nav
         className={`w-screen bg-slate-100 flex ${
           props.withMenu ? 'justify-between' : 'justify-start'
-        } py-6 px-8 z-10 fixed`}
+        } py-6 px-8 z-50 fixed`}
       >
         <div className="w-24">
           <Link to={'/'}>
