@@ -4,6 +4,7 @@ export interface ButtonProps {
   text: string;
   color: string;
   icon?: ReactNode;
+  isLight?: boolean;
   onClick?: () => void;
 }
 

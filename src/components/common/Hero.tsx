@@ -1,4 +1,4 @@
-import { cardHeroInfos } from '../../data/cardHeroInfos';
+import { cardHeroInfos } from '../../data/cardInfos';
 // import Blur from './Blur';
 import Card from './Card';
 
