@@ -3,7 +3,15 @@ import { ReactNode } from 'react';
 export interface ButtonProps {
   text: string;
   color: string;
-  icon?: ReactNode; // Permite que você passe um ícone como prop
+  icon?: ReactNode;
+  isLight?: boolean;
+  onClick?: () => void;
+}
+
+export interface Bubble {
+  name: string;
+  icon?: ReactNode;
+  color?: string;
 }
 
 export interface CardProps {
@@ -24,6 +32,12 @@ export interface MemberProps {
     github: string;
     email: string;
   };
+}
+
+export interface SidebarTopicProps {
+  icon: ReactNode;
+  text: string;
+  isLogout?: boolean;
 }
 
 export interface SocialButtonProps {
