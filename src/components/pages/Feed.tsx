@@ -11,6 +11,7 @@ import {
 import { Post } from '../Post';
 import { PostType } from '../Post/PostRoot';
 import { useState } from 'react';
+import { Post } from '../Post';
 
 function Feed() {
   const navigate = useNavigate();
