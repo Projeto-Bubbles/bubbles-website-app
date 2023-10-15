@@ -1,5 +1,5 @@
-import { icons, socialLinks } from '../../utils/constants';
-import SocialButton from './SocialButton';
+import { icons, socialLinks } from '../utils/constants';
+import SocialButton from './common/SocialButton';
 
 function Footer() {
   return (

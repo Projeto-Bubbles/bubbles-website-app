@@ -1,11 +1,11 @@
-import Footer from '../common/Footer';
-import Hero from '../common/Hero';
+import Footer from '../Footer';
+import Hero from '../Hero';
 import Navbar from '../common/Navbar';
-import Team from '../common/Team';
-import MoreBubbles from '../common/MoreBubbles';
-import OutBubbles from '../common/OutBubbles';
+import Team from '../Team';
+import MoreBubbles from '../MoreBubbles';
+import OutBubbles from '../OutBubbles';
 import Blur from './../common/Blur';
-import Benefits from '../common/Benefits';
+import Benefits from '../Benefits';
 
 function Institutional() {
   return (

@@ -8,14 +8,18 @@ import {
   Compass,
   User,
 } from 'phosphor-react';
+import { Post } from '../Post';
+import { PostType } from '../Post/PostRoot';
+import { useState } from 'react';
 
 function Feed() {
   const navigate = useNavigate();
+  const [isExpanded, setExpanded] = useState(false);
 
   return (
     <>
       <Navbar />
-      <main className="bg-[url('../../src/assets/bubbles-effect.png')] bg-cover flex justify-start ">
+      <main className="min-h-screen bg-[url('../../src/assets/bubbles-effect.png')] bg-cover flex justify-start ">
         {/* Sidebar */}
         <div
           role="sidebar"
@@ -55,49 +59,28 @@ function Feed() {
         </div>
 
         {/* Feed Content */}
-        <div className="m-auto">
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
+        <div className="w-2/6 min-h-screen m-auto flex flex-col justify-start items-center pt-28">
+          <Post.Root type={PostType.VIEW}>
+            <Post.Header name="Ruan" nickname="helloWorldRu" />
+            <Post.Content content="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sequi reprehenderit similique, saepe veniam a beatae exercitationem velit fuga, magnam maxime ab quaerat aperiam tempore eos! Ducimus totam commodi eaque quaerat!" />
+            <label
+              className="self-end bg-zinc-300/50 px-2 uppercase rounded-md text-slate-800 text-right text-sm font-semibold cursor-pointer transition-all duration-200 ease-in hover:bg-zinc-400/20"
+              onClick={() => setExpanded(!isExpanded)}
+            >
+              Ver comentários
+            </label>
+            <div
+              className={`bg-slate-100/50  rounded-md transition-all duration-300 ease-in-out overflow-y-scroll flex flex-col justify-start items-center gap-2 ${
+                isExpanded ? 'h-80' : 'opacity-0 h-0 overflow-hidden'
+              } `}
+            >
+              <Post.Comment content="QUe merda heinn" />
+              <Post.Comment content="QUe merda heinn" />
+              <Post.Comment content="QUe merda heinn" />
+              <Post.Comment content="QUe merda heinn" />
+              <Post.Comment content="QUe merda heinn" />
+            </div>
+          </Post.Root>
         </div>
       </main>
     </>

@@ -1,5 +1,5 @@
-import Member from './Member';
-import { members } from '../../data/members';
+import Member from './common/Member';
+import { members } from '../data/members';
 
 function Team() {
   return (
