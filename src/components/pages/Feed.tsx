@@ -8,6 +8,7 @@ import {
   Compass,
   User,
 } from 'phosphor-react';
+import { Post } from '../Post';
 
 function Feed() {
   const navigate = useNavigate();
@@ -55,49 +56,11 @@ function Feed() {
         </div>
 
         {/* Feed Content */}
-        <div className="m-auto">
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
-          <div>ra´paz</div>
+        <div className="w-2/6 m-auto pt-28">
+          <Post.Root type="NOT_LOGGED">
+            <Post.Header name="Ruan" nickname="helloWorldRu" />
+            <Post.Content content="Qaulquer coisar" />
+          </Post.Root>
         </div>
       </main>
     </>
