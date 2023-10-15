@@ -1,4 +1,4 @@
-import Button from './Button';
+import Button from './common/Button';
 import { ArrowRight } from 'phosphor-react';
 import { useNavigate } from 'react-router-dom';
 

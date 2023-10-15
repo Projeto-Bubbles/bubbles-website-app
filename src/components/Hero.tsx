@@ -1,6 +1,6 @@
-import { cardHeroInfos } from '../../data/cardInfos';
+import { cardHeroInfos } from '../data/cardInfos';
 // import Blur from './Blur';
-import Card from './Card';
+import Card from './common/Card';
 
 function Hero() {
   return (
