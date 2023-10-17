@@ -3,7 +3,10 @@ import { members } from '../data/members';
 
 function Team() {
   return (
-    <div className="w-screen flex flex-col justify-center items-center gap-20 mb-32">
+    <div
+      id="team"
+      className="w-screen flex flex-col justify-center items-center gap-20 pt-24"
+    >
       <div>
         <h1 className="text-7xl text-zinc-700">Conheça nosso time</h1>
       </div>

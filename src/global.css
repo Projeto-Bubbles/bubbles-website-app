@@ -7,6 +7,7 @@
 @layer base {
   * {
     font-family: 'Darker Grotesque', sans-serif;
+    scroll-behavior: smooth;
   }
 }
 

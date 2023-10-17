@@ -1,6 +1,9 @@
 function MoreBubbles() {
   return (
-    <div className="w-screen flex justify-center items-center mb-32">
+    <div
+      id="bubbles"
+      className="w-screen flex justify-center items-center pt-44"
+    >
       <div className="w-3/4 flex justify-between items-center">
         <div className="w-[500px] flex flex-col gap-5">
           <h1 className="text-7xl w-[400px] leading-none text-zinc-700">

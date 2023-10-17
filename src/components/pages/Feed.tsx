@@ -8,8 +8,8 @@ import {
   Compass,
   User,
 } from 'phosphor-react';
-import { Post } from '../Post';
-import { PostType } from '../Post/PostRoot';
+import { Post } from '../common/Post';
+import { PostType } from '../common/Post/PostRoot';
 import { useState } from 'react';
 
 function Feed() {

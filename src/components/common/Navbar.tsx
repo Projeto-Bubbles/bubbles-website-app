@@ -18,17 +18,20 @@ function Navbar(props: { withMenu?: boolean }) {
 
         {props.withMenu && (
           <div className="flex items-center gap-16 w-max">
-            <ul className="flex gap-16 text-lg">
-              <a href="">
+            <ul className="flex gap-12 text-lg">
+              <a href="#hero">
                 <li>Home</li>
               </a>
-              <a href="">
+              <a href="#about">
                 <li>Sobre nós</li>
               </a>
-              <a href="">
+              <a href="#bubbles">
                 <li>Comunidade</li>
               </a>
-              <a href="">
+              <a href="#benefits">
+                <li>Junte-se</li>
+              </a>
+              <a href="#team">
                 <li>Time</li>
               </a>
             </ul>

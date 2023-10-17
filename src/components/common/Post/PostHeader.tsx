@@ -17,7 +17,7 @@ function PostHeader({ name, nickname, isNotLogged }: PostHeaderProps) {
     >
       <h4 className="text-lg font-bold">{name}</h4>
 
-      <div className="w-48 flex justify-between item-center">
+      <div className="w-40 flex justify-between item-center">
         <span>{`@${nickname}`} </span>
         <em>•</em>
         <span>{date.getHours()}h</span>

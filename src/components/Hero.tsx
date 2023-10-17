@@ -4,7 +4,10 @@ import Card from './common/Card';
 
 function Hero() {
   return (
-    <div className="w-full h-screen bg-[url('../src/assets/bubbles-effect.png')] bg-cover bg-no-repeat flex flex-col items-center justify-center gap-20 translate-y-10 mb-32">
+    <div
+      id="hero"
+      className="w-full h-screen bg-[url('../src/assets/bubbles-effect.png')] bg-cover bg-no-repeat flex flex-col items-center justify-center gap-20 translate-y-10 mb-32"
+    >
       <h1 className="flex flex-col justify-center items-center text-[5rem] leading-none text-gray-700">
         Não fure a fila,
         <strong>fure a Bubble.</strong>
