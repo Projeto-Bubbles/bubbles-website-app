@@ -19,16 +19,16 @@ function Navbar(props: { withMenu?: boolean }) {
         {props.withMenu && (
           <div className="flex items-center gap-16 w-max">
             <ul className="flex gap-16 text-lg">
-              <a href="">
+              <a href="" className='transition duration-300 ease-in-out hover:hover:text-blue-500'>
                 <li>Home</li>
               </a>
-              <a href="">
+              <a href="" className='transition duration-300 ease-in-out hover:text-blue-500'>
                 <li>Sobre nós</li>
               </a>
-              <a href="">
+              <a href="" className='transition duration-300 ease-in-out hover:text-blue-500'>
                 <li>Comunidade</li>
               </a>
-              <a href="">
+              <a href="" className='transition duration-300 ease-in-out hover:text-blue-500'>
                 <li>Time</li>
               </a>
             </ul>

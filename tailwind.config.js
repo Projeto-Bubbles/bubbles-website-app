@@ -2,7 +2,9 @@
 export default {
   content: ['./src/**/*.tsx'],
   theme: {
-    extend: {},
+    extend: {
+      // "li-hover": "hover:fdsfdsf"
+    },
   },
   plugins: [],
 };
