@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 export interface Bubble {
   name: string;
@@ -8,5 +8,9 @@ export interface Bubble {
 export interface EventProps {
   title: string;
   date: Date;
+  hour: number;
+  link: string;
+  image: string;
+  // address?: Address
   bubble: Bubble;
 }

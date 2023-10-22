@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '../common/Navbar';
 import SidebarTopic from '../common/SidebarTopic';
 import {
@@ -42,12 +42,14 @@ function Feed() {
               }
               text="Minhas bolhas"
             />
-            <SidebarTopic
-              icon={
-                <CalendarBlank size={14} color="#423F46" weight="duotone" />
-              }
-              text="Eventos"
-            />
+            <Link to={'/events'}>
+              <SidebarTopic
+                icon={
+                  <CalendarBlank size={14} color="#423F46" weight="duotone" />
+                }
+                text="Eventos"
+              />
+            </Link>
           </div>
           <div onClick={() => navigate('/')}>
             <SidebarTopic

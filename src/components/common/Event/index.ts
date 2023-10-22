@@ -1,3 +1,5 @@
+import EventCard from './EventCard';
+
 export const Event = {
-  // EventCard: EventCard;
+  Card: EventCard,
 };

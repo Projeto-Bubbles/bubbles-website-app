@@ -1,9 +1,3 @@
-// interface EventStoryProps {
-//   img: string;
-//   date: Date;
-//   title;
-// }
-
 function EventStory() {
   return (
     <div>
