@@ -23,7 +23,7 @@ function Footer() {
           <h2 className="font-bold uppercase text-gray-700 text-2xl text-center">Documentação</h2>
           <h3 className="font-semibold uppercase text-gray-400">Documento da Aplicação</h3>
           <h3 className="font-semibold uppercase text-gray-400">Funcionalidades e Recursos</h3>
-          <h3 className="font-semibold uppercase text-gray-400">Problemas de Acessibilidade </h3>
+          <h3 className="font-semibold uppercase text-gray-400"> Guia do Usuário </h3>
         </div>
         <div className="flex flex-col gap-2 justify-start items-start">
           <h2 className="font-bold uppercase text-gray-700 text-2xl text-center">Suporte</h2>

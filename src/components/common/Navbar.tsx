@@ -18,21 +18,32 @@ function Navbar(props: { withMenu?: boolean }) {
 
         {props.withMenu && (
           <div className="flex items-center gap-16 w-max">
-            <ul className="flex gap-16 text-lg">
-              <a href="" className='transition duration-300 ease-in-out hover:hover:text-blue-500'>
-                <li>Home</li>
-              </a>
-              <a href="" className='transition duration-300 ease-in-out hover:text-blue-500'>
-                <li>Sobre nós</li>
-              </a>
-              <a href="" className='transition duration-300 ease-in-out hover:text-blue-500'>
-                <li>Comunidade</li>
-              </a>
-              <a href="" className='transition duration-300 ease-in-out hover:text-blue-500'>
-                <li>Time</li>
-              </a>
-            </ul>
-
+            <ul className="flex gap-16 text-lg h-full w-full">
+            <a href="" className="transition duration-300 ease-in-out hover:text-slate-600">
+              <li className="h-[2px] w-full group">
+                Home
+                <div className='bg-slate-700 w-0 h-[3px] transition-all duration-[.4s] ease-in group-hover:w-full'></div>
+              </li>
+            </a>
+            <a href="" className="transition duration-300 ease-in-out hover:text-slate-600">
+              <li className="h-[2px] w-full group">
+                Sobre nós
+                <div className='bg-slate-700 w-0 h-[3px] transition-all duration-[.4s] ease-in group-hover:w-full'></div>
+              </li>
+            </a>
+            <a href="" className="transition duration-300 ease-in-out hover:text-slate-600">
+              <li className="h-[2px] w-full group">
+                Comunidade
+                <div className='bg-slate-700 w-0 h-[3px] transition-all duration-[.4s] ease-in group-hover:w-full'></div>
+              </li>
+            </a>
+            <a href="" className="transition duration-300 ease-in-out hover:text-slate-600">
+              <li className="h-[2px] w-full group">
+                Time
+                <div className='bg-slate-700 w-0 h-[3px] transition-all duration-[.4s] ease-in group-hover:w-full'></div>
+              </li>
+            </a>
+          </ul>
             <div className="flex gap-4">
               <Button
                 text="Entrar"
