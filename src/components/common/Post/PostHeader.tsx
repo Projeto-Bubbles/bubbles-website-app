@@ -46,7 +46,7 @@ function PostHeader({ name, nickname, isNotLogged }: PostHeaderProps) {
           isVisiblePopup ? 'opacity-100 z-50' : 'opacity-0 -z-50'
         }`}
       >
-        <Popup onEdit={onEdit} onDelete={onDelete} />
+        <Popup />
       </div>
     </div>
   );

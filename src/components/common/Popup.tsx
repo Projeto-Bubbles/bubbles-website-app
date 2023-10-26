@@ -1,8 +1,8 @@
 import { Pencil, Trash } from 'phosphor-react';
 
 export interface PopupProps {
-  onEdit: () => {};
-  onDelete: () => {};
+  onEdit?: () => {};
+  onDelete?: () => {};
 }
 
 function Popup({ onEdit, onDelete }: PopupProps) {
