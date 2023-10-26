@@ -8,12 +8,6 @@ export interface ButtonProps {
   onClick?: () => void;
 }
 
-export interface Bubble {
-  name: string;
-  icon?: ReactNode;
-  color?: string;
-}
-
 export interface CardProps {
   title: string;
   description: string;

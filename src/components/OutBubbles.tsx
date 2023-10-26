@@ -6,7 +6,7 @@ function OutBubbles() {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full flex justify-center items-center mb-32">
+    <div id="about" className="w-full flex justify-center items-center pt-44">
       <div className="w-3/4 flex justify-between items-center gap-10">
         <div className="w-2/6">
           <img

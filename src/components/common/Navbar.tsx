@@ -18,9 +18,9 @@ function Navbar(props: { withMenu?: boolean }) {
 
         {props.withMenu && (
           <div className="flex items-center gap-16 w-max">
-            <ul className="flex gap-16 text-lg h-full w-full">
+            <ul className="flex gap-12 text-lg h-full w-full">
               <a
-                href=""
+                href="#hero"
                 className="transition duration-300 ease-in-out hover:text-slate-900"
               >
                 <li className="h-[2px] w-full group">
@@ -29,7 +29,7 @@ function Navbar(props: { withMenu?: boolean }) {
                 </li>
               </a>
               <a
-                href=""
+                href="#about"
                 className="transition duration-300 ease-in-out hover:text-slate-900"
               >
                 <li className="h-[2px] w-full group">
@@ -38,7 +38,7 @@ function Navbar(props: { withMenu?: boolean }) {
                 </li>
               </a>
               <a
-                href=""
+                href="#bubbles"
                 className="transition duration-300 ease-in-out hover:text-slate-900"
               >
                 <li className="h-[2px] w-full group">
@@ -46,8 +46,11 @@ function Navbar(props: { withMenu?: boolean }) {
                   <div className="bg-slate-700 w-0 h-[1.5px] rounded-full transition-all duration-300 ease-in-out group-hover:w-full"></div>
                 </li>
               </a>
+              <a href="#benefits">
+                <li>Junte-se</li>
+              </a>
               <a
-                href=""
+                href="#team"
                 className="transition duration-300 ease-in-out hover:text-slate-900"
               >
                 <li className="h-[2px] w-full group">

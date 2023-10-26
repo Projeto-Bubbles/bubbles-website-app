@@ -4,7 +4,10 @@ import Button from './common/Button';
 
 function Benefits() {
   return (
-    <div className="w-full flex justify-center items-center mb-32">
+    <div
+      id="benefits"
+      className="w-full flex justify-center items-center pt-44"
+    >
       <div className="bg-slate-950 w-3/4 h-96 p-12 flex flex-row justify-around items-center gap-12 rounded-xl">
         <div className="w-3/4 h-full grid grid-cols-3 gap-8">
           {cardBenefitsInfo.map((info, index) => (

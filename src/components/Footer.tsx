@@ -3,7 +3,7 @@ import SocialButton from './common/SocialButton';
 
 function Footer() {
   return (
-    <footer className="w-full flex justify-center items-center pb-16">
+    <footer className="w-full flex justify-center items-center pb-16 pt-44">
       <div className="flex justify-between items-center w-3/4 py-4">
         <div className="flex flex-col gap-4 ">
           <h2 className="font-bold uppercase text-gray-700 text-2xl">

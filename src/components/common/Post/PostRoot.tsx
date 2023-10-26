@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import Input from '../common/Input';
+import Input from '../Input';
 import { PaperPlaneRight } from 'phosphor-react';
 
 export enum PostType {
