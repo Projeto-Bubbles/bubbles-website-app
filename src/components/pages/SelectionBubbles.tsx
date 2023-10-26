@@ -36,7 +36,7 @@ function SelectionBubbles() {
     <>
       <Navbar withMenu={false} />
 
-      <div className="w-screen h-screen flex justify-center items-center">
+      <div className="w-screen h-screen bg-[url('../../src/assets/bubbles-effect.png')] bg-cover flex justify-center items-center overflow-hidden">
         <div className="w-3/4 flex justify-between items-center">
           <div className="flex flex-col justify-center items-start gap-2">
             <div className="w-10 h-10 p-2 grid place-content-center bg-blue-200 rounded-full">
@@ -69,6 +69,8 @@ function SelectionBubbles() {
             />
           </div>
         </div>
+        <div className="bg-violet-200 blur-[200px] w-[700px] h-[700px] rounded-full absolute -z-50 -left-60"></div>
+        <div className="bg-blue-100 blur-[200px] w-[700px] h-[700px] rounded-full absolute -z-50 -right-60"></div>
       </div>
     </>
   );

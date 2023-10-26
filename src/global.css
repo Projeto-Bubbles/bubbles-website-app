@@ -7,10 +7,15 @@
 @layer base {
   * {
     font-family: 'Darker Grotesque', sans-serif;
+    scroll-behavior: smooth;
   }
 }
 
 body {
   overflow-x: hidden;
   background-color: #f1f5f9;
+}
+
+textarea {
+  all: unset;
 }

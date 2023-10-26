@@ -2,7 +2,11 @@
 export default {
   content: ['./src/**/*.tsx'],
   theme: {
-    extend: {},
+    extend: {
+      borderRadius: {
+        'half-r': '0.375rem 1000px 1000px 0.375rem',
+      },
+    },
   },
   plugins: [],
 };
