@@ -20,6 +20,11 @@ function Feed() {
 
   const [posts, setPosts] = useState<any>([]);
 
+  const onLogoff = () => {
+    sessionStorage.clear();
+    navigate('/');
+  };
+
   useEffect(() => {
     async function fetchPosts() {
       const postsData = await getPosts();
@@ -64,7 +69,7 @@ function Feed() {
               />
             </Link>
           </div>
-          <div onClick={() => navigate('/')}>
+          <div onClick={() => onLogoff()}>
             <SidebarTopic
               icon={<ArrowLeft size={14} color="#B1C5E1" weight="duotone" />}
               text="Sair"

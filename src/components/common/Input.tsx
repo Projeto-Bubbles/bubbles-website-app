@@ -21,7 +21,7 @@ function Input({
 }: InputProps) {
   return (
     <div className="w-full relative flex justify-center items-center">
-      <div className="absolute left-0 ml-3">{icon}</div>
+      <div className="absolute left-0 ml-3 cursor-pointer">{icon}</div>
 
       <input
         type={type}
