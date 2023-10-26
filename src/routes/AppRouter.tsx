@@ -4,6 +4,7 @@ import Institutional from '../components/pages/Institutional';
 import SelectionBubbles from '../components/pages/SelectionBubbles';
 import Feed from '../components/pages/Feed';
 import Events from '../components/pages/Events';
+import Form from './../components/pages/Form';
 
 const AppRouter = () => {
   return (
@@ -14,6 +15,7 @@ const AppRouter = () => {
           <Route path="feed" element={<Feed />} />
           <Route path="events" element={<Events />} />
           <Route path="selection" element={<SelectionBubbles />} />
+          <Route path="cep" element={<Form />} />
         </Route>
       </Routes>
     </Router>

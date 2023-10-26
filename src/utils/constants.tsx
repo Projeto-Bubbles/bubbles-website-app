@@ -6,7 +6,7 @@ import {
   LinkedinLogo,
 } from 'phosphor-react';
 
-export const socialLinks: string[] = ["#", "#", "#", "#"];
+export const socialLinks: string[] = ['#', '#', '#', '#'];
 
 export const icons: ReactNode[] = [
   <LinkedinLogo size={16} color="#3f3f46" weight="duotone" />,
