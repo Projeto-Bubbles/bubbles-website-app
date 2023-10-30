@@ -24,7 +24,7 @@ function OutBubbles() {
             convencional, conectamos interesses e exploramos o novo. Junte-se a
             nós e expanda sua visão!
           </p>
-          <div className="w-30">
+          <div className="w-48">
             <Button
               onClick={() => navigate('/selection')}
               text="FURAR A BOLHA"

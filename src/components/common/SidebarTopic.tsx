@@ -1,4 +1,10 @@
-import { SidebarTopicProps } from '../../interfaces/ComponentsInterfaces';
+import { ReactNode } from 'react';
+
+export interface SidebarTopicProps {
+  icon: ReactNode;
+  text: string;
+  isLogout?: boolean;
+}
 
 function SidebarTopic(props: SidebarTopicProps) {
   return (

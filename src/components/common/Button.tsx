@@ -1,17 +1,23 @@
-import { ButtonProps } from '../../interfaces/ComponentsInterfaces';
+import { ReactNode } from 'react';
 
-function Button(props: ButtonProps) {
+export interface ButtonProps {
+  text: string;
+  color: string;
+  icon?: ReactNode;
+  isLight?: boolean;
+  onClick?: () => void;
+}
+
+function Button({ text, color, icon, isLight, onClick }: ButtonProps) {
   return (
     <button
-      onClick={props?.onClick}
-      className={`w-full h-8 flex justify-center items-center gap-2 ${
-        props.color
-      } items-center rounded-full px-4 py-1 ${
-        props.isLight ? 'text-slate-100' : 'text-slate-700'
+      onClick={onClick}
+      className={`w-full h-8 flex justify-center items-center gap-2 ${color} items-center rounded-full px-4 py-1 ${
+        isLight ? 'text-slate-100' : 'text-slate-700'
       } text-md font-bold uppercase transition duration-300 ease-in-out hover:brightness-90 group`}
     >
-      {props.icon && <span>{props.icon}</span>}
-      {props.text}
+      {icon && <span>{icon}</span>}
+      {text}
     </button>
   );
 }

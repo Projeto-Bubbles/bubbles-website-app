@@ -1,6 +1,18 @@
 import SocialButton from './SocialButton';
-import { MemberProps } from '../../interfaces/ComponentsInterfaces';
 import { icons } from '../../utils/constants';
+
+export interface MemberProps {
+  photo: string;
+  name: string;
+  lastName: string;
+  role: string;
+  social: {
+    linkedin: string;
+    instagram: string;
+    github: string;
+    email: string;
+  };
+}
 
 function Member(props: MemberProps) {
   return (
