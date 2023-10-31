@@ -8,8 +8,7 @@ export interface Bubble {
 export interface EventProps {
   title: string;
   date: Date;
-  hour: number;
-  link: string;
+  link?: string;
   image: string;
   // address?: Address
   bubble: Bubble;

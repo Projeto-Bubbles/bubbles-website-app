@@ -5,7 +5,7 @@ import { PaperPlaneRight } from 'phosphor-react';
 export enum PostType {
   CREATE = 'bg-zinc-300',
   VIEW = 'bg-zinc-200',
-  NOT_LOGGED = 'bg-slate-800 bg-cover bg-bottom',
+  NOT_LOGGED = 'bg-slate-900 bg-cover bg-bottom',
 }
 
 interface PostProps {
