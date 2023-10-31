@@ -24,7 +24,7 @@ function Benefits() {
           <h1 className="text-slate-100 font-regular text-5xl leading-10">
             Vantangens de entrar na bolha
           </h1>
-          <Button text="ENTRAR NA BOLHA" color="bg-slate-600" isLight />
+          <Button text="ENTRAR NA BOLHA" color="bg-slate-800" isLight />
         </div>
       </div>
     </div>

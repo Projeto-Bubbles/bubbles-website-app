@@ -1,4 +1,10 @@
-import { SidebarTopicProps } from '../../interfaces/ComponentsInterfaces';
+import { ReactNode } from 'react';
+
+export interface SidebarTopicProps {
+  icon: ReactNode;
+  text: string;
+  isLogout?: boolean;
+}
 
 function SidebarTopic(props: SidebarTopicProps) {
   return (
@@ -6,7 +12,7 @@ function SidebarTopic(props: SidebarTopicProps) {
       className={`w-max p-2 pr-3 rounded-full flex justify-between items-center ${
         props.isLogout
           ? 'bg-slate-800 hover:bg-slate-900'
-          : 'bg-zinc-300/30 hover:bg-zinc-300/60'
+          : 'bg-zinc-200 hover:bg-zinc-300'
       }  transition duration-300 ease-out hover:translate-x-1`}
     >
       <div
