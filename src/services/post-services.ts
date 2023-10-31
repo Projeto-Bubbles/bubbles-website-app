@@ -5,8 +5,8 @@ const api = axios.create({
 });
 
 export const getPosts = () => {
-  return axios
-    .get('http://localhost:8080/posts')
+  return api
+    .get('/posts')
     .then((response) => response.data)
     .catch((error) => console.log(error));
 };

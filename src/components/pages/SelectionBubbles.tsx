@@ -1,11 +1,11 @@
 import { ArrowRight } from 'phosphor-react';
 import Navbar from '../common/Navbar';
 import Button from '../common/Button';
-import { Bubble } from '../../interfaces/ComponentsInterfaces';
 import { bubbles } from '../../data/bubbles';
 import { useEffect, useState } from 'react';
 import BubblePicker from '../common/BubblePicker';
 import { useNavigate } from 'react-router-dom';
+import { Bubble } from '../../interfaces/bubble';
 
 function SelectionBubbles() {
   const navigate = useNavigate();
@@ -46,6 +46,14 @@ function SelectionBubbles() {
             <h1 className="text-8xl text-zinc-700 leading-none w-32">
               Escolha suas bolhas.
             </h1>
+
+            <span
+              className={`text-zinc-700 font-medium bg-slate-300 rounded-full px-2 uppercase transition duration-300 ease-in-out mt-4 ${
+                selectedBubbles.length < 3 ? 'opacity-100 ' : 'opacity-0'
+              }`}
+            >
+              Selecione no mínimo 3 bolhas
+            </span>
           </div>
 
           <div className="flex flex-col justify-center items-center gap-8 translate-y-14">
@@ -61,12 +69,15 @@ function SelectionBubbles() {
               ))}
             </div>
 
-            <Button
-              onClick={saveBubblesList}
-              text="Selecionar bolhas"
-              color="bg-blue-200"
-              icon={<ArrowRight size={16} color="#3f3f46" weight="duotone" />}
-            />
+            <div className="w-2/4 flex flex-col justify-center items-center gap-2">
+              <Button
+                onClick={saveBubblesList}
+                text="Selecionar bolhas"
+                color="bg-blue-200"
+                disabled={selectedBubbles.length < 3}
+                icon={<ArrowRight size={16} color="#3f3f46" weight="duotone" />}
+              />
+            </div>
           </div>
         </div>
         <div className="bg-violet-200 blur-[200px] w-[700px] h-[700px] rounded-full absolute -z-50 -left-60"></div>

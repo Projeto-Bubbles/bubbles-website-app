@@ -16,6 +16,7 @@ body {
   background-color: #f1f5f9;
 }
 
+input,
 textarea {
   all: unset;
 }
