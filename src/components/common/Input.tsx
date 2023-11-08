@@ -30,7 +30,7 @@ function Input({
         disabled={disabled}
         onChange={onChange}
         onBlur={onBlur}
-        className="w-full bg-slate-100/80 text-zinc-700 text-lg font-medium p-[.4rem] rounded-md pl-9 border-none outline-1 outline-slate-400/0 transition-all duration-300 ease-in-out focus:outline-slate-500"
+        className="w-full bg-zinc-200 text-zinc-700 text-lg font-medium p-[.4rem] rounded-md pl-9 border-none outline-1 outline-slate-400/0 transition-all duration-300 ease-in-out focus:outline-slate-500"
       />
     </div>
   );

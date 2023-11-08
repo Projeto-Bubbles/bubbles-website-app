@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export interface SidebarTopicProps {
   icon: ReactNode;
@@ -6,28 +7,36 @@ export interface SidebarTopicProps {
   isLogout?: boolean;
 }
 
-function SidebarTopic(props: SidebarTopicProps) {
+function SidebarTopic({ icon, text, isLogout }: SidebarTopicProps) {
+  const navigate = useNavigate();
+
+  const onLogoff = () => {
+    sessionStorage.clear();
+    navigate('/');
+  };
+
   return (
     <button
+      onClick={() => onLogoff()}
       className={`w-max p-2 pr-3 rounded-full flex justify-between items-center ${
-        props.isLogout
+        isLogout
           ? 'bg-slate-800 hover:bg-slate-900'
           : 'bg-zinc-200 hover:bg-zinc-300'
       }  transition duration-300 ease-out hover:translate-x-1`}
     >
       <div
         className={`w-4 h-4 grid place-content-center mr-2 ${
-          props.isLogout ? 'bg-blue-200/10' : 'bg-zinc-300'
+          isLogout ? 'bg-blue-200/10' : 'bg-zinc-300'
         } p-3 rounded-full`}
       >
-        {props.icon}
+        {icon}
       </div>
       <h3
         className={`${
-          props.isLogout ? 'text-[#B1C5E1]' : 'text-zinc-700'
+          isLogout ? 'text-[#B1C5E1]' : 'text-zinc-700'
         } font-semibold text-sm uppercase`}
       >
-        {props.text}
+        {text}
       </h3>
     </button>
   );
