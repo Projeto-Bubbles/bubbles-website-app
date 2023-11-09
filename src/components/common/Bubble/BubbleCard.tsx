@@ -2,7 +2,7 @@ import { Users } from 'phosphor-react';
 
 function BubbleCard() {
   return (
-    <div className="w-72 h-60 bg-zinc-200 text-zinc-700 rounded-lg flex flex-col justify-between items-center group">
+    <div className="w-72 h-60 bg-zinc-200 text-zinc-700 rounded-lg flex flex-col justify-between items-center group mb-6">
       <div className="w-full h-3/5 flex flex-col justify-start items-center px-6 py-4 gap-4">
         <div className="w-full flex justify-between items-center">
           tag
