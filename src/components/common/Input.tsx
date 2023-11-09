@@ -1,39 +1,28 @@
-import { ReactNode } from 'react';
+import { InputHTMLAttributes, ReactNode, forwardRef } from 'react';
 
-interface InputProps {
-  type: 'text' | 'number' | 'email' | 'password' | 'date';
-  value?: string;
-  placeholder: string;
-  icon?: ReactNode;
-  disabled?: boolean;
-  onChange?: (e?: any) => void;
-  onBlur?: (e?: any) => void;
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  icon: ReactNode;
+  helperText?: string;
 }
 
-function Input({
-  type,
-  value,
-  placeholder,
-  icon,
-  disabled,
-  onChange,
-  onBlur,
-}: InputProps) {
-  return (
-    <div className="w-full relative flex justify-center items-center">
-      <div className="absolute left-0 ml-3 cursor-pointer">{icon}</div>
+const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ icon, helperText, ...props }, ref) => (
+    <div className="w-full flex flex-col justify-center items-start">
+      <div className="w-full relative flex justify-center items-center">
+        <div className="absolute left-0 ml-3 cursor-pointer">{icon}</div>
 
-      <input
-        type={type}
-        value={value}
-        placeholder={placeholder}
-        disabled={disabled}
-        onChange={onChange}
-        onBlur={onBlur}
-        className="w-full bg-zinc-200 text-zinc-700 text-lg font-medium p-[.4rem] rounded-md pl-9 border-none outline-1 outline-slate-400/0 transition-all duration-300 ease-in-out focus:outline-slate-500"
-      />
+        <input
+          {...props}
+          ref={ref}
+          className={`w-full bg-zinc-200 text-zinc-700 text-lg font-medium p-[.4rem] rounded-md pl-9 border-none outline outline-0 outline-slate-100 transition-all duration-300 ease-in-out focus:outline-slate-800/20 focus:outline-1 focus:shadow-blue-400/10 focus:shadow-md ${
+            helperText && 'outline-red-500 focus:outline-1'
+          }`}
+        />
+      </div>
+
+      <p className="text-red-500">{helperText}</p>
     </div>
-  );
-}
+  )
+);
 
 export default Input;
