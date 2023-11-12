@@ -1,14 +1,14 @@
 export interface PostProps {
-  id: number;
+  id?: number;
   dateTime: Date;
   content: string;
   author: string;
-  bubble: string;
-  comments: Comment[];
+  bubble?: string;
+  comments?: Comment[];
 }
 
 export interface CommentProps {
-  id: number;
+  id?: number;
   dateTime: Date;
   content: string;
   author: string;

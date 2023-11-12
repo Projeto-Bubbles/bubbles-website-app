@@ -9,6 +9,29 @@
     font-family: 'Darker Grotesque', sans-serif;
     scroll-behavior: smooth;
   }
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #a1a1aa;
+    border-radius: 100px;
+    transition: all 0.3s ease-in-out;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(175, 177, 177);
+    transition: all 0.3s ease-in-out;
+  }
 }
 
 body {

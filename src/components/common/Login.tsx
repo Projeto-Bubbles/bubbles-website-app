@@ -80,7 +80,6 @@ function Login() {
 
             <Input
               icon={togglePasswordVisibility()}
-              helperText="Senha errada"
               type={isClicked ? 'text' : 'password'}
               placeholder={'******'}
               {...register('password')}

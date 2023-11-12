@@ -5,7 +5,7 @@ function App() {
   return (
     <>
       <Navbar />
-      <div className="w-screen h-screen bg-[url('../src/assets/bubbles-effect.png')] bg-cover">
+      <div className="w-screen h-screen bg-[url('../src/assets/bubbles-effect.png')] bg-cover bg-repeat-y">
         <Outlet />
       </div>
     </>

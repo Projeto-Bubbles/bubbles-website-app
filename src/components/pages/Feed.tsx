@@ -13,11 +13,10 @@ import { PostType } from '../common/Post/PostRoot';
 import { useState, useEffect } from 'react';
 import { mockData } from './../../data/events';
 import { Event } from '../common/Event';
-import { PostProps } from '../../interfaces/posts';
+import { PostProps } from '../../interfaces/post';
 import { getPosts } from '../../services/postServices';
 
 function Feed() {
-  const [isExpanded, setExpanded] = useState(false);
   const [posts, setPosts] = useState<PostProps[]>([]);
 
   useEffect(() => {
@@ -29,7 +28,7 @@ function Feed() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-[url('../../src/assets/bubbles-effect.png')] bg-cover flex justify-start ">
+      <main className="min-h-screen bg-cover flex justify-start ">
         {/* Sidebar */}
         <div
           role="sidebar"
@@ -94,9 +93,9 @@ function Feed() {
 
           {/* Post */}
           <div className="w-full flex flex-col gap-20">
-            <Post.Root type={PostType.NOT_LOGGED}>
+            <Post.Root type={PostType.CREATE}>
               <Post.Content
-                isNotLogged
+                // isNotLogged
                 content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem."
               />
             </Post.Root>
@@ -110,24 +109,14 @@ function Feed() {
                     dateTime={post.dateTime}
                   />
                   <Post.Content content={post.content} />
-                  <label
-                    className="self-end bg-zinc-300/50 px-2 uppercase rounded-md text-slate-800 text-right text-sm font-semibold cursor-pointer transition-all duration-200 ease-in hover:bg-zinc-400/20"
-                    onClick={() => setExpanded(!isExpanded)}
-                  >
-                    Ver comentários
-                  </label>
-                  <div
-                    className={`bg-slate-100/50  rounded-md transition-all duration-300 ease-in-out overflow-y-scroll flex flex-col justify-start items-center gap-2 ${
-                      isExpanded ? 'h-80' : 'opacity-0 h-0 overflow-hidden'
-                    } `}
-                  >
-                    {post.comments.map((comment: any) => (
+                  <Post.ShowComments>
+                    {post.comments?.map((comment: any) => (
                       <Post.Comment
                         key={comment.id}
                         content={comment.content}
                       />
                     ))}
-                  </div>
+                  </Post.ShowComments>
                 </Post.Root>
               ))}
 
