@@ -1,4 +1,4 @@
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Navbar from '../common/Navbar';
 import SidebarTopic from '../common/SidebarTopic';
 import {
@@ -10,30 +10,20 @@ import {
 } from 'phosphor-react';
 import { Post } from '../common/Post';
 import { PostType } from '../common/Post/PostRoot';
-import { useEffect, useState } from 'react';
-import { getPosts } from '../../services/post-services';
+import { useState, useEffect } from 'react';
 import { mockData } from './../../data/events';
 import { Event } from '../common/Event';
+import { PostProps } from '../../interfaces/posts';
+import { getPosts } from '../../services/postServices';
 
 function Feed() {
-  const navigate = useNavigate();
-
   const [isExpanded, setExpanded] = useState(false);
-
-  const [posts, setPosts] = useState<any>([]);
-
-  const onLogoff = () => {
-    sessionStorage.clear();
-    navigate('/');
-  };
+  const [posts, setPosts] = useState<PostProps[]>([]);
 
   useEffect(() => {
-    async function fetchPosts() {
-      const postsData = await getPosts();
-      setPosts(postsData);
-    }
-
-    fetchPosts();
+    getPosts()
+      .then((response) => setPosts(response.data))
+      .catch((error) => console.log('👽 ~ error:', error));
   }, []);
 
   return (
@@ -51,10 +41,12 @@ function Feed() {
               text="Minha conta"
             />
 
-            <SidebarTopic
-              icon={<Compass size={14} color="#423F46" weight="duotone" />}
-              text="Explorar bolhas"
-            />
+            <Link to={'/search/bubbles'}>
+              <SidebarTopic
+                icon={<Compass size={14} color="#423F46" weight="duotone" />}
+                text="Explorar bolhas"
+              />
+            </Link>
 
             <SidebarTopic
               icon={
@@ -62,7 +54,8 @@ function Feed() {
               }
               text="Minhas bolhas"
             />
-            <Link to={'/events'}>
+
+            <Link to={'/search/events'}>
               <SidebarTopic
                 icon={
                   <CalendarBlank size={14} color="#423F46" weight="duotone" />
@@ -71,7 +64,7 @@ function Feed() {
               />
             </Link>
           </div>
-          <div onClick={() => onLogoff()}>
+          <div>
             <SidebarTopic
               icon={<ArrowLeft size={14} color="#B1C5E1" weight="duotone" />}
               text="Sair"
@@ -108,31 +101,39 @@ function Feed() {
               />
             </Post.Root>
 
-            {posts.map((post: any) => (
-              <Post.Root key={post.id} type={PostType.VIEW}>
-                <Post.Header
-                  name={post.author}
-                  nickname="helloWorldRu"
-                  date={post.dateTime}
-                />
-                <Post.Content content={post.content} />
-                <label
-                  className="self-end bg-zinc-300/50 px-2 uppercase rounded-md text-slate-800 text-right text-sm font-semibold cursor-pointer transition-all duration-200 ease-in hover:bg-zinc-400/20"
-                  onClick={() => setExpanded(!isExpanded)}
-                >
-                  Ver comentários
-                </label>
-                <div
-                  className={`bg-slate-100/50  rounded-md transition-all duration-300 ease-in-out overflow-y-scroll flex flex-col justify-start items-center gap-2 ${
-                    isExpanded ? 'h-80' : 'opacity-0 h-0 overflow-hidden'
-                  } `}
-                >
-                  {post.comments.map((comment: any) => (
-                    <Post.Comment key={comment.id} content={comment.content} />
-                  ))}
-                </div>
-              </Post.Root>
-            ))}
+            {posts &&
+              posts.map((post) => (
+                <Post.Root key={post.id} type={PostType.VIEW}>
+                  <Post.Header
+                    name={post.author}
+                    nickname="helloWorldRu"
+                    dateTime={post.dateTime}
+                  />
+                  <Post.Content content={post.content} />
+                  <label
+                    className="self-end bg-zinc-300/50 px-2 uppercase rounded-md text-slate-800 text-right text-sm font-semibold cursor-pointer transition-all duration-200 ease-in hover:bg-zinc-400/20"
+                    onClick={() => setExpanded(!isExpanded)}
+                  >
+                    Ver comentários
+                  </label>
+                  <div
+                    className={`bg-slate-100/50  rounded-md transition-all duration-300 ease-in-out overflow-y-scroll flex flex-col justify-start items-center gap-2 ${
+                      isExpanded ? 'h-80' : 'opacity-0 h-0 overflow-hidden'
+                    } `}
+                  >
+                    {post.comments.map((comment: any) => (
+                      <Post.Comment
+                        key={comment.id}
+                        content={comment.content}
+                      />
+                    ))}
+                  </div>
+                </Post.Root>
+              ))}
+
+            {posts.length === 0 && (
+              <h1>🙁 Ops, não conseguimos trazer os posts</h1>
+            )}
           </div>
         </div>
       </main>

@@ -1,4 +1,4 @@
-interface Post {
+export interface PostProps {
   id: number;
   dateTime: Date;
   content: string;
@@ -7,11 +7,9 @@ interface Post {
   comments: Comment[];
 }
 
-interface Comment {
+export interface CommentProps {
   id: number;
   dateTime: Date;
   content: string;
   author: string;
 }
-
-export default Post;
