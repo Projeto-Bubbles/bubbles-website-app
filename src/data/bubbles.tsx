@@ -7,6 +7,7 @@ import {
   Palette,
   SoccerBall,
   BookBookmark,
+  GameController,
 } from 'phosphor-react';
 
 export function bubbles(iconSize: number) {
@@ -24,14 +25,14 @@ export function bubbles(iconSize: number) {
       color: 'bg-violet-300',
     },
     {
-      name: 'Moda',
-      icon: <CoatHanger size={iconSize} color="#3f3f46" weight="duotone" />,
-      color: 'bg-fuchsia-200',
+      name: 'Games',
+      icon: <GameController size={iconSize} color="#3f3f46" weight="duotone" />,
+      color: 'bg-green-200',
     },
     {
       name: 'Arte',
       icon: <Palette size={iconSize} color="#3f3f46" weight="duotone" />,
-      color: 'bg-green-200',
+      color: 'bg-fuchsia-200',
     },
     {
       name: 'Tecnologia',

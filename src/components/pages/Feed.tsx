@@ -12,9 +12,9 @@ import { Post } from '../common/Post';
 import { PostType } from '../common/Post/PostRoot';
 import { useState, useEffect } from 'react';
 import { mockData } from './../../data/events';
-import { Event } from '../common/Event';
 import { PostProps } from '../../interfaces/post';
 import { getPosts } from '../../services/postServices';
+import { Event } from './../common/Event/index';
 
 function Feed() {
   const [posts, setPosts] = useState<PostProps[]>([]);
@@ -92,7 +92,7 @@ function Feed() {
           </div>
 
           {/* Post */}
-          <div className="w-full flex flex-col gap-20">
+          <div className="w-full flex flex-col gap-16">
             <Post.Root type={PostType.CREATE}>
               <Post.Content
                 // isNotLogged

@@ -1,3 +1,4 @@
+import { MusicNotesSimple } from 'phosphor-react';
 import Search from '../Search';
 import { Bubble } from './../common/Bubble/index';
 
@@ -7,7 +8,7 @@ function SearchBubbles() {
       title="Encontre suas bolhas favoritas aqui"
       placeholder="Pesquisar bolhas..."
     >
-      <Bubble.Card />
+      {/* <Bubble.Card /> */}
     </Search>
   );
 }

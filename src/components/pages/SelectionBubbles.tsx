@@ -30,7 +30,7 @@ function SelectionBubbles() {
   };
 
   const saveBubblesList = () => {
-    if (selectedBubbles.length > 0) navigate('/feed');
+    if (selectedBubbles.length >= 3) navigate('/feed');
   };
 
   return (
