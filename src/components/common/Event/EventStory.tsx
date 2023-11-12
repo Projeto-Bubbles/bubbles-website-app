@@ -1,5 +1,5 @@
 import { EventProps } from '../../../interfaces/bubble';
-import { formatter } from './../../../utils/dateFormatter';
+import { formatter } from '../../../utils/dateFormatter';
 
 function EventStory({ title, date, image, bubble }: EventProps) {
   return (

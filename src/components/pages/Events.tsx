@@ -1,4 +1,4 @@
-import { Event } from './../common/Event/';
+import { Event } from '../common/Event';
 
 function Events() {
   return (

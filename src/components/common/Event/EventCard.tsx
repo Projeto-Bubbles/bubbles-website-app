@@ -1,6 +1,6 @@
 import { CheckCircle } from 'phosphor-react';
-import Button from '../Button';
 import { ReactNode, useState } from 'react';
+import Button from '../Button';
 
 interface EventCardProps {
   title: string;

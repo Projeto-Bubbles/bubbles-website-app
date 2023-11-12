@@ -7,9 +7,9 @@ function SearchEvents() {
       <Search title="Se junte com a galera!" placeholder="Pesquisar eventos...">
         <Event.Card
           title="Festa na Casa das Primas"
-          category="Putaria"
+          category="Rapaz"
           bubble={{ name: 'Bailão' }}
-          address="FOde 123"
+          address="ai 123"
           image="https://picsum.photos/200/300"
         />
       </Search>
