@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-export interface Bubble {
+export interface BubbleProps {
   name: string;
   icon?: ReactNode;
   color?: string;
@@ -11,5 +11,5 @@ export interface EventProps {
   link?: string;
   image: string;
   // address?: Address
-  bubble: Bubble;
+  bubble: BubbleProps;
 }

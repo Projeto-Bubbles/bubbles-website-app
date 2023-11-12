@@ -1,11 +1,11 @@
-import { Bubble } from '../../interfaces/ComponentsInterfaces';
 import { useState } from 'react';
+import { BubbleProps } from '../../../interfaces/bubble';
 
-function BubblePicker(props: Bubble) {
+function BubblePicker(props: BubbleProps) {
   const [isClicked, setIsClicked] = useState(false);
 
   const handleClick = () => {
-    return !isClicked ? setIsClicked(true) : setIsClicked(false);
+    return setIsClicked(!isClicked);
   };
 
   const setBaseColor = () => {

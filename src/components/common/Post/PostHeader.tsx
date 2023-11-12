@@ -6,13 +6,18 @@ import { useState } from 'react';
 interface PostHeaderProps {
   name: string;
   nickname: string;
-  date: Date;
+  dateTime: Date;
   isNotLogged?: boolean;
 }
 
-function PostHeader({ name, nickname, isNotLogged }: PostHeaderProps) {
-  const date: Date = new Date();
+function PostHeader({
+  name,
+  nickname,
+  isNotLogged,
+  dateTime,
+}: PostHeaderProps) {
   const [isVisiblePopup, setVisiblePopup] = useState(false);
+  const date = new Date(dateTime);
 
   return (
     <div
