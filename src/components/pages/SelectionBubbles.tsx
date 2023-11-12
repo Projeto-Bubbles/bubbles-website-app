@@ -3,22 +3,23 @@ import Navbar from '../common/Navbar';
 import Button from '../common/Button';
 import { bubbles } from '../../data/bubbles';
 import { useEffect, useState } from 'react';
-import BubblePicker from '../common/BubblePicker';
+import BubblePicker from '../common/Bubble/BubblePicker';
 import { useNavigate } from 'react-router-dom';
-import { Bubble } from '../../interfaces/bubble';
+import { BubbleProps } from '../../interfaces/bubble';
+import { Bubble } from '../common/Bubble';
 
 function SelectionBubbles() {
   const navigate = useNavigate();
 
-  const bubblesList: Bubble[] = bubbles(32);
+  const bubblesList: BubbleProps[] = bubbles(32);
 
-  const [selectedBubbles, setSelectedBubbles] = useState<Bubble[]>([]);
+  const [selectedBubbles, setSelectedBubbles] = useState<BubbleProps[]>([]);
 
   useEffect(() => {
     console.log(selectedBubbles);
   }, [selectedBubbles]);
 
-  const toggleBubble = (bubble: Bubble) => {
+  const toggleBubble = (bubble: BubbleProps) => {
     if (selectedBubbles.some((b) => b.name === bubble.name)) {
       setSelectedBubbles(
         selectedBubbles.filter((element) => element.name !== bubble.name)
@@ -60,7 +61,7 @@ function SelectionBubbles() {
             <div className="grid grid-cols-4 gap-4">
               {bubblesList.map((bubble, index) => (
                 <div key={index} onClick={() => toggleBubble(bubble)}>
-                  <BubblePicker
+                  <Bubble.Picker
                     name={bubble.name}
                     icon={bubble.icon}
                     color={bubble.color}

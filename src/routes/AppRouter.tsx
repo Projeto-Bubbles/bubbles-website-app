@@ -4,8 +4,9 @@ import Institutional from '../components/pages/Institutional';
 import SelectionBubbles from '../components/pages/SelectionBubbles';
 import Feed from '../components/pages/Feed';
 import Events from '../components/pages/Events';
-import Form from './../components/pages/Form';
 import Login from '../components/common/Login';
+import SearchBubbles from '../components/pages/SearchBubbles';
+import SearchEvents from '../components/pages/SearchEvents';
 
 const AppRouter = () => {
   return (
@@ -16,7 +17,10 @@ const AppRouter = () => {
           <Route path="feed" element={<Feed />} />
           <Route path="events" element={<Events />} />
           <Route path="selection" element={<SelectionBubbles />} />
-          <Route path="cep" element={<Form />} />
+          <Route path="search">
+            <Route path="bubbles" element={<SearchBubbles />} />
+            <Route path="events" element={<SearchEvents />} />
+          </Route>
           <Route path="sign-in" element={<Login />} />
         </Route>
       </Routes>
