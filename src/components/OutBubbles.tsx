@@ -10,7 +10,7 @@ function OutBubbles() {
       <div className="w-3/4 flex justify-between items-center gap-10">
         <div className="w-2/6">
           <img
-            src="../../src/assets/out-bubbles-image.png"
+            src="../../src/assets/out-bubbles-image.svg"
             alt="Imagem de divulgação da Bubble"
             className="h-[465px] w-full object-cover object-center rounded-md"
           />
