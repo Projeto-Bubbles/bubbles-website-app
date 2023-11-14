@@ -10,7 +10,6 @@ const resourceMap = {
   cookingImage: './src/assets/MoreBubbles/cooking.jpg',
   cyclistImage: './src/assets/MoreBubbles/cyclist.jpg',
   funImage: './src/assets/MoreBubbles/fun.jpg',
-  groupImage: './src/assets/MoreBubbles/group.jpg',
   bubblesLogoGlass: './src/assets/bubbles-logo-glass.png',
   bubblesEffect: './src/assets/bubbles-effect.png',
   outBubbles: './src/assets/out-bubbles-image.png',
