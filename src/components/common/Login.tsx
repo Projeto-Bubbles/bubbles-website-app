@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import Button from './Button';
 import { ArrowRight, EnvelopeSimple, Eye, EyeClosed } from 'phosphor-react';
 import axios from 'axios';

@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 import { DotsThreeOutline } from 'phosphor-react';
-import Popup, { PopupProps } from './../Popup';
+import Popup from './../Popup';
 import { useState } from 'react';
 
 interface PostHeaderProps {

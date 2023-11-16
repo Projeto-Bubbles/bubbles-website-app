@@ -1,6 +1,4 @@
-import { MemberProps } from '../interfaces/ComponentsInterfaces';
-
-export const members: MemberProps[] = [
+export const members: any[] = [
   {
     photo: '../src/assets/members/member_gabriel.png',
     name: 'Gabriel',

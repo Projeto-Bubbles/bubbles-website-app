@@ -3,7 +3,6 @@ import Navbar from '../common/Navbar';
 import Button from '../common/Button';
 import { bubbles } from '../../data/bubbles';
 import { useEffect, useState } from 'react';
-import BubblePicker from '../common/Bubble/BubblePicker';
 import { useNavigate } from 'react-router-dom';
 import { BubbleProps } from '../../interfaces/bubble';
 import { Bubble } from '../common/Bubble';

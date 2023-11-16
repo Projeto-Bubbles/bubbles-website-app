@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react';
-import { CommentProps, PostProps } from '../../../interfaces/post';
+import { PostProps } from '../../../interfaces/post';
 import { createComment, createPost } from '../../../services/postServices';
 import Input from '../Input';
 import { PaperPlaneRight } from 'phosphor-react';
