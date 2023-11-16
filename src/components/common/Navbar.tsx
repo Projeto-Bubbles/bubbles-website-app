@@ -2,7 +2,7 @@ import Button from './Button';
 import { SignIn, UserCirclePlus } from 'phosphor-react';
 import { Link } from 'react-router-dom';
 
-import imgAleatoria from "../../assets/bubbles-logo-glass.png";;
+import imgAleatoria from "../../assets/bubbles-logo-glass.png";
 
 function Navbar(props: { withMenu?: boolean }) {
   return (
