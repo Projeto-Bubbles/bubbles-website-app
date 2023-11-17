@@ -2,6 +2,8 @@ import Button from './Button';
 import { SignIn, UserCirclePlus } from 'phosphor-react';
 import { Link } from 'react-router-dom';
 
+import logoBubbles from "@/assets/bubbles-logo-glass.png";
+
 function Navbar(props: { withMenu?: boolean }) {
   return (
     <>
@@ -12,7 +14,7 @@ function Navbar(props: { withMenu?: boolean }) {
       >
         <div className="w-24">
           <Link to={'/'}>
-            <img src={"bg-testeImagem"} alt="logo" />
+            <img src={logoBubbles} alt="logo" />
           </Link>
         </div>
 

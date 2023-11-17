@@ -1,7 +1,7 @@
 import Button from './common/Button';
 import { ArrowRight } from 'phosphor-react';
 import { useNavigate } from 'react-router-dom';
-import imagemDivulgacao from "../assets/out-bubbles-image.png";
+import outBubbles from "@/assets/out-bubbles-image.png";
 
 function OutBubbles() {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ function OutBubbles() {
       <div className="w-3/4 flex justify-between items-center gap-10">
         <div className="w-2/6">
           <img
-            src={imagemDivulgacao}
+            src={outBubbles}
             alt="Imagem de divulgação da Bubble"
             className="h-[465px] w-full object-cover object-center rounded-md"
           />
