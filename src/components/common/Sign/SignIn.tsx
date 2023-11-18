@@ -1,12 +1,12 @@
 import React, { ReactNode, useState } from 'react';
-import Button from './Button';
+import Button from '../Button';
 import { ArrowRight, EnvelopeSimple, Eye, EyeClosed } from 'phosphor-react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import Input from './Input';
+import Input from '../Input';
 
-function Login() {
+function SignIn() {
   const [isClicked, setIsClicked] = useState(false);
   const { register, handleSubmit, getValues } = useForm();
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ function Login() {
       });
   };
 
-  const togglePasswordVisibility = (): ReactNode => {
+ const togglePasswordVisibility = (): ReactNode => {
     return isClicked ? (
       <Eye
         size={16}
@@ -100,4 +100,5 @@ function Login() {
   );
 }
 
-export default Login;
+export default SignIn;
+

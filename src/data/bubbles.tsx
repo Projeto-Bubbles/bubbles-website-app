@@ -9,13 +9,15 @@ import {
   BookBookmark,
   GameController,
 } from 'phosphor-react';
+import { BubbleProps } from '../interfaces/bubble';
 
-export function bubbles(iconSize: number) {
+  export function bubbles(iconSize: number): BubbleProps[] {
   return [
     {
       name: 'Esportes',
       icon: <SoccerBall size={iconSize} color="#3f3f46" weight="duotone" />,
       color: 'bg-amber-200',
+      selected: true,
     },
     {
       name: 'Música',
@@ -28,11 +30,13 @@ export function bubbles(iconSize: number) {
       name: 'Games',
       icon: <GameController size={iconSize} color="#3f3f46" weight="duotone" />,
       color: 'bg-green-200',
+      selected: true,
     },
     {
       name: 'Arte',
       icon: <Palette size={iconSize} color="#3f3f46" weight="duotone" />,
       color: 'bg-fuchsia-200',
+      selected: true,
     },
     {
       name: 'Tecnologia',

@@ -32,9 +32,15 @@
     background-color: rgb(175, 177, 177);
     transition: all 0.3s ease-in-out;
   }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none; /* Remove a seta do calendário do WebKit */
+  }
 }
 
 body {
   overflow-x: hidden;
   background-color: #f1f5f9;
 }
+
+
