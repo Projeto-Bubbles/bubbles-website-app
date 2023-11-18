@@ -4,6 +4,7 @@ export interface BubbleProps {
   name: string;
   icon?: ReactNode;
   color?: string;
+  selected?: boolean;
 }
 export interface EventProps {
   title: string;
@@ -13,3 +14,5 @@ export interface EventProps {
   // address?: Address
   bubble: BubbleProps;
 }
+
+
