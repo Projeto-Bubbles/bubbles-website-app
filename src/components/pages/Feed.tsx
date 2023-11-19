@@ -1,28 +1,97 @@
-import { Link } from 'react-router-dom';
-import Navbar from '../common/Navbar';
-import SidebarTopic from '../common/SidebarTopic';
 import {
   ArrowLeft,
   CalendarBlank,
   ChatsTeardrop,
   Compass,
+  PaperPlaneRight,
   User,
 } from 'phosphor-react';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { CommentProps, PostProps } from '../../interfaces/post';
+import {
+  createComment,
+  createPost,
+  getPosts,
+} from '../../services/postServices';
+import Input from '../common/Input';
+import Navbar from '../common/Navbar';
 import { Post } from '../common/Post';
 import { PostType } from '../common/Post/PostRoot';
-import { useState, useEffect } from 'react';
+import SidebarTopic from '../common/SidebarTopic';
 import { mockData } from './../../data/events';
-import { PostProps } from '../../interfaces/post';
-import { getPosts } from '../../services/postServices';
 import { Event } from './../common/Event/index';
 
 function Feed() {
   const [posts, setPosts] = useState<PostProps[]>([]);
 
-  useEffect(() => {
+  const user = {
+    name: 'Ruan C. Rodrigues',
+    username: 'helloWorld',
+    email: 'sds',
+    password: 2285,
+  };
+
+  const [inputValues, setInputValues] = useState<{ [key: string]: string }>({});
+
+  const getAllPosts = () => {
     getPosts()
       .then((response) => setPosts(response.data))
       .catch((error) => console.log('👽 ~ error:', error));
+  };
+
+  const handleCreatePost = (content: string) => {
+    const post: PostProps = {
+      dateTime: new Date(),
+      content,
+      author: user.username,
+      bubble: 'string,',
+    };
+
+    setInputValues((prevInputValues) => ({
+      ...prevInputValues,
+      [0]: '', // Limpa o valor apenas para o componente específico
+    }));
+
+    createPost(post)
+      .then(() => getAllPosts())
+      .catch((err) => console.log('Erro ao criar post:', err));
+  };
+
+  const handleCreateComment = (content: string, postId: number) => {
+    const comment: CommentProps = {
+      dateTime: new Date(),
+      content,
+      author: user.username,
+    };
+
+    setInputValues((prevInputValues) => ({
+      ...prevInputValues,
+      [postId]: '', // Limpa o valor apenas para o componente específico
+    }));
+
+    createComment(comment);
+    getAllPosts();
+  };
+
+  const handleValue = (e: any, type: PostType, postId: number) => {
+    if (e.key === 'Enter') {
+      const content = e.target.value;
+
+      if (content === '') return;
+
+      if (type === PostType.CREATE) {
+        handleCreatePost(content);
+      }
+
+      if (type === PostType.VIEW) {
+        handleCreateComment(content, postId);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getAllPosts();
   }, []);
 
   return (
@@ -81,7 +150,7 @@ function Feed() {
                 <CalendarBlank size={16} color="#423F46" weight="duotone" />
               </div>
               <h1 className="text-zinc-600 font-bold text-xl leading-none">
-                Últimos eventos
+                Próximos eventos
               </h1>
             </div>
             <div className="w-full h-72 flex justify-between items-center">
@@ -93,10 +162,32 @@ function Feed() {
 
           {/* Post */}
           <div className="w-full flex flex-col gap-16">
-            <Post.Root type={PostType.CREATE}>
+            <Post.Root
+              type={user.email ? PostType.CREATE : PostType.NOT_LOGGED}
+            >
+              {user && (
+                <Post.Header name={user.name} nickname={user.username} />
+              )}
               <Post.Content
-                // isNotLogged
+                isNotLogged={!user.email}
                 content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem."
+              />
+              <Input
+                type="text"
+                placeholder={'O que você está pensando'}
+                color="bg-zinc-100/70"
+                icon={
+                  <PaperPlaneRight size={16} color="#71717A" weight="duotone" />
+                }
+                disabled={!user.email}
+                onKeyDown={(e) => handleValue(e, PostType.CREATE, 0)}
+                value={inputValues[0] || ''}
+                onChange={(e) => {
+                  setInputValues((prevInputValues) => ({
+                    ...prevInputValues,
+                    [0]: e.target.value,
+                  }));
+                }}
               />
             </Post.Root>
 
@@ -107,8 +198,10 @@ function Feed() {
                     name={post.author}
                     nickname="helloWorldRu"
                     dateTime={post.dateTime}
+                    showPopup={post.author === user.username}
                   />
                   <Post.Content content={post.content} />
+
                   <Post.ShowComments>
                     {post.comments?.map((comment: any) => (
                       <Post.Comment
@@ -117,6 +210,28 @@ function Feed() {
                       />
                     ))}
                   </Post.ShowComments>
+                  <Input
+                    type="text"
+                    placeholder={'Responder'}
+                    color="bg-zinc-100/70"
+                    icon={
+                      <PaperPlaneRight
+                        size={16}
+                        color="#71717A"
+                        weight="duotone"
+                      />
+                    }
+                    onKeyDown={(e) =>
+                      handleValue(e, PostType.VIEW, post.id || 0)
+                    }
+                    value={inputValues[post.id || 0] || ''}
+                    onChange={(e) => {
+                      setInputValues((prevInputValues) => ({
+                        ...prevInputValues,
+                        [post.id || 0]: e.target.value,
+                      }));
+                    }}
+                  />
                 </Post.Root>
               ))}
 
