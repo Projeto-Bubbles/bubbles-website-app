@@ -14,5 +14,3 @@ export interface EventProps {
   // address?: Address
   bubble: BubbleProps;
 }
-
-

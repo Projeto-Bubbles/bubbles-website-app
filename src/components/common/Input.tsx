@@ -10,7 +10,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ icon, helperText, color = 'bg-zinc-200', ...props }, ref) => (
     <div className="w-full flex flex-col justify-center items-start">
       <div className="w-full relative flex justify-center items-center">
-        <div className="absolute left-0 ml-3 cursor-pointer">{icon}</div>
+        <div className="absolute left-0 ml-3 ">{icon}</div>
 
         <input
           {...props}

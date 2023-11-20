@@ -1,36 +1,29 @@
 import { ArrowRight } from 'phosphor-react';
-import Navbar from '../common/Navbar';
-import Button from '../common/Button';
-import { bubbles } from '../../data/bubbles';
-import { useEffect, useState } from 'react';
-import BubblePicker from '../common/Bubble/BubblePicker';
 import { useNavigate } from 'react-router-dom';
+import { bubbles } from '../../data/bubbles';
+import useBubbles from '../../hooks/useBubbles';
 import { BubbleProps } from '../../interfaces/bubble';
 import { Bubble } from '../common/Bubble';
+import Button from '../common/Button';
+import Navbar from '../common/Navbar';
 
 function SelectionBubbles() {
   const navigate = useNavigate();
 
   const bubblesList: BubbleProps[] = bubbles(32);
 
-  const [selectedBubbles, setSelectedBubbles] = useState<BubbleProps[]>([]);
+  const userBubbles: BubbleProps[] = JSON.parse(
+    localStorage.getItem('bubbles') || '[]'
+  );
 
-  useEffect(() => {
-    console.log(selectedBubbles);
-  }, [selectedBubbles]);
-
-  const toggleBubble = (bubble: BubbleProps) => {
-    if (selectedBubbles.some((b) => b.name === bubble.name)) {
-      setSelectedBubbles(
-        selectedBubbles.filter((element) => element.name !== bubble.name)
-      );
-    } else {
-      setSelectedBubbles([...selectedBubbles, bubble]);
-    }
-  };
+  const { selectedBubbles, toggleBubble } = useBubbles(userBubbles);
 
   const saveBubblesList = () => {
-    if (selectedBubbles.length >= 3) navigate('/feed');
+    if (selectedBubbles.length >= 3) {
+      navigate('/feed');
+    } else {
+      localStorage.removeItem('bubbles');
+    }
   };
 
   return (
@@ -65,6 +58,7 @@ function SelectionBubbles() {
                     name={bubble.name}
                     icon={bubble.icon}
                     color={bubble.color}
+                    selected={userBubbles.some((b) => b.name === bubble.name)}
                   />
                 </div>
               ))}
