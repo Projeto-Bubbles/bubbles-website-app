@@ -1,6 +1,12 @@
+import gabriel from "@/assets/members/member_gabriel.png";
+import laviny from "@/assets/members/member_laviny.png";
+import paulo from "@/assets/members/member_paulo.png";
+import ruan from "@/assets/members/member_ruan.png";
+import vinicius from "@/assets/members/member_vinicius.png";
+
 export const members: any[] = [
   {
-    photo: '@/assets/members/member_gabriel.png',
+    photo: gabriel,
     name: 'Gabriel',
     lastName: 'Martins',
     role: 'BackEnd',
@@ -12,7 +18,7 @@ export const members: any[] = [
     },
   },
   {
-    photo: '@/assets/members/member_laviny.png',
+    photo: laviny,
     name: 'Laviny',
     lastName: 'Silva',
     role: 'Produto',
@@ -24,7 +30,7 @@ export const members: any[] = [
     },
   },
   {
-    photo: '@/assets/members/member_paulo.png',
+    photo: paulo,
     name: 'Paulo',
     lastName: 'Alvares',
     role: 'DBA',
@@ -36,7 +42,7 @@ export const members: any[] = [
     },
   },
   {
-    photo: '@/assets/members/member_ruan.png',
+    photo: ruan,
     name: 'Ruan',
     lastName: 'Rodrigues',
     role: 'UX Designer',
@@ -48,7 +54,7 @@ export const members: any[] = [
     },
   },
   {
-    photo: '@/assets/members/member_vinicius.png',
+    photo: vinicius,
     name: 'Vinicius',
     lastName: 'Barbosa',
     role: 'Frontend',
