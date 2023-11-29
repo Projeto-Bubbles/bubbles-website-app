@@ -3,11 +3,14 @@ import { Category } from '../enums/category';
 
 export interface BubbleProps {
   name: string;
+  image?: string;
+  description?: string;
   icon?: ReactNode;
   color?: string;
-  selected?: boolean;
-  fixed?: boolean;
   category?: Category;
+  users?: number;
+  fixed?: boolean;
+  selected?: boolean;
 }
 export interface EventProps {
   title: string;

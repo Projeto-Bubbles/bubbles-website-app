@@ -1,18 +1,28 @@
-import { useState } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { bubbles } from '../../data/bubbles';
+import { BubbleProps } from '../../interfaces/bubble';
 import Search from '../Search';
+import { Bubble } from '../common/Bubble';
 import Button from '../common/Button';
 import Input from '../common/Fields/Input';
 import Select from '../common/Fields/Select';
 import Textarea from '../common/Fields/Textarea';
 import Modal from '../common/Modal';
-import { Bubble } from './../common/Bubble/index';
 
 function SearchBubbles() {
   const [isVisible, setIsVisible] = useState(false);
+  const [bubblesList, setBubblesList] = useState<BubbleProps[]>([]);
 
-  const bubblesList = bubbles(12).map((bubbles) => {
+  useEffect(() => {
+    axios
+      .get('http://localhost:3000/bubbles')
+      .then((response) => setBubblesList(response.data))
+      .catch((err) => console.log(err));
+  }, []);
+
+  const bubblesOptions = bubbles(12).map((bubbles) => {
     return { label: bubbles.name, value: bubbles.category };
   });
 
@@ -54,7 +64,7 @@ function SearchBubbles() {
                 <Select
                   label="Selecione uma categoria"
                   color="bg-zinc-100/70"
-                  options={bubblesList}
+                  options={bubblesOptions}
                   {...register('category', {
                     required: 'Selecione a categoria',
                   })}
@@ -92,7 +102,9 @@ function SearchBubbles() {
         placeholder="Pesquisar bolhas..."
         isOpenModal={() => setIsVisible(true)}
       >
-        <Bubble.Card {...bubbles(12)[0]} />
+        {bubblesList.map((bubble) => (
+          <Bubble.Card {...bubble} />
+        ))}
       </Search>
     </>
   );
