@@ -1,15 +1,17 @@
 import { useState } from 'react';
 import { BubbleProps } from '../../../interfaces/bubble';
 
-function BubbleTag({ icon, name, color, selected }: BubbleProps) {
+function BubbleTag({ icon, name, color, selected, fixed }: BubbleProps) {
   const [isSelected, setIsSelected] = useState(selected);
 
   return (
     <label
-      onClick={() => setIsSelected(!isSelected)}
+      onClick={() => !fixed && setIsSelected(!isSelected)}
       className={`${
-        isSelected ? color : 'bg-zinc-200'
-      } flex justify-around items-center gap-2 p-1 px-3 rounded-md cursor-pointer transition duration-300 ease-in-out hover:brightness-90`}
+        isSelected || fixed ? color : 'bg-zinc-200'
+      } flex justify-around items-center gap-2 p-1 px-3 rounded-md transition duration-300 ease-in-out ${
+        !fixed && 'hover:brightness-90 cursor-pointer'
+      }`}
     >
       {icon}
       <h4 className="lowercase text-zinc-700 font-medium">{name}</h4>

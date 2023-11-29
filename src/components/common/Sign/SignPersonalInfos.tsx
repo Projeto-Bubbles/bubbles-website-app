@@ -5,7 +5,7 @@ import {
   MapPin,
 } from 'phosphor-react';
 import { FormProps } from '../../../interfaces/form';
-import Input from '../Input';
+import Input from '../Fields/Input';
 
 function SignPersonalInfos({ data, updateFieldHandler }: FormProps) {
   return (

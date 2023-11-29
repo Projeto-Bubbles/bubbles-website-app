@@ -1,7 +1,7 @@
 import { Envelope, Eye, EyeClosed, User } from 'phosphor-react';
 import { ReactNode, useState } from 'react';
 import { FormProps } from '../../../interfaces/form';
-import Input from '../Input';
+import Input from '../Fields/Input';
 
 function SignAccountInfos({ data, updateFieldHandler }: FormProps) {
   const [isClicked, setIsClicked] = useState(false);
