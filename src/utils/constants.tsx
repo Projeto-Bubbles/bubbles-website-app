@@ -1,11 +1,11 @@
-import { ReactNode } from 'react';
+import axios from 'axios';
 import {
   EnvelopeSimple,
   GithubLogo,
   InstagramLogo,
   LinkedinLogo,
 } from 'phosphor-react';
-import axios from 'axios';
+import { ReactNode } from 'react';
 
 export const socialLinks: string[] = ['#', '#', '#', '#'];
 

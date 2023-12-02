@@ -1,5 +1,7 @@
 import { CheckCircle } from 'phosphor-react';
 import { ReactNode, useState } from 'react';
+import { bubbles } from '../../../data/bubbles';
+import { Bubble } from '../Bubble';
 import Button from '../Button';
 
 interface EventCardProps {
@@ -18,6 +20,7 @@ function EventCard({
   image,
 }: EventCardProps) {
   const [isCheckIcon, setCheckIcon] = useState<ReactNode>(null);
+  const targetBubble = bubbles(12).find((b) => b.category === category);
 
   const setPresenceInEvent = () => {
     console.log(isCheckIcon);
@@ -37,7 +40,13 @@ function EventCard({
 
       <div className="w-7/12 h-56 flex flex-col justify-between items-start ">
         <div className="flex flex-col justify-between items-start leading-none">
-          <span className="text-sm text-zinc-700">{category}</span>
+          <Bubble.Tag
+            icon={targetBubble?.icon}
+            name={targetBubble?.name ?? ''}
+            color={targetBubble?.color}
+            fixed
+          />
+
           <h1 className="font-bold text-3xl text-zinc-700"> {title} </h1>
           <h4 className="font-semibold text-xl text-zinc-500">
             {bubble.name}{' '}
