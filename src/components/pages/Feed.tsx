@@ -23,12 +23,14 @@ import { mockData } from './../../data/events';
 import { Event } from './../common/Event/index';
 
 function Feed() {
+  localStorage.setItem('previousPage', 'feed');
+
   const [posts, setPosts] = useState<PostProps[]>([]);
 
   const user = {
     name: 'Ruan C. Rodrigues',
     username: 'helloWorld',
-    email: 'sds',
+    email: '',
     password: 2285,
   };
 
@@ -94,9 +96,11 @@ function Feed() {
     getAllPosts();
   }, []);
 
+  const previousPage = localStorage.getItem('previousPage') ?? '/';
+
   return (
     <>
-      <Navbar />
+      <Navbar isLogged redirectPage={previousPage} />
       <main className="min-h-screen bg-cover flex justify-start ">
         {/* Sidebar */}
         <div
@@ -165,7 +169,7 @@ function Feed() {
             <Post.Root
               type={user.email ? PostType.CREATE : PostType.NOT_LOGGED}
             >
-              {user && (
+              {user.email && (
                 <Post.Header name={user.name} nickname={user.username} />
               )}
               <Post.Content

@@ -1,13 +1,15 @@
+import Benefits from '../Benefits';
 import Footer from '../Footer';
 import Hero from '../Hero';
-import Navbar from '../common/Navbar';
-import Team from '../Team';
 import MoreBubbles from '../MoreBubbles';
 import OutBubbles from '../OutBubbles';
+import Team from '../Team';
+import Navbar from '../common/Navbar';
 import Blur from './../common/Blur';
-import Benefits from '../Benefits';
 
 function Institutional() {
+  localStorage.setItem('previousPage', '/');
+
   return (
     <>
       <Navbar withMenu />

@@ -18,12 +18,7 @@ function SignPage() {
   } = UseForm(formComponents);
   return (
     <div className="w-screen h-screen p-10 flex flex-col justify-center items-center gap-1 ">
-      <div className="w-96 flex flex-col justify-center items-center rounded-md relative">
-        {/* {!isFirstStep && (
-          <div className='absolute' >
-          <BackButton onClick={() => changeStep(currentStep - 1) />
-          </div>
-        )} */}
+      <div className="w-96 flex flex-col justify-center items-center rounded-md">
         <div className="w-96 h-32 bg-zinc-200 flex flex-col rounded-t-md">
           <div className="ml-6 mt-4">
             <div className="w-8 h-8 p-2 grid place-content-center bg-blue-100 rounded-full">
@@ -46,6 +41,14 @@ function SignPage() {
           >
             <div className="w-full">{currentComponnent}</div>
             <div className="w-full">
+              {!isFirstStep && (
+                <button
+                  type="button"
+                  onClick={() => changeStep(currentStep - 1)}
+                >
+                  <span>Voltar</span>
+                </button>
+              )}
               <button
                 className="relative w-full bg-zinc-700 text-zinc-200 text-sm font-semibold uppercase flex justify-between items-center h-10 rounded-md cursor-pointer group"
                 type="submit"

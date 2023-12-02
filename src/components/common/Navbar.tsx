@@ -1,22 +1,39 @@
-import Button from './Button';
 import { SignIn, UserCirclePlus } from 'phosphor-react';
 import { Link } from 'react-router-dom';
+import Avatar from '../Avatar';
+import Button from './Button';
 
-function Navbar(props: { withMenu?: boolean }) {
+interface NavbarProps {
+  withMenu?: boolean;
+  redirectPage?: string;
+  isLogged?: boolean;
+}
+
+function Navbar({ withMenu, redirectPage, isLogged }: NavbarProps) {
+  const user = JSON.parse(localStorage.getItem('user') ?? '[]');
   return (
     <>
       <nav
         className={`w-screen bg-slate-100 flex ${
-          props.withMenu ? 'justify-between' : 'justify-start'
+          withMenu ? 'justify-between' : 'justify-between'
         } py-6 px-8 z-50 fixed`}
       >
         <div className="w-24">
-          <Link to={'/'}>
+          <Link to={redirectPage ?? '/'}>
             <img src="../src/assets/bubbles-logo-glass.png" alt="logo" />
           </Link>
         </div>
 
-        {props.withMenu && (
+        {isLogged && (
+          <Avatar
+            isLogged
+            name={user.name}
+            username={user.username}
+            image={user.image}
+          />
+        )}
+
+        {withMenu && (
           <div className="flex items-center gap-16 w-max">
             <ul className="flex gap-12 text-lg h-full w-full">
               <a

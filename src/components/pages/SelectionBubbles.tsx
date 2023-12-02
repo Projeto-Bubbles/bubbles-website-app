@@ -1,12 +1,10 @@
 import { ArrowRight } from 'phosphor-react';
-import Navbar from '../common/Navbar';
-import Button from '../common/Button';
-import { bubbles } from '../../data/bubbles';
 import { useEffect, useState } from 'react';
-import BubblePicker from '../common/Bubble/BubblePicker';
 import { useNavigate } from 'react-router-dom';
+import { bubbles } from '../../data/bubbles';
 import { BubbleProps } from '../../interfaces/bubble';
 import { Bubble } from '../common/Bubble';
+import Button from '../common/Button';
 
 function SelectionBubbles() {
   const navigate = useNavigate();
@@ -35,8 +33,6 @@ function SelectionBubbles() {
 
   return (
     <>
-      <Navbar withMenu={false} />
-
       <div className="w-screen h-screen bg-[url('../../src/assets/bubbles-effect.png')] bg-cover flex justify-center items-center overflow-hidden">
         <div className="w-3/4 flex justify-between items-center">
           <div className="flex flex-col justify-center items-start gap-2">
