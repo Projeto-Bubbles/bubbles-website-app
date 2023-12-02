@@ -1,12 +1,12 @@
-import React, { ReactNode, useState } from 'react';
-import Button from './Button';
-import { ArrowRight, EnvelopeSimple, Eye, EyeClosed } from 'phosphor-react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { ArrowRight, EnvelopeSimple, Eye, EyeClosed } from 'phosphor-react';
+import { ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Input from './Input';
+import { useNavigate } from 'react-router-dom';
+import Button from '../Button';
+import Input from '../Fields/Input';
 
-function Login() {
+function SignIn() {
   const [isClicked, setIsClicked] = useState(false);
   const { register, handleSubmit, getValues } = useForm();
   const navigate = useNavigate();
@@ -100,4 +100,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default SignIn;

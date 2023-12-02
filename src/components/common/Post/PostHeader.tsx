@@ -1,13 +1,14 @@
 import { format } from 'date-fns';
 import { DotsThreeOutline } from 'phosphor-react';
-import Popup, { PopupProps } from './../Popup';
 import { useState } from 'react';
+import Popup from './../Popup';
 
 interface PostHeaderProps {
   name: string;
   nickname: string;
-  dateTime: Date;
+  dateTime?: Date;
   isNotLogged?: boolean;
+  showPopup?: boolean;
 }
 
 function PostHeader({
@@ -15,9 +16,10 @@ function PostHeader({
   nickname,
   isNotLogged,
   dateTime,
+  showPopup,
 }: PostHeaderProps) {
   const [isVisiblePopup, setVisiblePopup] = useState(false);
-  const date = new Date(dateTime);
+  const date = new Date(dateTime || 0);
 
   return (
     <div
@@ -37,22 +39,26 @@ function PostHeader({
         </div>
       </div>
 
-      <div
-        onClick={() => setVisiblePopup(!isVisiblePopup)}
-        className={`bg-slate-300/50 px-1 rounded-full transition-all duration-300 ease-in-out cursor-pointer hover:bg-slate-300 ${
-          isVisiblePopup ? '-translate-x-20' : 'translate-x-0'
-        }`}
-      >
-        <DotsThreeOutline size={16} color="#f0f4f8" weight="fill" />
-      </div>
+      {showPopup && (
+        <>
+          <div
+            onClick={() => setVisiblePopup(!isVisiblePopup)}
+            className={`bg-slate-300/50 px-1 rounded-full transition-all duration-300 ease-in-out cursor-pointer hover:bg-slate-300 ${
+              isVisiblePopup ? '-translate-x-20' : 'translate-x-0'
+            }`}
+          >
+            <DotsThreeOutline size={16} color="#f0f4f8" weight="fill" />
+          </div>
 
-      <div
-        className={`transition duration-300 ease-in-out absolute -right-6 -top-6 ${
-          isVisiblePopup ? 'opacity-100 z-50' : 'opacity-0 -z-50'
-        }`}
-      >
-        <Popup />
-      </div>
+          <div
+            className={`transition duration-300 ease-in-out absolute -right-6 -top-6 ${
+              isVisiblePopup ? 'opacity-100 z-50' : 'opacity-0 -z-50'
+            }`}
+          >
+            <Popup />
+          </div>
+        </>
+      )}
     </div>
   );
 }
