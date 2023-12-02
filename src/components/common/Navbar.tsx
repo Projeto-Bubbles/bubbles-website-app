@@ -1,6 +1,6 @@
 import { SignIn, UserCirclePlus } from 'phosphor-react';
 import { Link } from 'react-router-dom';
-import Avatar from '../Avatar';
+import Avatar from './Avatar';
 import Button from './Button';
 
 interface NavbarProps {

@@ -14,7 +14,7 @@ import {
   createPost,
   getPosts,
 } from '../../services/postServices';
-import Input from '../common/Input';
+import Input from '../common/Fields/Input';
 import Navbar from '../common/Navbar';
 import { Post } from '../common/Post';
 import { PostType } from '../common/Post/PostRoot';

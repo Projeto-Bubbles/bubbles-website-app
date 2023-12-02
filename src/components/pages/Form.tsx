@@ -1,8 +1,8 @@
-import Input from '../common/Input';
 import axios from 'axios';
 import { StopCircle } from 'phosphor-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import Input from '../common/Fields/Input';
 
 function Form() {
   const { register, handleSubmit } = useForm();

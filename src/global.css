@@ -33,8 +33,12 @@
     transition: all 0.3s ease-in-out;
   }
 
-  input[type="date"]::-webkit-calendar-picker-indicator {
+  input[type='date']::-webkit-calendar-picker-indicator {
     display: none; /* Remove a seta do calendário do WebKit */
+  }
+
+  input[type='time']::-webkit-calendar-picker-indicator {
+    display: none;
   }
 }
 
@@ -42,5 +46,3 @@ body {
   overflow-x: hidden;
   background-color: #f1f5f9;
 }
-
-

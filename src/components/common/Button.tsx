@@ -1,12 +1,12 @@
 import { ReactNode } from 'react';
 
-export interface ButtonProps {
+import { ButtonHTMLAttributes } from 'react';
+
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   text: string;
   color: string;
   icon?: ReactNode;
-  disabled?: boolean;
   isLight?: boolean;
-  onClick?: () => void;
 }
 
 function Button({
