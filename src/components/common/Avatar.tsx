@@ -32,7 +32,7 @@ function Avatar({ image, name, username, isLogged, isSelected }: AvatarProps) {
         <div className="flex flex-col justify-center items-start text-zinc-700 ">
           <h1 className="text-lg font-semibold leading-none"> {name} </h1>
           <h2 className="text-base font-medium text-zinc-500 leading-none">
-            {username}
+            @{username}
           </h2>
         </div>
       )}
