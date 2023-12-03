@@ -5,7 +5,7 @@ import Popup from './../Popup';
 
 interface PostHeaderProps {
   name: string;
-  nickname: string;
+  username: string;
   dateTime?: Date;
   isNotLogged?: boolean;
   showPopup?: boolean;
@@ -13,7 +13,7 @@ interface PostHeaderProps {
 
 function PostHeader({
   name,
-  nickname,
+  username,
   isNotLogged,
   dateTime,
   showPopup,
@@ -30,12 +30,17 @@ function PostHeader({
       <div className="w-3/4 flex justify-start gap-4 items-center">
         <h4 className="w-max bg-red text-lg font-bold">{name}</h4>
 
-        <div className="w-48 flex justify-evenly item-center">
-          <span>{`@${nickname}`} </span>
-          <em>•</em>
-          <span>{date.getHours()}h</span>
-          <em>•</em>
-          <span>{format(date, 'dd/MM')} </span>
+        <div className="w-48 flex justify-start item-center gap-3">
+          <span>{`@${username}`} </span>
+
+          {dateTime && (
+            <>
+              <em>•</em>
+              <span>{date.getHours()}h</span>
+              <em>•</em>
+              <span>{format(date, 'dd/MM')} </span>
+            </>
+          )}
         </div>
       </div>
 
