@@ -2,8 +2,10 @@ import { Outlet } from 'react-router-dom';
 
 function App() {
   const user = {
+    id: 25,
     name: 'Baianinho Doce',
-    username: '@baianod',
+    username: 'baianod',
+    email: 'baianin@gmail.com',
     image: 'https://source.unsplash.com/random/250x250/?person',
   };
 

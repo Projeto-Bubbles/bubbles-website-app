@@ -8,7 +8,8 @@ import {
 } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CommentProps, PostProps } from '../../interfaces/post';
+import { PostProps } from '../../interfaces/post';
+import { UserProps } from '../../interfaces/user';
 import {
   createComment,
   createPost,
@@ -27,12 +28,7 @@ function Feed() {
 
   const [posts, setPosts] = useState<PostProps[]>([]);
 
-  const user = {
-    name: 'Ruan C. Rodrigues',
-    username: 'helloWorld',
-    email: '',
-    password: 2285,
-  };
+  const user: UserProps = JSON.parse(localStorage.getItem('user') ?? '{}');
 
   const [inputValues, setInputValues] = useState<{ [key: string]: string }>({});
 
@@ -43,11 +39,11 @@ function Feed() {
   };
 
   const handleCreatePost = (content: string) => {
-    const post: PostProps = {
+    const post: any = {
       dateTime: new Date(),
       content,
-      author: user.username,
-      bubble: 'string,',
+      authorId: user.id,
+      bubble: 'Bolinha',
     };
 
     setInputValues((prevInputValues) => ({
@@ -61,10 +57,10 @@ function Feed() {
   };
 
   const handleCreateComment = (content: string, postId: number) => {
-    const comment: CommentProps = {
+    const comment: any = {
       dateTime: new Date(),
       content,
-      author: user.username,
+      authorId: user.id,
     };
 
     setInputValues((prevInputValues) => ({
@@ -72,8 +68,11 @@ function Feed() {
       [postId]: '', // Limpa o valor apenas para o componente específico
     }));
 
-    createComment(comment);
-    getAllPosts();
+    console.log('👽 ~ comment:', comment, postId);
+
+    createComment(comment, postId)
+      .then(() => getAllPosts())
+      .catch((err) => console.log('Erro ao criar comentário:', err));
   };
 
   const handleValue = (e: any, type: PostType, postId: number) => {
@@ -170,15 +169,15 @@ function Feed() {
               type={user.email ? PostType.CREATE : PostType.NOT_LOGGED}
             >
               {user.email && (
-                <Post.Header name={user.name} nickname={user.username} />
+                <Post.Header name={user.name} username={user.username} />
               )}
               <Post.Content
                 isNotLogged={!user.email}
-                content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem."
+                content="Compartilhe suas ideias com a bubbles! 🫧"
               />
               <Input
                 type="text"
-                placeholder={'O que você está pensando'}
+                placeholder={'O que você está pensando?'}
                 color="bg-zinc-100/70"
                 icon={
                   <PaperPlaneRight size={16} color="#71717A" weight="duotone" />
@@ -199,21 +198,29 @@ function Feed() {
               posts.map((post) => (
                 <Post.Root key={post.id} type={PostType.VIEW}>
                   <Post.Header
-                    name={post.author}
-                    nickname="helloWorldRu"
+                    name={post.author.name}
+                    username={post.author.username}
                     dateTime={post.dateTime}
-                    showPopup={post.author === user.username}
+                    showPopup={post.author.email === user.email}
                   />
                   <Post.Content content={post.content} />
 
-                  <Post.ShowComments>
-                    {post.comments?.map((comment: any) => (
-                      <Post.Comment
-                        key={comment.id}
-                        content={comment.content}
-                      />
-                    ))}
-                  </Post.ShowComments>
+                  {post.comments && (
+                    <Post.ShowComments>
+                      {post.comments?.map((comment: any) => (
+                        <Post.Comment
+                          key={comment.id}
+                          content={comment.content}
+                        >
+                          <Post.Header
+                            name={comment.author.name}
+                            username={comment.author.username}
+                          />
+                        </Post.Comment>
+                      ))}
+                    </Post.ShowComments>
+                  )}
+
                   <Input
                     type="text"
                     placeholder={'Responder'}
