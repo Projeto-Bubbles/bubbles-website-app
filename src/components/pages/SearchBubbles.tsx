@@ -1,12 +1,13 @@
-import axios from 'axios';
 import { Export } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { bubbles } from '../../data/bubbles';
 import useBubbles from '../../hooks/useBubbles';
 import { BubbleProps } from '../../interfaces/bubble';
-import { getFilteredBubbles } from '../../services/bubbleServices';
-import { convertImageToBase64 } from '../../utils/imageConverter';
+import {
+  createBubble,
+  getFilteredBubbles,
+} from '../../services/bubbleServices';
 import Search from '../Search';
 import { Bubble } from '../common/Bubble';
 import Button from '../common/Button';
@@ -27,15 +28,6 @@ function SearchBubbles() {
   const [bubblesList, setBubblesList] = useState<BubbleProps[]>([]);
   const [image, setImage] = useState<File | null>(null);
 
-  useEffect(() => {
-    const categories = selectedBubbles.map((bubble) => bubble.category);
-    console.log('👽 ~ categories:', categories);
-
-    getFilteredBubbles(categories)
-      .then((response) => setBubblesList(response.data))
-      .catch((err) => console.log(err));
-  }, [selectedBubbles]);
-
   const {
     register,
     formState: { errors, isValid },
@@ -46,29 +38,32 @@ function SearchBubbles() {
     return { label: bubbles.name, value: bubbles.category };
   });
 
-  const createBubble = async (data: BubbleProps) => {
-    try {
-      const imageBase64 = await convertImageToBase64(image as File);
-      const bubbleData = { ...data, image: imageBase64 };
+  const createNewBubble = (data: BubbleProps) => {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const bubbleData = {
+      ...data,
+      creationDate: new Date().toISOString(),
+      creator: { id: user.id },
+    };
 
-      const response = await axios.post(
-        'http://localhost:3000/bubbles',
-        bubbleData
-      );
+    createBubble(bubbleData)
+      .then(() => {
+        const categories = selectedBubbles.map((bubble) => bubble.category);
+        getFilteredBubbles(categories);
 
-      // Verifica se a resposta foi bem-sucedida
-      if (response.status === 201) {
-        // Bolha criada com sucesso
-        console.log('Bolha criada com sucesso!');
-      } else {
-        console.error('Erro ao criar a bolha.');
-      }
-    } catch (error) {
-      console.error('Erro durante o processo de criação da bolha:', error);
-    }
-
-    setIsVisible(false);
+        setIsVisible(false);
+        alert('🫧👍🏻 Bolha criada com sucesso!');
+      })
+      .catch((err) => console.log(err));
   };
+
+  useEffect(() => {
+    const categories = selectedBubbles.map((bubble) => bubble.category);
+
+    getFilteredBubbles(categories)
+      .then((response) => setBubblesList(response.data))
+      .catch((err) => console.log(err));
+  }, [selectedBubbles]);
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -86,7 +81,7 @@ function SearchBubbles() {
       {isVisible && (
         <Modal onClose={() => setIsVisible(false)}>
           <form
-            onSubmit={handleSubmit(createBubble)}
+            onSubmit={handleSubmit(createNewBubble)}
             className="w-full flex flex-col gap-8"
           >
             <div
