@@ -3,7 +3,7 @@ import { Export } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { bubbles } from '../../data/bubbles';
-import { Category } from '../../enums/category';
+import useBubbles from '../../hooks/useBubbles';
 import { BubbleProps } from '../../interfaces/bubble';
 import { getFilteredBubbles } from '../../services/bubbleServices';
 import { convertImageToBase64 } from '../../utils/imageConverter';
@@ -16,35 +16,31 @@ import Textarea from '../common/Fields/Textarea';
 import Modal from '../common/Modal';
 
 function SearchBubbles() {
+  const bubblesTag = bubbles(12);
+
+  const userBubbles: BubbleProps[] = JSON.parse(
+    localStorage.getItem('bubbles') || '[]'
+  );
+  const { selectedBubbles, toggleBubble } = useBubbles(userBubbles);
+
   const [isVisible, setIsVisible] = useState(false);
   const [bubblesList, setBubblesList] = useState<BubbleProps[]>([]);
   const [image, setImage] = useState<File | null>(null);
+
+  useEffect(() => {
+    const categories = selectedBubbles.map((bubble) => bubble.category);
+    console.log('👽 ~ categories:', categories);
+
+    getFilteredBubbles(categories)
+      .then((response) => setBubblesList(response.data))
+      .catch((err) => console.log(err));
+  }, [selectedBubbles]);
 
   const {
     register,
     formState: { errors, isValid },
     handleSubmit,
   } = useForm<BubbleProps>();
-
-  const selectedCategories = (): (Category | undefined)[] => {
-    let bubbles: BubbleProps[] = JSON.parse(
-      localStorage.getItem('bubbles') ?? '{}'
-    );
-
-    return bubbles.map((bubble) => bubble.category) ?? '{}';
-  };
-
-  const getBubble = (selectedCategories: () => (Category | undefined)[]) => {
-    console.log(selectedCategories());
-
-    getFilteredBubbles(selectedCategories())
-      .then((response) => setBubblesList(response.data))
-      .catch((err) => console.log(err));
-  };
-
-  useEffect(() => {
-    getBubble(selectedCategories);
-  }, []);
 
   const bubblesOptions = bubbles(12).map((bubbles) => {
     return { label: bubbles.name, value: bubbles.category };
@@ -169,9 +165,33 @@ function SearchBubbles() {
         placeholder="Pesquisar bolhas..."
         isOpenModal={() => setIsVisible(true)}
       >
-        {bubblesList.map((bubble, index) => (
-          <Bubble.Card key={index} {...bubble} />
-        ))}
+        <div className="flex flex-col gap-10">
+          <div className="flex justify-center items-center gap-4">
+            {bubblesTag.map((tag, index) => (
+              <div
+                key={index}
+                onClick={() => {
+                  toggleBubble(tag);
+                }}
+              >
+                <Bubble.Tag
+                  icon={tag.icon}
+                  name={tag.name}
+                  color={tag.color}
+                  selected={userBubbles.some(
+                    (bubble) => bubble.name === tag.name
+                  )}
+                />
+              </div>
+            ))}
+          </div>
+
+          <div className="w-full grid grid-cols-4 gap-12 place-content-items">
+            {bubblesList.map((bubble, index) => (
+              <Bubble.Card key={index} {...bubble} />
+            ))}
+          </div>
+        </div>
       </Search>
     </>
   );
