@@ -4,9 +4,10 @@ import Institutional from '../components/pages/Institutional';
 import SelectionBubbles from '../components/pages/SelectionBubbles';
 import Feed from '../components/pages/Feed';
 import Events from '../components/pages/Events';
-import Login from '../components/common/Login';
+import Login from '../components/common/Sign/SignIn';
 import SearchBubbles from '../components/pages/SearchBubbles';
 import SearchEvents from '../components/pages/SearchEvents';
+import SignPage from '../components/pages/SignPage';
 
 const AppRouter = () => {
   return (
@@ -21,7 +22,7 @@ const AppRouter = () => {
             <Route path="bubbles" element={<SearchBubbles />} />
             <Route path="events" element={<SearchEvents />} />
           </Route>
-          <Route path="sign-in" element={<Login />} />
+          <Route path="sign-in" element={<SignPage />} />
         </Route>
       </Routes>
     </Router>

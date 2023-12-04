@@ -9,6 +9,6 @@ export const createPost = (body: PostProps) => {
   return api.post('/posts', body);
 };
 
-export const createComment = (body: CommentProps) => {
-  return api.post('/comments', body);
+export const createComment = (body: CommentProps, postId: number) => {
+  return api.post(`/posts/${postId}/comments`, body);
 };

@@ -1,41 +1,39 @@
 import { ArrowRight } from 'phosphor-react';
+<<<<<<< HEAD
 import Navbar from '../common/Navbar';
 import Button from '../common/Button';
 import { bubbles } from '../../data/bubbles';
 import { useEffect, useState } from 'react';
+=======
+>>>>>>> 154edc343323839b2b80520e03620d54f2c166e3
 import { useNavigate } from 'react-router-dom';
+import { bubbles } from '../../data/bubbles';
+import useBubbles from '../../hooks/useBubbles';
 import { BubbleProps } from '../../interfaces/bubble';
 import { Bubble } from '../common/Bubble';
+import Button from '../common/Button';
 
 function SelectionBubbles() {
   const navigate = useNavigate();
 
   const bubblesList: BubbleProps[] = bubbles(32);
 
-  const [selectedBubbles, setSelectedBubbles] = useState<BubbleProps[]>([]);
+  const userBubbles: BubbleProps[] = JSON.parse(
+    localStorage.getItem('bubbles') || '[]'
+  );
 
-  useEffect(() => {
-    console.log(selectedBubbles);
-  }, [selectedBubbles]);
-
-  const toggleBubble = (bubble: BubbleProps) => {
-    if (selectedBubbles.some((b) => b.name === bubble.name)) {
-      setSelectedBubbles(
-        selectedBubbles.filter((element) => element.name !== bubble.name)
-      );
-    } else {
-      setSelectedBubbles([...selectedBubbles, bubble]);
-    }
-  };
+  const { selectedBubbles, toggleBubble } = useBubbles(userBubbles);
 
   const saveBubblesList = () => {
-    if (selectedBubbles.length > 0) navigate('/feed');
+    if (selectedBubbles.length >= 3) {
+      navigate('/feed');
+    } else {
+      localStorage.removeItem('bubbles');
+    }
   };
 
   return (
     <>
-      <Navbar withMenu={false} />
-
       <div className="w-screen h-screen bg-[url('../../src/assets/bubbles-effect.png')] bg-cover flex justify-center items-center overflow-hidden">
         <div className="w-3/4 flex justify-between items-center">
           <div className="flex flex-col justify-center items-start gap-2">
@@ -64,6 +62,7 @@ function SelectionBubbles() {
                     name={bubble.name}
                     icon={bubble.icon}
                     color={bubble.color}
+                    selected={userBubbles.some((b) => b.name === bubble.name)}
                   />
                 </div>
               ))}

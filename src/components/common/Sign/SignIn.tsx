@@ -1,12 +1,18 @@
+<<<<<<< HEAD:src/components/common/Login.tsx
 import { ReactNode, useState } from 'react';
 import Button from './Button';
 import { ArrowRight, EnvelopeSimple, Eye, EyeClosed } from 'phosphor-react';
+=======
+>>>>>>> 154edc343323839b2b80520e03620d54f2c166e3:src/components/common/Sign/SignIn.tsx
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { ArrowRight, EnvelopeSimple, Eye, EyeClosed } from 'phosphor-react';
+import { ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Input from './Input';
+import { useNavigate } from 'react-router-dom';
+import Button from '../Button';
+import Input from '../Fields/Input';
 
-function Login() {
+function SignIn() {
   const [isClicked, setIsClicked] = useState(false);
   const { register, handleSubmit, getValues } = useForm();
   const navigate = useNavigate();
@@ -100,4 +106,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default SignIn;
