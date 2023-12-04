@@ -26,7 +26,30 @@ function SearchBubbles() {
 
   const [isVisible, setIsVisible] = useState(false);
   const [bubblesList, setBubblesList] = useState<BubbleProps[]>([]);
+  const [bubblesDefault, setBubblesDefault] = useState<BubbleProps[]>([]);
+
   const [image, setImage] = useState<File | null>(null);
+
+  const onChange = (e: any) => {
+    const searchTerm = e.target.value.toLowerCase();
+
+    if (searchTerm === '') {
+      // Se a pesquisa estiver vazia, mostre a lista original
+      setBubblesList(bubblesDefault);
+    } else {
+      const searchBubbles = bubblesDefault.filter((bubble) =>
+        bubble.name.toLowerCase().includes(searchTerm)
+      );
+
+      // Atualize a lista de bolhas com base na pesquisa
+      setBubblesList(searchBubbles);
+
+      // Se não houver bolhas correspondentes, você pode mostrar uma mensagem
+      if (searchBubbles.length === 0) {
+        console.log('Nenhuma bolha encontrada para a pesquisa.');
+      }
+    }
+  };
 
   const {
     register,
@@ -49,7 +72,11 @@ function SearchBubbles() {
     createBubble(bubbleData)
       .then(() => {
         const categories = selectedBubbles.map((bubble) => bubble.category);
-        getFilteredBubbles(categories);
+        getFilteredBubbles(categories).then((response) => {
+          // Atualize tanto a lista padrão quanto a lista atual com a nova resposta
+          setBubblesList(response.data);
+          setBubblesDefault(response.data);
+        });
 
         setIsVisible(false);
         alert('🫧👍🏻 Bolha criada com sucesso!');
@@ -61,7 +88,11 @@ function SearchBubbles() {
     const categories = selectedBubbles.map((bubble) => bubble.category);
 
     getFilteredBubbles(categories)
-      .then((response) => setBubblesList(response.data))
+      .then((response) => {
+        // Atualize tanto a lista padrão quanto a lista atual com a nova resposta
+        setBubblesList(response.data);
+        setBubblesDefault(response.data);
+      })
       .catch((err) => console.log(err));
   }, [selectedBubbles]);
 
@@ -159,6 +190,7 @@ function SearchBubbles() {
         title="Encontre suas bolhas favoritas aqui"
         placeholder="Pesquisar bolhas..."
         isOpenModal={() => setIsVisible(true)}
+        onChange={onChange}
       >
         <div className="flex flex-col gap-10">
           <div className="flex justify-center items-center gap-4">
