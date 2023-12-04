@@ -1,11 +1,4 @@
 import { ArrowRight } from 'phosphor-react';
-<<<<<<< HEAD
-import Navbar from '../common/Navbar';
-import Button from '../common/Button';
-import { bubbles } from '../../data/bubbles';
-import { useEffect, useState } from 'react';
-=======
->>>>>>> 154edc343323839b2b80520e03620d54f2c166e3
 import { useNavigate } from 'react-router-dom';
 import { bubbles } from '../../data/bubbles';
 import useBubbles from '../../hooks/useBubbles';

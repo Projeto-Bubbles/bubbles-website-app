@@ -1,7 +1,16 @@
 import { SignIn, UserCirclePlus } from 'phosphor-react';
 import { Link } from 'react-router-dom';
+import Avatar from './Avatar';
+import Button from './Button';
 
-function Navbar(props: { withMenu?: boolean }) {
+interface NavbarProps {
+  withMenu?: boolean;
+  redirectPage?: string;
+  isLogged?: boolean;
+}
+
+function Navbar({ withMenu, redirectPage, isLogged }: NavbarProps) {
+  const user = JSON.parse(localStorage.getItem('user') ?? '[]');
   return (
     <>
       <nav
@@ -10,7 +19,7 @@ function Navbar(props: { withMenu?: boolean }) {
         } py-6 px-8 z-50 fixed`}
       >
         <div className="w-24">
-          <Link to={'/'}>
+          <Link to={redirectPage ?? '/'}>
             <img src="../src/assets/bubbles-logo-glass.png" alt="logo" />
           </Link>
         </div>

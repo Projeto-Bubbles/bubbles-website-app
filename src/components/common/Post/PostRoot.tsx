@@ -1,12 +1,4 @@
-<<<<<<< HEAD
-import { ReactNode, useState } from 'react';
-import { PostProps } from '../../../interfaces/post';
-import { createComment, createPost } from '../../../services/postServices';
-import Input from '../Input';
-import { PaperPlaneRight } from 'phosphor-react';
-=======
 import { ReactNode } from 'react';
->>>>>>> 154edc343323839b2b80520e03620d54f2c166e3
 
 export enum PostType {
   CREATE = 'create',
