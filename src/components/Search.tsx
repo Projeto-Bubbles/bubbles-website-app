@@ -48,7 +48,12 @@ function Search({ title, placeholder, children, isOpenModal }: SearchProps) {
 
         <div className="flex justify-center items-center gap-4">
           {bubblesTag.map((tag, index) => (
-            <div key={index} onClick={() => toggleBubble(tag)}>
+            <div
+              key={index}
+              onClick={() => {
+                toggleBubble(tag);
+              }}
+            >
               <Bubble.Tag
                 icon={tag.icon}
                 name={tag.name}

@@ -3,7 +3,9 @@ import { Export } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { bubbles } from '../../data/bubbles';
+import { Category } from '../../enums/category';
 import { BubbleProps } from '../../interfaces/bubble';
+import { getFilteredBubbles } from '../../services/bubbleServices';
 import { convertImageToBase64 } from '../../utils/imageConverter';
 import Search from '../Search';
 import { Bubble } from '../common/Bubble';
@@ -18,30 +20,41 @@ function SearchBubbles() {
   const [bubblesList, setBubblesList] = useState<BubbleProps[]>([]);
   const [image, setImage] = useState<File | null>(null);
 
-  useEffect(() => {
-    axios
-      .get('http://localhost:3000/bubbles')
-      .then((response) => setBubblesList(response.data))
-      .catch((err) => console.log(err));
-  }, []);
-
-  const bubblesOptions = bubbles(12).map((bubbles) => {
-    return { label: bubbles.name, value: bubbles.category };
-  });
-
   const {
     register,
     formState: { errors, isValid },
     handleSubmit,
   } = useForm<BubbleProps>();
 
-  // TODO: integrate api endpoint
+  const selectedCategories = (): (Category | undefined)[] => {
+    let bubbles: BubbleProps[] = JSON.parse(
+      localStorage.getItem('bubbles') ?? '{}'
+    );
+
+    return bubbles.map((bubble) => bubble.category) ?? '{}';
+  };
+
+  const getBubble = (selectedCategories: () => (Category | undefined)[]) => {
+    console.log(selectedCategories());
+
+    getFilteredBubbles(selectedCategories())
+      .then((response) => setBubblesList(response.data))
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    getBubble(selectedCategories);
+  }, []);
+
+  const bubblesOptions = bubbles(12).map((bubbles) => {
+    return { label: bubbles.name, value: bubbles.category };
+  });
+
   const createBubble = async (data: BubbleProps) => {
     try {
       const imageBase64 = await convertImageToBase64(image as File);
       const bubbleData = { ...data, image: imageBase64 };
 
-      // Agora você pode fazer o POST usando o Axios
       const response = await axios.post(
         'http://localhost:3000/bubbles',
         bubbleData
