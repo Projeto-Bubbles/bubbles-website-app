@@ -1,9 +1,18 @@
-import { Browser, Calendar, Export, MapPin, Timer } from 'phosphor-react';
-import { useState } from 'react';
+import { Browser, Calendar, CheckCircle, Export, MapPin } from 'phosphor-react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { bubbles } from '../../data/bubbles';
 import { Category } from '../../enums/category';
+import useBubbles from '../../hooks/useBubbles';
+import { BubbleProps, EventProps } from '../../interfaces/bubble';
+import { getBubbles } from '../../services/bubbleServices';
+import {
+  createInPersonEvent,
+  createOnlineEvent,
+  getFilteredEvents,
+} from '../../services/eventServices';
 import Search from '../Search';
+import { Bubble } from '../common/Bubble';
 import Button from '../common/Button';
 import { Event } from '../common/Event';
 import Input from '../common/Fields/Input';
@@ -12,22 +21,147 @@ import Textarea from '../common/Fields/Textarea';
 import Modal from '../common/Modal';
 
 function SearchEvents() {
+  const bubblesTag = bubbles(12);
+
+  const userBubbles: BubbleProps[] = JSON.parse(
+    localStorage.getItem('bubbles') || '[]'
+  );
+  const { selectedBubbles, toggleBubble } = useBubbles(userBubbles);
+
   const [isVisible, setIsVisible] = useState(false);
   const [image, setImage] = useState<File | null>(null);
   const [eventType, setEventType] = useState('presencial');
 
-  const bubblesOptions = bubbles(12).map((bubbles) => {
-    return { label: bubbles.name, value: bubbles.category };
-  });
+  const [bubbleOptions, setBubblesOptions] = useState([]);
+
+  const [eventsList, setEventsList] = useState<EventProps[]>([]);
+  const [eventsDefault, setEventsDefault] = useState<EventProps[]>([]);
+  const [isCheckIcon, setCheckIcon] = useState<ReactNode>(null);
+
+  const [attendedEvents, setAttendedEvents] = useState<EventProps[]>([]);
+
+  const setPresenceInEvent = (event: EventProps) => {
+    const isAttended = attendedEvents.some((e) => e.id === event.id);
+
+    if (!isAttended) {
+      setAttendedEvents([...attendedEvents, event]);
+    } else {
+      const updatedAttendedEvents = attendedEvents.filter(
+        (e) => e.id !== event.id
+      );
+      setAttendedEvents(updatedAttendedEvents);
+    }
+  };
+
+  useEffect(() => {
+    console.log('👽 ~ attendedEvents:', attendedEvents);
+  }, [attendedEvents]);
 
   const {
     register,
     formState: { errors, isValid },
     handleSubmit,
+    reset,
   } = useForm();
 
+  const handleSearchEvents = (e: any) => {
+    console.log('👽 ~ e.target.value:', e.target.value);
+    const searchEvent = e.target.value.toLowerCase();
+
+    if (searchEvent === '') {
+      setEventsList(eventsDefault);
+    } else {
+      console.log(eventsDefault);
+
+      const searchEvents = eventsDefault.filter((event) =>
+        event.title.toLowerCase().includes(searchEvent)
+      );
+
+      setEventsList(searchEvents);
+
+      if (searchEvents.length === 0) {
+        console.log('Nenhum evento encontrado.');
+      }
+    }
+  };
+
+  const getEvents = (categories: (Category | undefined)[]) => {
+    getFilteredEvents(categories)
+      .then((response) => {
+        // Atualize tanto a lista padrão quanto a lista atual com a nova resposta
+        setEventsList(response.data);
+        setEventsDefault(response.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    getBubbles().then((response) => {
+      const sortedBubbles = response.data.sort((a: any, b: any) =>
+        a.name.localeCompare(b.name)
+      );
+
+      const bubbleData = sortedBubbles.map((bubble: any) => ({
+        label: bubble.name,
+        value: bubble.id,
+      }));
+      setBubblesOptions(bubbleData);
+    });
+  }, []);
+
+  useEffect(() => {
+    const categories = selectedBubbles.map((bubble) => bubble.category);
+
+    getEvents(categories);
+  }, [selectedBubbles]);
+
   const createEvent = (data: any) => {
-    console.log('👽 ~ data:', data);
+    const categories = selectedBubbles.map((bubble) => bubble.category);
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+    const eventData = {
+      title: data.title,
+      duration: 90,
+      date: data.date,
+      author: { id: user.id },
+      bubble: { id: data.bubble },
+    };
+
+    if (eventType === 'presencial') {
+      const eventInPersonData = {
+        ...eventData,
+        publicPlace: true,
+        peopleCapacity: 100,
+        address: { id: 1 },
+      };
+
+      createInPersonEvent(eventInPersonData)
+        .then(() => {
+          alert('📅 Evento criado com sucesso!');
+          getEvents(categories);
+          setIsVisible(false);
+        })
+        .catch((err) => console.error(err));
+    }
+
+    if (eventType === 'online') {
+      const eventOnlineData = {
+        ...eventData,
+        url: data.url,
+        platform: data.platform,
+      };
+      console.log('👽 ~ eventOnlineData:', eventOnlineData);
+
+      createOnlineEvent(eventOnlineData)
+        .then(() => {
+          alert('📅 Evento criado com sucesso!');
+          getEvents(categories);
+          setIsVisible(false);
+        })
+        .catch((err) => console.error(err));
+    }
+
+    reset();
   };
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
@@ -76,7 +210,7 @@ function SearchEvents() {
                   label="Nome do evento:"
                   placeholder="Digite o nome do evento"
                   color="bg-zinc-100/70"
-                  {...register('name', {
+                  {...register('title', {
                     required: 'Não esqueça o nome do evento',
                   })}
                   helperText={errors?.name?.message}
@@ -84,17 +218,16 @@ function SearchEvents() {
               </div>
 
               <div className="w-2/5">
-                <Select
-                  label="Selecione uma categoria:"
+                <Input
+                  label="Data do evento:"
+                  type="datetime-local"
+                  icon={<Calendar size={16} color="#71717A" weight="duotone" />}
+                  placeholder="12/12/12"
                   color="bg-zinc-100/70"
-                  options={bubblesOptions}
-                  {...register('category', {
-                    required: 'Selecione a categoria',
+                  {...register('date', {
+                    required: 'Data não informada',
                   })}
-                  onChange={(e) => {
-                    register('category').onChange(e);
-                  }}
-                  helperText={errors?.category?.message}
+                  helperText={errors?.date?.message}
                 />
               </div>
             </div>
@@ -103,7 +236,7 @@ function SearchEvents() {
               <Select
                 label="Selecione a bolha:"
                 color="bg-zinc-100/70"
-                options={bubblesOptions}
+                options={bubbleOptions}
                 {...register('bubble', {
                   required: 'Selecione uma bolha',
                 })}
@@ -143,7 +276,7 @@ function SearchEvents() {
             </div>
 
             <div className="w-full flex justify-between items-center gap-8">
-              <div className="w-3/6">
+              <div className="w-4/6">
                 {eventType === 'presencial' ? (
                   <Input
                     label="Digite o endereço:"
@@ -171,32 +304,32 @@ function SearchEvents() {
                 )}
               </div>
 
-              <div className="w-[8.5rem]">
-                <Input
-                  label="Data do evento:"
-                  type="date"
-                  icon={<Calendar size={16} color="#71717A" weight="duotone" />}
-                  placeholder="Endereço"
-                  color="bg-zinc-100/70"
-                  {...register('date', {
-                    required: 'Data não informada',
-                  })}
-                  helperText={errors?.date?.message}
-                />
-              </div>
-
-              <div className="w-1/6">
-                <Input
-                  label="Hora:"
-                  type="time"
-                  icon={<Timer size={16} color="#71717A" weight="duotone" />}
-                  placeholder="Endereço"
-                  color="bg-zinc-100/70"
-                  {...register('time', {
-                    required: 'Informe a hora',
-                  })}
-                  helperText={errors?.time?.message}
-                />
+              <div className="w-2/6">
+                {eventType === 'presencial' ? (
+                  <Input
+                    label="CEP:"
+                    icon={<MapPin size={16} color="#71717A" weight="duotone" />}
+                    placeholder="XXXXX-XXX"
+                    color="bg-zinc-100/70"
+                    {...register('cep', {
+                      required: 'Informe o cep',
+                    })}
+                    helperText={errors?.address?.message}
+                  />
+                ) : (
+                  <Input
+                    label="Plataforma:"
+                    icon={
+                      <Browser size={16} color="#71717A" weight="duotone" />
+                    }
+                    placeholder="Discord, Google Meet, Teams, COD"
+                    color="bg-zinc-100/70"
+                    {...register('platform', {
+                      required: 'Insira a plataforma',
+                    })}
+                    helperText={errors?.url?.message}
+                  />
+                )}
               </div>
             </div>
 
@@ -225,14 +358,69 @@ function SearchEvents() {
         title="Se junte com a galera!"
         placeholder="Pesquisar eventos..."
         isOpenModal={() => setIsVisible(true)}
+        onChange={handleSearchEvents}
       >
-        <Event.Card
-          title="Festa na Casa das Primas"
-          category={Category.TECHNOLOGY}
-          bubble={{ name: 'Bailão' }}
-          address="ai 123"
-          image="https://picsum.photos/200/300"
-        />
+        <div className="flex flex-col gap-10">
+          <div className="flex justify-center items-center gap-4">
+            {bubblesTag.map((tag, index) => (
+              <div
+                key={index}
+                onClick={() => {
+                  toggleBubble(tag);
+                }}
+              >
+                <Bubble.Tag
+                  icon={tag.icon}
+                  name={tag.name}
+                  color={tag.color}
+                  selected={userBubbles.some(
+                    (bubble) => bubble.name === tag.name
+                  )}
+                />
+              </div>
+            ))}
+          </div>
+
+          <div className="w-full grid grid-cols-3 gap-12 place-content-items">
+            {eventsList &&
+              eventsList.map((event) => (
+                <Event.Card
+                  key={event.id}
+                  title={event.title}
+                  bubble={event.bubble}
+                  address={event.address}
+                  url={event.url}
+                  platform={event.platform}
+                  date={event.date}
+                  duration={event.duration}
+                  image="https://picsum.photos/200/300"
+                >
+                  <Button
+                    onClick={() => setPresenceInEvent(event)}
+                    text={
+                      attendedEvents.some((e) => e.id === event.id)
+                        ? ''
+                        : 'MARCAR PRESENÇA'
+                    }
+                    color={
+                      attendedEvents.some((e) => e.id === event.id)
+                        ? 'bg-green-500'
+                        : 'bg-zinc-300'
+                    }
+                    icon={
+                      attendedEvents.some((e) => e.id === event.id) ? (
+                        <CheckCircle
+                          size={16}
+                          color="#F1F5F9"
+                          weight="duotone"
+                        />
+                      ) : null
+                    }
+                  />
+                </Event.Card>
+              ))}
+          </div>
+        </div>
       </Search>
     </>
   );

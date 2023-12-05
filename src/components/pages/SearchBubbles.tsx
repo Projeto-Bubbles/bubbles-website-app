@@ -26,7 +26,27 @@ function SearchBubbles() {
 
   const [isVisible, setIsVisible] = useState(false);
   const [bubblesList, setBubblesList] = useState<BubbleProps[]>([]);
+  const [bubblesDefault, setBubblesDefault] = useState<BubbleProps[]>([]);
+
   const [image, setImage] = useState<File | null>(null);
+
+  const handleSearchBubbles = (e: any) => {
+    const searchBubble = e.target.value.toLowerCase();
+
+    if (searchBubble === '') {
+      setBubblesList(bubblesDefault);
+    } else {
+      const searchBubbles = bubblesDefault.filter((bubble) =>
+        bubble.name.toLowerCase().includes(searchBubble)
+      );
+
+      setBubblesList(searchBubbles);
+
+      if (searchBubbles.length === 0) {
+        console.log('Nenhuma bolha encontrada para a pesquisa.');
+      }
+    }
+  };
 
   const {
     register,
@@ -49,7 +69,11 @@ function SearchBubbles() {
     createBubble(bubbleData)
       .then(() => {
         const categories = selectedBubbles.map((bubble) => bubble.category);
-        getFilteredBubbles(categories);
+        getFilteredBubbles(categories).then((response) => {
+          // Atualize tanto a lista padrão quanto a lista atual com a nova resposta
+          setBubblesList(response.data);
+          setBubblesDefault(response.data);
+        });
 
         setIsVisible(false);
         alert('🫧👍🏻 Bolha criada com sucesso!');
@@ -61,7 +85,11 @@ function SearchBubbles() {
     const categories = selectedBubbles.map((bubble) => bubble.category);
 
     getFilteredBubbles(categories)
-      .then((response) => setBubblesList(response.data))
+      .then((response) => {
+        // Atualize tanto a lista padrão quanto a lista atual com a nova resposta
+        setBubblesList(response.data);
+        setBubblesDefault(response.data);
+      })
       .catch((err) => console.log(err));
   }, [selectedBubbles]);
 
@@ -159,6 +187,7 @@ function SearchBubbles() {
         title="Encontre suas bolhas favoritas aqui"
         placeholder="Pesquisar bolhas..."
         isOpenModal={() => setIsVisible(true)}
+        onChange={handleSearchBubbles}
       >
         <div className="flex flex-col gap-10">
           <div className="flex justify-center items-center gap-4">
@@ -183,7 +212,11 @@ function SearchBubbles() {
 
           <div className="w-full grid grid-cols-4 gap-12 place-content-items">
             {bubblesList.map((bubble, index) => (
-              <Bubble.Card key={index} {...bubble} />
+              <Bubble.Card
+                key={index}
+                {...bubble}
+                image="https://picsum.photos/200/300"
+              />
             ))}
           </div>
         </div>

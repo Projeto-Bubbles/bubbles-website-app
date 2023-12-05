@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { Category } from '../enums/category';
+import { Address } from './user';
 
 export interface BubbleProps {
   name: string;
@@ -13,10 +14,19 @@ export interface BubbleProps {
   selected?: boolean;
 }
 export interface EventProps {
+  id?: number;
   title: string;
   date: Date;
-  link?: string;
-  image: string;
-  // address?: Address
-  bubble: BubbleProps;
+  duration: number;
+  author?: {
+    id: number;
+  };
+  bubble?: BubbleProps;
+  publicPlace?: boolean;
+  peopleCapacity?: number;
+  address?: Address;
+  platform?: string;
+  url?: string;
+  image?: string;
+  children?: ReactNode;
 }
