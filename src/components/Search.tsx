@@ -8,9 +8,16 @@ interface SearchProps {
   placeholder: string;
   children: ReactNode;
   isOpenModal?: () => void;
+  onChange: (e: any) => void;
 }
 
-function Search({ title, placeholder, children, isOpenModal }: SearchProps) {
+function Search({
+  title,
+  placeholder,
+  children,
+  isOpenModal,
+  onChange,
+}: SearchProps) {
   return (
     <div className="w-10/12 pt-28 m-auto flex flex-col">
       <div className="w-full flex flex-col justify-center items-center gap-4 m-auto mb-20">
@@ -22,6 +29,7 @@ function Search({ title, placeholder, children, isOpenModal }: SearchProps) {
             }
             type="text"
             placeholder={placeholder}
+            onChange={onChange}
           />
 
           <div className="w-48">

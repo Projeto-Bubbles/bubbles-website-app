@@ -14,6 +14,13 @@ export interface UserProps {
   address: Address;
 }
 
-interface Address {
+export interface Address {
+  id: number;
   cep: string;
+  country: string;
+  state: string;
+  city: string;
+  neighborhood: string;
+  street: string;
+  number: string;
 }
