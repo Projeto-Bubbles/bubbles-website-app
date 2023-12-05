@@ -6,6 +6,10 @@ export const getFilteredBubbles = (categories: (Category | undefined)[]) => {
   return api.get(`/bubbles/filtered?categories=${formattedCategories}`);
 };
 
+export const getBubbles = () => {
+  return api.get('/bubbles');
+};
+
 export const createBubble = (bubble: any) => {
   return api.post('/bubbles', bubble);
 };

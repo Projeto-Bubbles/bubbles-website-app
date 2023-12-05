@@ -30,21 +30,18 @@ function SearchBubbles() {
 
   const [image, setImage] = useState<File | null>(null);
 
-  const onChange = (e: any) => {
-    const searchTerm = e.target.value.toLowerCase();
+  const handleSearchBubbles = (e: any) => {
+    const searchBubble = e.target.value.toLowerCase();
 
-    if (searchTerm === '') {
-      // Se a pesquisa estiver vazia, mostre a lista original
+    if (searchBubble === '') {
       setBubblesList(bubblesDefault);
     } else {
       const searchBubbles = bubblesDefault.filter((bubble) =>
-        bubble.name.toLowerCase().includes(searchTerm)
+        bubble.name.toLowerCase().includes(searchBubble)
       );
 
-      // Atualize a lista de bolhas com base na pesquisa
       setBubblesList(searchBubbles);
 
-      // Se não houver bolhas correspondentes, você pode mostrar uma mensagem
       if (searchBubbles.length === 0) {
         console.log('Nenhuma bolha encontrada para a pesquisa.');
       }
@@ -190,7 +187,7 @@ function SearchBubbles() {
         title="Encontre suas bolhas favoritas aqui"
         placeholder="Pesquisar bolhas..."
         isOpenModal={() => setIsVisible(true)}
-        onChange={onChange}
+        onChange={handleSearchBubbles}
       >
         <div className="flex flex-col gap-10">
           <div className="flex justify-center items-center gap-4">
@@ -215,7 +212,11 @@ function SearchBubbles() {
 
           <div className="w-full grid grid-cols-4 gap-12 place-content-items">
             {bubblesList.map((bubble, index) => (
-              <Bubble.Card key={index} {...bubble} />
+              <Bubble.Card
+                key={index}
+                {...bubble}
+                image="https://picsum.photos/200/300"
+              />
             ))}
           </div>
         </div>
