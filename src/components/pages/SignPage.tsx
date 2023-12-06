@@ -1,10 +1,12 @@
 import { ArrowRight } from 'phosphor-react';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
+
 import { UseForm } from '../../hooks/useForm';
 import { BubbleProps } from '../../interfaces/bubble';
 import { User } from '../../interfaces/user';
 import BackButton from '../common/BackButton';
 import { Sign } from '../common/Sign';
+import { api } from '../../utils/axios';
 
 function SignPage() {
   const [data, setData] = useState<User>({} as User);
@@ -29,13 +31,41 @@ function SignPage() {
     isFirstStep,
   } = UseForm(formComponents);
 
-  const registerUser = (data: User) => {
+  const registerUser = async () => {
     const userBubbles: BubbleProps[] = JSON.parse(
       localStorage.getItem('bubbles') || '[]'
     );
 
-    data.bubbles = userBubbles;
-    console.log('👽 ~ data:', data);
+    const postData = {
+      ...data,
+      // bubbles: userBubbles,
+    };
+
+    try {
+      const response = await api.post('/auth/register', JSON.stringify(postData), {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.status === 200) {
+        alert('Cadastro realizado');
+      }
+    } catch (error) {
+      console.error(error);
+      console.log(postData);
+      alert('ERRO!');
+    }
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    if (isLastStep) {
+      registerUser();
+    } else {
+      changeStep(currentStep + 1, e);
+    }
   };
 
   return (
@@ -66,9 +96,7 @@ function SignPage() {
         <div className="w-96 min-h-fit p-6 bg-zinc-300 rounded-b-md flex items-center justify-center transition-all duration-300 ease-in-out">
           <form
             className="flex flex-col items-center justify-between h-full gap-6 w-full"
-            onSubmit={(e) =>
-              isLastStep ? registerUser(data) : changeStep(currentStep + 1, e)
-            }
+            onSubmit={handleSubmit}
           >
             <div className="w-full">{currentComponnent}</div>
 

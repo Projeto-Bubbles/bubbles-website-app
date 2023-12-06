@@ -1,10 +1,10 @@
 import { ArrowRight, EnvelopeSimple, Eye, EyeClosed } from 'phosphor-react';
 import { ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Button from '../Button';
 import Input from '../Fields/Input';
+import { api } from '../../../utils/axios';
 
 function SignIn() {
   const [isClicked, setIsClicked] = useState(false);
@@ -15,11 +15,11 @@ function SignIn() {
     const data = getValues();
     console.log('👽 ~ data:', data);
 
-    return axios
+    return api
       .post('http://localhost:8080/auth/login', data)
       .then((response) => {
         navigate('/feed');
-        sessionStorage.setItem('token', JSON.stringify(response.data));
+        sessionStorage.setItem('token', response.data?.token);
         alert('✅ Login bem sucedido!');
       })
       .catch((err) => {

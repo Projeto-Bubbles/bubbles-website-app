@@ -23,6 +23,7 @@ const AppRouter = () => {
             <Route path="events" element={<SearchEvents />} />
           </Route>
           <Route path="sign-in" element={<SignPage />} />
+          <Route path="login" element={<Login />} />
         </Route>
       </Routes>
     </Router>
