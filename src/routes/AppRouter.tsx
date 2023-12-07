@@ -18,10 +18,8 @@ const AppRouter = () => {
           <Route path="feed" element={<Feed />} />
           <Route path="events" element={<Events />} />
           <Route path="selection" element={<SelectionBubbles />} />
-          <Route path="search">
-            <Route path="bubbles" element={<SearchBubbles />} />
-            <Route path="events" element={<SearchEvents />} />
-          </Route>
+          <Route path="bubbles" element={<SearchBubbles />} />
+          <Route path="events" element={<SearchEvents />} />
           <Route path="sign-in" element={<Login />} />
           <Route path="sign-up" element={<SignPage />} />
         </Route>
