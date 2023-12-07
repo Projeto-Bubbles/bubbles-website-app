@@ -1,8 +1,8 @@
-import axios from 'axios';
 import { ArrowRight, EnvelopeSimple, Eye, EyeClosed } from 'phosphor-react';
 import { ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../../../services/authService';
 import Button from '../Button';
 import Input from '../Fields/Input';
 
@@ -15,12 +15,11 @@ function SignIn() {
     const data = getValues();
     console.log('👽 ~ data:', data);
 
-    return axios
-      .post('http://localhost:8080/auth/login', data)
+    return loginUser(data)
       .then((response) => {
-        navigate('/feed');
         sessionStorage.setItem('token', JSON.stringify(response.data));
         alert('✅ Login bem sucedido!');
+        navigate('/feed');
       })
       .catch((err) => {
         alert('⚠️ Usuário ou senha incorretos');
@@ -30,19 +29,23 @@ function SignIn() {
 
   const togglePasswordVisibility = (): ReactNode => {
     return isClicked ? (
-      <Eye
-        size={16}
-        color="#423F46"
-        weight="duotone"
-        onClick={() => setIsClicked(!isClicked)}
-      />
+      <div className="cursor-pointer">
+        <Eye
+          size={16}
+          color="#423F46"
+          weight="duotone"
+          onClick={() => setIsClicked(!isClicked)}
+        />
+      </div>
     ) : (
-      <EyeClosed
-        size={16}
-        color="#423F46"
-        weight="duotone"
-        onClick={() => setIsClicked(!isClicked)}
-      />
+      <div className="cursor-pointer">
+        <EyeClosed
+          size={16}
+          color="#423F46"
+          weight="duotone"
+          onClick={() => setIsClicked(!isClicked)}
+        />
+      </div>
     );
   };
 

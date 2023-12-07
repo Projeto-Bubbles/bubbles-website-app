@@ -11,17 +11,22 @@ import {
   User,
   X,
 } from 'phosphor-react';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { bubbles } from '../../data/bubbles';
 import useBubbles from '../../hooks/useBubbles';
 import { BubbleProps } from '../../interfaces/bubble';
+import { userRegisterSchema } from '../../schemas/userSchemas';
+import { registerUser } from '../../services/authService';
 import { Bubble } from '../common/Bubble';
 import Input from '../common/Fields/Input';
 import Navbar from './../common/Navbar';
 
 function SignPage() {
+  const navigate = useNavigate();
+
   const bubblesList = bubbles(18);
 
   const userBubbles: BubbleProps[] = JSON.parse(
@@ -34,54 +39,25 @@ function SignPage() {
 
   const togglePasswordVisibility = (): ReactNode => {
     return isClicked ? (
-      <Eye
-        size={16}
-        color="#423F46"
-        weight="duotone"
-        onClick={() => setIsClicked(!isClicked)}
-      />
+      <div className="cursor-pointer">
+        <Eye
+          size={16}
+          color="#423F46"
+          weight="duotone"
+          onClick={() => setIsClicked(!isClicked)}
+        />
+      </div>
     ) : (
-      <EyeClosed
-        size={16}
-        color="#423F46"
-        weight="duotone"
-        onClick={() => setIsClicked(!isClicked)}
-      />
+      <div className="cursor-pointer">
+        <EyeClosed
+          size={16}
+          color="#423F46"
+          weight="duotone"
+          onClick={() => setIsClicked(!isClicked)}
+        />
+      </div>
     );
   };
-
-  const userRegisterSchema = z.object({
-    name: z.string().min(3, 'Como você se chama?'),
-    username: z.string().min(6, 'Username deve ter mínimo 6 caracteres'),
-    email: z
-      .string()
-      .email('Formato de e-mail inválido')
-      .min(1, 'E-mail não pode ficar vazio'),
-    password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres'),
-    cpf: z.string().refine(
-      (cpf) => isValidCPF(cpf), // Substitua isValidCPF pela sua lógica de validação de CPF
-      { message: 'CPF inválido' }
-    ),
-    dateBirthday: z.string().refine(
-      (date) => isValidDate(date), // Substitua isValidDate pela sua lógica de validação de data de nascimento
-      { message: 'Data de nascimento inválida' }
-    ),
-    address: z.object({
-      cep: z.string().length(8, 'CEP deve ter 8 caracteres'),
-    }),
-  });
-
-  // Função de exemplo para validar CPF (substitua pela sua implementação real)
-  function isValidCPF(cpf: string): boolean {
-    // Lógica de validação do CPF aqui
-    return true;
-  }
-
-  // Função de exemplo para validar data de nascimento (substitua pela sua implementação real)
-  function isValidDate(date: string): boolean {
-    // Lógica de validação da data de nascimento aqui
-    return true;
-  }
 
   type UserFormData = z.infer<typeof userRegisterSchema>;
 
@@ -93,21 +69,32 @@ function SignPage() {
     resolver: zodResolver(userRegisterSchema),
   });
 
-  const registerUser = (data: any, e: any) => {
+  const handleRegisterUser = (data: any, e: any) => {
     e.preventDefault();
 
     const UserBubbles: BubbleProps[] = JSON.parse(
       localStorage.getItem('bubbles') || '[]'
     );
 
+    registerUser(data)
+      .then((response) => {
+        alert('✅🫧 Usuário cadastrado com sucesso!');
+        navigate('/sign-in');
+      })
+      .catch((error) => {
+        if (error.response.status === 400) {
+          return alert('❌🫧 Este e-mail já está cadastrado!');
+        }
+
+        alert('❌🫧 Erro ao cadastrar usuário!');
+      });
+
     data.bubbles = UserBubbles;
+
+    localStorage.setItem('user', JSON.stringify(data));
+
     console.log('👽 ~ data:', data);
   };
-
-  useEffect(() => {
-    console.log('👽 ~ errors:', errors);
-    console.log('👽 ~ isValid:', isValid);
-  }, [errors, isValid]);
 
   return (
     <>
@@ -136,7 +123,7 @@ function SignPage() {
           <div className="w-96 min-h-fit p-6 mb-20 bg-zinc-300 rounded-b-md flex items-center justify-center transition-all duration-300 ease-in-out">
             <form
               className="flex flex-col items-center justify-between h-full gap-6 w-full"
-              onSubmit={handleSubmit(registerUser)}
+              onSubmit={handleSubmit(handleRegisterUser)}
             >
               <div className="w-full flex flex-col gap-8">
                 {/* 1. Select bubbles */}
