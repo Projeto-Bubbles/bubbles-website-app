@@ -20,8 +20,9 @@ import Navbar from '../common/Navbar';
 import { Post } from '../common/Post';
 import { PostType } from '../common/Post/PostRoot';
 import SidebarTopic from '../common/SidebarTopic';
-import { mockData } from './../../data/events';
 import { Event } from './../common/Event/index';
+import { getTop5Events } from '../../services/eventServices';
+import { EventProps } from '../../interfaces/bubble';
 
 function Feed() {
   localStorage.setItem('previousPage', 'feed');
@@ -31,6 +32,10 @@ function Feed() {
   const user: UserProps = JSON.parse(localStorage.getItem('user') ?? '{}');
 
   const [inputValues, setInputValues] = useState<{ [key: string]: string }>({});
+  
+  const [eventsList, setEventsList] = useState<EventProps[]>([]);
+
+
 
   const getAllPosts = () => {
     getPosts()
@@ -93,6 +98,11 @@ function Feed() {
 
   useEffect(() => {
     getAllPosts();
+    getTop5Events().then(response => {
+      setEventsList(response.data);
+    }).catch(error =>(
+      console.error(error)
+    ));
   }, []);
 
   return (
@@ -155,7 +165,7 @@ function Feed() {
               </h1>
             </div>
             <div className="w-full h-72 flex justify-between items-center">
-              {mockData.map((events, index) => (
+              {eventsList.map((events, index) => (
                 <Event.Story key={index} {...events} />
               ))}
             </div>

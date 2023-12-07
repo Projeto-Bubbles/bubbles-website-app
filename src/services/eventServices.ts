@@ -16,3 +16,8 @@ export const createOnlineEvent = (event: any) => {
 export const createInPersonEvent = (event: any) => {
   return api.post('/events/inPerson', event);
 };
+
+
+export const getTop5Events= () => {
+  return api.get('/events/top5');
+};
