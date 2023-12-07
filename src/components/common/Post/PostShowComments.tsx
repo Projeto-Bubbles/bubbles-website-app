@@ -1,4 +1,4 @@
-import { useState, ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 
 interface ShowCommentsProps {
   children: ReactNode;
@@ -17,7 +17,7 @@ function PostShowComments({ children }: ShowCommentsProps) {
       </label>
       <div
         className={`bg-slate-100/50 rounded-md transition-all duration-300 ease-in-out overflow-y-scroll flex flex-col justify-start items-center gap-2 ${
-          isExpanded ? 'min-h-fit' : 'opacity-0 h-0 overflow-hidden'
+          isExpanded ? 'h-48' : 'opacity-0 h-0 overflow-hidden'
         } `}
       >
         {children}

@@ -19,6 +19,7 @@ import Input from '../common/Fields/Input';
 import Select from '../common/Fields/Select';
 import Textarea from '../common/Fields/Textarea';
 import Modal from '../common/Modal';
+import Navbar from '../common/Navbar';
 
 function SearchEvents() {
   const bubblesTag = bubbles(12);
@@ -177,6 +178,8 @@ function SearchEvents() {
 
   return (
     <>
+      <Navbar redirectPage="feed" isLogged />
+
       {isVisible && (
         <Modal onClose={() => setIsVisible(false)}>
           <form
