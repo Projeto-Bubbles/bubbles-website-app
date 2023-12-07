@@ -393,7 +393,7 @@ function SearchEvents() {
                   platform={event.platform}
                   date={event.date}
                   duration={event.duration}
-                  image="https://picsum.photos/200/300"
+                  image={`https://source.unsplash.com/random/500x500/?${event.bubble?.category}`}
                 >
                   <Button
                     onClick={() => setPresenceInEvent(event)}
