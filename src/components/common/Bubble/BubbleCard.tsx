@@ -25,7 +25,7 @@ function BubbleCard(bubble: BubbleProps) {
           />
           <div className="w-14 flex justify-end items-center gap-2">
             <Users size={16} color="#423F46" weight="duotone" />
-            <span className="font-bold">4k</span>
+            <span className="font-bold">{bubble.users}k</span>
           </div>
         </div>
 

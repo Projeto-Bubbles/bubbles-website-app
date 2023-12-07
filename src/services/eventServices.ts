@@ -1,5 +1,5 @@
 import { Category } from '../enums/category';
-import { api } from '../utils/constants';
+import { api } from '../utils/axios';
 
 export const getFilteredEvents = (categories: (Category | undefined)[]) => {
   const formattedCategories = categories.filter(Boolean).join(',');
