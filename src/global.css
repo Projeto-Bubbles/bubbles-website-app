@@ -40,6 +40,10 @@
   input[type='time']::-webkit-calendar-picker-indicator {
     display: none;
   }
+
+  textarea {
+    all: unset;
+  }
 }
 
 body {
