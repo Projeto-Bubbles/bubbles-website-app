@@ -1,7 +1,6 @@
 import { format } from 'date-fns';
 import { DotsThreeOutline } from 'phosphor-react';
 import { useState } from 'react';
-import Popup from './../Popup';
 
 interface PostHeaderProps {
   name: string;
@@ -9,6 +8,7 @@ interface PostHeaderProps {
   dateTime?: Date;
   isNotLogged?: boolean;
   showPopup?: boolean;
+  children?: React.ReactNode;
 }
 
 function PostHeader({
@@ -17,6 +17,7 @@ function PostHeader({
   isNotLogged,
   dateTime,
   showPopup,
+  children,
 }: PostHeaderProps) {
   const [isVisiblePopup, setVisiblePopup] = useState(false);
   const date = new Date(dateTime || 0);
@@ -60,7 +61,7 @@ function PostHeader({
               isVisiblePopup ? 'opacity-100 z-50' : 'opacity-0 -z-50'
             }`}
           >
-            <Popup />
+            {children}
           </div>
         </>
       )}
