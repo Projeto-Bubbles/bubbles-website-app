@@ -1,4 +1,4 @@
-import { api } from '../utils/constants';
+import { api } from '../utils/axios';
 
 export const getUserByEmail = (email: string) => {
   return api.get('/users/email', { params: { email } });

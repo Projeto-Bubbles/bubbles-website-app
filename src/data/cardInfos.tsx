@@ -1,8 +1,7 @@
-import { CardProps } from '../interfaces/ComponentsInterfaces';
 import { Users, Balloon, MagnifyingGlass, Share, ShareNetwork, UserSwitch} from 'phosphor-react';
 
 
-export const cardBenefitsInfo: CardProps[] = [
+export const cardBenefitsInfo: any[] = [
   {
     icon: <Share size={24} color="#8b5cf6" weight="duotone" />,
     title: 'Compartilhe',
@@ -26,7 +25,7 @@ export const cardBenefitsInfo: CardProps[] = [
   },
 ];
 
-export const cardHeroInfos: CardProps[] = [
+export const cardHeroInfos: any[] = [
   {
     icon: <Users size={24} color="#3b9b58" weight="duotone" />,
     title: 'GRUPOS',
