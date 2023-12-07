@@ -97,9 +97,12 @@ function SignPage() {
       });
   };
 
+  const previousPage = localStorage.getItem('previousPage') ?? '/';
+
   return (
     <>
-      <Navbar />
+      <Navbar redirectPage={previousPage} />
+
       <div className="w-screen pt-28 flex flex-col justify-center items-center gap-1 ">
         <div className="w-96 flex flex-col justify-center items-center rounded-md relative">
           <div className="w-96 h-32 bg-zinc-200 flex flex-col justify-center items-start rounded-t-md pl-6">
@@ -113,7 +116,7 @@ function SignPage() {
                 </h1>
                 <h2 className="text-lg">
                   Já tem conta?{' '}
-                  <a href="" className="underline">
+                  <a href="sign-in" className="underline">
                     Entrar
                   </a>
                 </h2>
