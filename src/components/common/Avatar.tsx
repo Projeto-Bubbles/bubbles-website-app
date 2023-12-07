@@ -8,7 +8,7 @@ interface AvatarProps {
   isSelected?: boolean;
 }
 
-function Avatar({ image, name, username, isLogged, isSelected }: AvatarProps) {
+function Avatar({ name, username, isLogged, isSelected }: AvatarProps) {
   return (
     <div className="flex justify-center items-center gap-2">
       <div

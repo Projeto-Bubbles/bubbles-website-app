@@ -3,6 +3,7 @@ import { ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../../services/authService';
+import { getUserByEmail } from '../../../services/userServices';
 import Button from '../Button';
 import Input from '../Fields/Input';
 
@@ -18,6 +19,11 @@ function SignIn() {
     return loginUser(data)
       .then((response) => {
         sessionStorage.setItem('token', JSON.stringify(response.data));
+
+        getUserByEmail(data.email).then((response) => {
+          localStorage.setItem('user', JSON.stringify(response.data));
+        });
+
         alert('✅ Login bem sucedido!');
         navigate('/feed');
       })

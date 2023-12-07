@@ -20,6 +20,7 @@ import useBubbles from '../../hooks/useBubbles';
 import { BubbleProps } from '../../interfaces/bubble';
 import { userRegisterSchema } from '../../schemas/userSchemas';
 import { registerUser } from '../../services/authService';
+import { createUser } from '../../services/userServices';
 import { Bubble } from '../common/Bubble';
 import Input from '../common/Fields/Input';
 import Navbar from './../common/Navbar';
@@ -72,14 +73,20 @@ function SignPage() {
   const handleRegisterUser = (data: any, e: any) => {
     e.preventDefault();
 
-    const UserBubbles: BubbleProps[] = JSON.parse(
-      localStorage.getItem('bubbles') || '[]'
-    );
+    data = {
+      name: data.name,
+      username: data.username,
+      email: data.email,
+      password: data.password,
+      cpf: data.username,
+    };
 
     registerUser(data)
-      .then((response) => {
-        alert('✅🫧 Usuário cadastrado com sucesso!');
-        navigate('/sign-in');
+      .then(() => {
+        createUser(data).then(() => {
+          alert('✅🫧 Usuário cadastrado com sucesso!');
+          navigate('/sign-in');
+        });
       })
       .catch((error) => {
         if (error.response.status === 400) {
@@ -88,12 +95,6 @@ function SignPage() {
 
         alert('❌🫧 Erro ao cadastrar usuário!');
       });
-
-    data.bubbles = UserBubbles;
-
-    localStorage.setItem('user', JSON.stringify(data));
-
-    console.log('👽 ~ data:', data);
   };
 
   return (
