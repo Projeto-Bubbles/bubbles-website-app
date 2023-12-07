@@ -95,11 +95,9 @@ function Feed() {
     getAllPosts();
   }, []);
 
-  const previousPage = localStorage.getItem('previousPage') ?? '/';
-
   return (
     <>
-      <Navbar isLogged redirectPage={previousPage} />
+      <Navbar isLogged />
       <main className="min-h-screen bg-cover flex justify-start ">
         {/* Sidebar */}
         <div

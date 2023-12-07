@@ -20,6 +20,7 @@ import useBubbles from '../../hooks/useBubbles';
 import { BubbleProps } from '../../interfaces/bubble';
 import { userRegisterSchema } from '../../schemas/userSchemas';
 import { registerUser } from '../../services/authService';
+import { createUser } from '../../services/userServices';
 import { Bubble } from '../common/Bubble';
 import Input from '../common/Fields/Input';
 import Navbar from './../common/Navbar';
@@ -72,14 +73,20 @@ function SignPage() {
   const handleRegisterUser = (data: any, e: any) => {
     e.preventDefault();
 
-    const UserBubbles: BubbleProps[] = JSON.parse(
-      localStorage.getItem('bubbles') || '[]'
-    );
+    data = {
+      name: data.name,
+      username: data.username,
+      email: data.email,
+      password: data.password,
+      cpf: data.username,
+    };
 
     registerUser(data)
-      .then((response) => {
-        alert('✅🫧 Usuário cadastrado com sucesso!');
-        navigate('/sign-in');
+      .then(() => {
+        createUser(data).then(() => {
+          alert('✅🫧 Usuário cadastrado com sucesso!');
+          navigate('/sign-in');
+        });
       })
       .catch((error) => {
         if (error.response.status === 400) {
@@ -88,17 +95,14 @@ function SignPage() {
 
         alert('❌🫧 Erro ao cadastrar usuário!');
       });
-
-    data.bubbles = UserBubbles;
-
-    localStorage.setItem('user', JSON.stringify(data));
-
-    console.log('👽 ~ data:', data);
   };
+
+  const previousPage = localStorage.getItem('previousPage') ?? '/';
 
   return (
     <>
-      <Navbar />
+      <Navbar redirectPage={previousPage} />
+
       <div className="w-screen pt-28 flex flex-col justify-center items-center gap-1 ">
         <div className="w-96 flex flex-col justify-center items-center rounded-md relative">
           <div className="w-96 h-32 bg-zinc-200 flex flex-col justify-center items-start rounded-t-md pl-6">
@@ -112,7 +116,7 @@ function SignPage() {
                 </h1>
                 <h2 className="text-lg">
                   Já tem conta?{' '}
-                  <a href="" className="underline">
+                  <a href="sign-in" className="underline">
                     Entrar
                   </a>
                 </h2>
