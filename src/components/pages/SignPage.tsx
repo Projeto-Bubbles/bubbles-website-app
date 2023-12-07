@@ -77,11 +77,11 @@ function SignPage() {
     );
 
     registerUser(data)
-      .then((response) => {
+      .then(() => {
         alert('✅🫧 Usuário cadastrado com sucesso!');
         navigate('/sign-in');
       })
-      .catch((error) => {
+      .catch((error : any) => {
         if (error.response.status === 400) {
           return alert('❌🫧 Este e-mail já está cadastrado!');
         }
