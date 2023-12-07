@@ -1,4 +1,4 @@
-import { api } from '../utils/constants';
+import { api } from '../utils/axios';
 
 export const registerUser = (data: any) => {
   return api.post('/auth/register', data, {

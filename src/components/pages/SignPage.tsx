@@ -88,7 +88,7 @@ function SignPage() {
           navigate('/sign-in');
         });
       })
-      .catch((error) => {
+      .catch((error: any) => {
         if (error.response.status === 400) {
           return alert('❌🫧 Este e-mail já está cadastrado!');
         }

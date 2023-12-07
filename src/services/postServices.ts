@@ -1,5 +1,5 @@
 import { CommentProps, PostProps } from '../interfaces/post';
-import { api } from '../utils/constants';
+import { api } from '../utils/axios';
 
 export const getPosts = () => {
   return api.get('/posts');

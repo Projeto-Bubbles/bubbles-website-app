@@ -1,3 +1,8 @@
+import cooking from "@/assets/MoreBubbles/cooking.jpg";
+import cyclist from "@/assets/MoreBubbles/cyclist.jpg";
+import fun from "@/assets/MoreBubbles/fun.jpg";
+import group from "@/assets/MoreBubbles/group.jpg";
+
 function MoreBubbles() {
   return (
     <div
@@ -20,28 +25,28 @@ function MoreBubbles() {
           <div className="w-96 h-96 bg-gradient-to-br from-blue-200/0 to-blue-300/30 rounded-full grid grid-cols-2 p-10">
             <div className="flex items-center justify-center">
               <img
-                src="../src/assets/MoreBubbles/fun.jpg"
+                src={cooking}
                 alt="Divirta-se"
                 className="w-28 h-28 rounded-full object-cover"
               />
             </div>
             <div className="flex items-center justify-center">
               <img
-                src="../src/assets/MoreBubbles/cooking.jpg"
+                src={cyclist}
                 alt="Divirta-se"
                 className="w-28 h-28 rounded-full object-cover"
               />
             </div>
             <div className="flex items-center justify-center">
               <img
-                src="../src/assets/MoreBubbles/cyclist.jpg"
+                src={fun}
                 alt="Divirta-se"
                 className="w-28 h-28 rounded-full object-cover"
               />
             </div>
             <div className="flex items-center justify-center">
               <img
-                src="../src/assets/MoreBubbles/group.jpg"
+                src={group}
                 alt="Divirta-se"
                 className="w-28 h-28 rounded-full object-cover"
               />

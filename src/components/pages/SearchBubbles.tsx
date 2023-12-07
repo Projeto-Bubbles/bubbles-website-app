@@ -87,9 +87,15 @@ function SearchBubbles() {
 
     getFilteredBubbles(categories)
       .then((response) => {
-        // Atualize tanto a lista padrão quanto a lista atual com a nova resposta
-        setBubblesList(response.data);
-        setBubblesDefault(response.data);
+        const bubbleListMapped: BubbleProps[] = response.data.map(
+          (bubble: BubbleProps) => {
+            bubble.users = Math.floor(Math.random() * (100 - 10 + 1) + 10);
+            return bubble;
+          }
+        );
+
+        setBubblesList(bubbleListMapped);
+        setBubblesDefault(bubbleListMapped);
       })
       .catch((err) => console.log(err));
   }, [selectedBubbles]);
@@ -218,6 +224,7 @@ function SearchBubbles() {
               <Bubble.Card
                 key={index}
                 {...bubble}
+                users={bubble.users}
                 image={`https://source.unsplash.com/random/500x500/?${bubble.category}`}
               />
             ))}
