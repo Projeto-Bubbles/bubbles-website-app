@@ -394,6 +394,7 @@ function SearchEvents() {
                   date={event.date}
                   duration={event.duration}
                   image={`https://source.unsplash.com/random/500x500/?${event.bubble?.category}`}
+
                 >
                   <Button
                     onClick={() => setPresenceInEvent(event)}
