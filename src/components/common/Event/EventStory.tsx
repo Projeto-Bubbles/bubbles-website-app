@@ -24,7 +24,7 @@ function EventStory({ title, date, image, bubble }: EventProps) {
         </div>
         <h4 className="font-bold text-lg leading-none">{title}</h4>
         <h5 className="leading-none opacity-0 transition delay-300 duration-300 ease-in-out group-hover:opacity-100">
-          {bubble.name}
+          {bubble?.name}
         </h5>
       </div>
     </div>
