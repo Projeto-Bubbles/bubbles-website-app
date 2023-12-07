@@ -19,6 +19,7 @@ import Input from '../common/Fields/Input';
 import Select from '../common/Fields/Select';
 import Textarea from '../common/Fields/Textarea';
 import Modal from '../common/Modal';
+import Navbar from '../common/Navbar';
 
 function SearchEvents() {
   const bubblesTag = bubbles(12);
@@ -177,6 +178,8 @@ function SearchEvents() {
 
   return (
     <>
+      <Navbar redirectPage="feed" isLogged />
+
       {isVisible && (
         <Modal onClose={() => setIsVisible(false)}>
           <form
@@ -393,7 +396,7 @@ function SearchEvents() {
                   platform={event.platform}
                   date={event.date}
                   duration={event.duration}
-                  image="https://picsum.photos/200/300"
+                  image={`https://source.unsplash.com/random/500x500/?${event.bubble?.category}`}
                 >
                   <Button
                     onClick={() => setPresenceInEvent(event)}

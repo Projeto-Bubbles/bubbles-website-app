@@ -15,6 +15,7 @@ import Input from '../common/Fields/Input';
 import Select from '../common/Fields/Select';
 import Textarea from '../common/Fields/Textarea';
 import Modal from '../common/Modal';
+import Navbar from '../common/Navbar';
 
 function SearchBubbles() {
   const bubblesTag = bubbles(12);
@@ -106,6 +107,8 @@ function SearchBubbles() {
 
   return (
     <>
+      <Navbar redirectPage="feed" isLogged />
+
       {isVisible && (
         <Modal onClose={() => setIsVisible(false)}>
           <form
@@ -215,7 +218,7 @@ function SearchBubbles() {
               <Bubble.Card
                 key={index}
                 {...bubble}
-                image="https://picsum.photos/200/300"
+                image={`https://source.unsplash.com/random/500x500/?${bubble.category}`}
               />
             ))}
           </div>

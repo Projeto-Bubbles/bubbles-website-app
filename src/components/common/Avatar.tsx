@@ -8,7 +8,7 @@ interface AvatarProps {
   isSelected?: boolean;
 }
 
-function Avatar({ image, name, username, isLogged, isSelected }: AvatarProps) {
+function Avatar({ name, username, isLogged, isSelected }: AvatarProps) {
   return (
     <div className="flex justify-center items-center gap-2">
       <div
@@ -19,7 +19,7 @@ function Avatar({ image, name, username, isLogged, isSelected }: AvatarProps) {
         <div className="w-9 h-9 grid place-content-center bg-slate-300 rounded-full">
           {isLogged ? (
             <img
-              src={image}
+              src={`https://source.unsplash.com/random/250x250/?draw`}
               className="w-full h-full object-cover rounded-full"
             />
           ) : (
