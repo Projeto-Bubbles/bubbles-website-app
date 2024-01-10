@@ -1,7 +1,6 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import App from '../App';
 import Login from '../components/common/Sign/SignIn';
-import Events from '../components/pages/Events';
 import Feed from '../components/pages/Feed';
 import Institutional from '../components/pages/Institutional';
 import SearchBubbles from '../components/pages/SearchBubbles';
@@ -16,7 +15,6 @@ const AppRouter = () => {
         <Route path="/" element={<App />}>
           <Route index element={<Institutional />} />
           <Route path="feed" element={<Feed />} />
-          <Route path="events" element={<Events />} />
           <Route path="selection" element={<SelectionBubbles />} />
           <Route path="bubbles" element={<SearchBubbles />} />
           <Route path="events" element={<SearchEvents />} />

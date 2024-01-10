@@ -184,7 +184,7 @@ function Feed() {
                   text="Minha conta"
                 />
 
-                <Link to={'/search/bubbles'}>
+                <Link to={'/bubbles'}>
                   <SidebarTopic
                     icon={
                       <Compass size={14} color="#423F46" weight="duotone" />
@@ -200,7 +200,7 @@ function Feed() {
                   text="Minhas bolhas"
                 />
 
-                <Link to={'/search/events'}>
+                <Link to={'/events'}>
                   <SidebarTopic
                     icon={
                       <CalendarBlank
