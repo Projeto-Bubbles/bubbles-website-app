@@ -180,7 +180,7 @@ function SearchBubbles() {
         </Modal>
       ) : (
         <>
-          <Navbar redirectPage="feed" isLogged />
+          <Navbar redirectPage="/feed" isLogged />
 
           {isVisible && (
             <Modal onClose={() => setIsVisible(false)}>
