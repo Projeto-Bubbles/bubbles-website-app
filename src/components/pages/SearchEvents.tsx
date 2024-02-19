@@ -35,7 +35,7 @@ function SearchEvents() {
 
   const [bubbleOptions, setBubblesOptions] = useState([]);
 
-  const [eventsList, setEventsList] = useState<EventProps[]>([]);
+  const [eventsList, setEventsList] = useState<any[]>([]);
   const [eventsDefault, setEventsDefault] = useState<EventProps[]>([]);
   const [isCheckIcon, setCheckIcon] = useState<ReactNode>(null);
 
@@ -394,7 +394,7 @@ function SearchEvents() {
                   address={event.address}
                   url={event.url}
                   platform={event.platform}
-                  date={event.date}
+                  dateTime={event.dateTime}
                   duration={event.duration}
                   image={`https://source.unsplash.com/random/500x500/?${event.bubble?.category}`}
                 >

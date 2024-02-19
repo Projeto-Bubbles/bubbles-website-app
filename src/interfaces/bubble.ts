@@ -18,7 +18,7 @@ export interface BubbleProps {
 export interface EventProps {
   id?: number;
   title: string;
-  date: Date;
+  dateTime: Date;
   duration: number;
   author?: {
     id: number;
