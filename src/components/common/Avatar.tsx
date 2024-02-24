@@ -1,7 +1,7 @@
 import { User } from 'phosphor-react';
 
 interface AvatarProps {
-  image: string;
+  image?: string;
   name?: string;
   username?: string;
   isLogged?: boolean;
