@@ -6,17 +6,28 @@ interface AvatarProps {
   username?: string;
   isLogged?: boolean;
   isSelected?: boolean;
+  isLarged?: boolean;
 }
 
-function Avatar({ name, username, isLogged, isSelected }: AvatarProps) {
+function Avatar({
+  name,
+  username,
+  isLogged,
+  isSelected,
+  isLarged,
+}: AvatarProps) {
   return (
     <div className="flex justify-center items-center gap-2">
       <div
-        className={`${
-          isSelected ? 'bg-slate-800' : 'bg-zinc-200'
-        } w-11 h-11 flex justify-center items-center rounded-full transition-all duration-300 ease-in-out hover:brightness-95 cursor-pointer `}
+        className={`${isSelected ? 'bg-slate-800' : 'bg-zinc-200'}  ${
+          isLarged ? 'w-26 h-26' : 'w-11 h-11'
+        } flex justify-center items-center rounded-full transition-all duration-300 ease-in-out hover:brightness-95 cursor-pointer `}
       >
-        <div className="w-9 h-9 grid place-content-center bg-slate-300 rounded-full">
+        <div
+          className={`${
+            isLarged ? 'w-24 h-24' : 'w-9 h-9'
+          }  grid place-content-center bg-slate-300 rounded-full`}
+        >
           {isLogged ? (
             <img
               src={`https://source.unsplash.com/random/250x250/?draw`}

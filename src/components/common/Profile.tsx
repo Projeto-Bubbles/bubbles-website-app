@@ -17,34 +17,40 @@ interface ProfileProps {
 
 function Profile() {
   return (
-    <div className="w-full flex items-center justify-center rounded-[20px] h-60 relative bg-red-500">
-      <div className="absolute flex items-center justify-center w-5 h-5 right-3 top-3 rounded-md bg-zinc-300/70 backdrop-blur-lg">
+    <div className="w-full flex items-center justify-center rounded-[20px] h-56 relative bg-red-500">
+      <div className="absolute flex items-center justify-center w-5 h-5 right-3 top-3 rounded-md bg-zinc-300/70 backdrop-blur-lg cursor-pointer">
         <Image size={12} weight="duotone" />
       </div>
 
-      <Avatar />
+      <div className=" z-10">
+        <Avatar isLarged />
+      </div>
 
-      <div className="absolute bottom-0 w-full h-2/5 flex items-center justify-normal rounded-[20px] bg-zinc-300/70 backdrop-blur-lg">
-        <div className="w-full flex items-center justify-start text-zinc-700 gap-4">
+      <div className="flex justify-center items-center absolute bottom-0 w-full h-2/5 rounded-[20px] bg-zinc-300/70 backdrop-blur-lg leading-none">
+        <div className="flex absolute left-10 justify-start items-center justify-self-start text-zinc-700 gap-8">
           <div className="flex justify-center items-center flex-col">
             <span className="font-semibold">bolhas</span>
-            <h1 className="font-bold text-xl ">1</h1>
+            <h1 className="font-bold text-3xl ">1</h1>
           </div>
+
+          <div className="rounded-full w-[1px] h-10 bg-zinc-700" />
 
           <div className="flex justify-center items-center flex-col">
             <span className="font-semibold">eventos</span>
-            <h1 className="font-bold text-xl ">1</h1>
+            <h1 className="font-bold text-3xl ">1</h1>
           </div>
+
+          <div className="rounded-full w-[1px] h-10 bg-zinc-700" />
 
           <div className="flex justify-center items-center flex-col">
             <span className="font-semibold">interesses</span>
-            <h1 className="font-bold text-xl ">1</h1>
+            <h1 className="font-bold text-3xl ">1</h1>
           </div>
         </div>
 
-        <div className="flex items-center justify-center flex-col">
-          <h1>Nome</h1>
-          <span>Username</span>
+        <div className="flex items-center justify-center flex-col text-zinc-700">
+          <h1 className="font-bold text-2xl">Nome Sobrenome</h1>
+          <span className="font-semibold text-normal">@nickname</span>
         </div>
       </div>
     </div>
