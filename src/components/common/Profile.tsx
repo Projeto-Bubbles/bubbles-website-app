@@ -17,13 +17,18 @@ interface ProfileProps {
 
 function Profile() {
   return (
-    <div className="w-full flex items-center justify-center rounded-[20px] h-56 relative bg-red-500">
-      <div className="absolute flex items-center justify-center w-5 h-5 right-3 top-3 rounded-md bg-zinc-300/70 backdrop-blur-lg cursor-pointer">
+    <div className="w-full flex items-center justify-center rounded-[20px] h-56 relative bg-[url('https://i.ytimg.com/vi/QdBZY2fkU-0/maxresdefault.jpg')] bg-cover bg-center">
+      <div className="absolute flex items-center justify-center w-5 h-5 right-3 top-3 rounded-md bg-zinc-300/70 backdrop-blur-md cursor-pointer">
         <Image size={12} weight="duotone" />
       </div>
 
-      <div className=" z-10">
-        <Avatar isLarged />
+      <div className="-translate-y-1 z-10">
+        <Avatar
+          isLogged
+          isSelected
+          image="https://picsum.photos/id/237/200/300"
+          isLarged
+        />
       </div>
 
       <div className="flex justify-center items-center absolute bottom-0 w-full h-2/5 rounded-[20px] bg-zinc-300/70 backdrop-blur-lg leading-none">

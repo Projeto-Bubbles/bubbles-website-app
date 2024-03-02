@@ -1,7 +1,7 @@
-import { ReactElement, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 interface AccountCardProps {
-  children: ReactElement;
+  children: ReactNode;
   title: string;
   icon: ReactNode;
   background: 'bg-zinc-300' | 'bg-slate-900';
