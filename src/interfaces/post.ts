@@ -1,10 +1,10 @@
-import { User } from './user';
+import { UserProps } from './user';
 
 export interface PostProps {
   id?: number;
   dateTime: Date;
   content: string;
-  author: User;
+  author: UserProps;
   bubble?: string;
   comments?: Comment[];
 }

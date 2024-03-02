@@ -1,8 +1,9 @@
 import { ReactNode } from 'react';
 import { Category } from '../enums/category';
-import { Address } from './user';
+import { Address, UserProps } from './user';
 
 export interface BubbleProps {
+  id?: number;
   name: string;
   image?: string;
   description?: string;
@@ -12,11 +13,12 @@ export interface BubbleProps {
   users?: number;
   fixed?: boolean;
   selected?: boolean;
+  creator?: UserProps;
 }
 export interface EventProps {
   id?: number;
   title: string;
-  date: Date;
+  dateTime: Date;
   duration: number;
   author?: {
     id: number;

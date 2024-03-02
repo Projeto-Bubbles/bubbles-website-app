@@ -1,31 +1,37 @@
 import { User } from 'phosphor-react';
 
 interface AvatarProps {
-  image: string;
+  image?: string;
   name?: string;
   username?: string;
   isLogged?: boolean;
   isSelected?: boolean;
+  isLarged?: boolean;
 }
 
-function Avatar({ name, username, isLogged, isSelected }: AvatarProps) {
+function Avatar({
+  name,
+  image,
+  username,
+  isLogged,
+  isSelected,
+  isLarged,
+}: AvatarProps) {
   return (
     <div className="flex justify-center items-center gap-2">
       <div
         className={`${
-          isSelected ? 'bg-slate-800' : 'bg-zinc-200'
-        } w-11 h-11 flex justify-center items-center rounded-full transition-all duration-300 ease-in-out hover:brightness-95 cursor-pointer `}
+          isLarged ? 'w-24 h-24' : 'w-9 h-9'
+        }  grid place-content-center bg-slate-300 rounded-full ring-2 ring-slate-300 overflow-hidden`}
       >
-        <div className="w-9 h-9 grid place-content-center bg-slate-300 rounded-full">
-          {isLogged ? (
-            <img
-              src={`https://source.unsplash.com/random/250x250/?draw`}
-              className="w-full h-full object-cover rounded-full"
-            />
-          ) : (
-            <User size={20} color="#3f3f46" weight="duotone" />
-          )}
-        </div>
+        {isLogged ? (
+          <img
+            src={image ?? 'https://picsum.photos/id/237/200/300'}
+            className="w-full h-full object-cover rounded-full "
+          />
+        ) : (
+          <User size={20} color="#3f3f46" weight="duotone" />
+        )}
       </div>
 
       {name && username && (
