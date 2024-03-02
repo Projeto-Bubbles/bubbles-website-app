@@ -11,7 +11,7 @@ interface HorizontalCardProps {
 }
 
 export function HorizontalCard({ bubble, event, image }: HorizontalCardProps) {
-  const bubbleTag: BubbleProps[] = bubbles(16).filter(
+  const bubbleTag: BubbleProps[] = bubbles(14).filter(
     (b) => b.category === bubble?.category
   );
 

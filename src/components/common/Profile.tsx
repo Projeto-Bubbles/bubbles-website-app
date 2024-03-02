@@ -1,21 +1,11 @@
 import { Image } from 'phosphor-react';
+import { getInterests, getLocalUser } from '../../services/userServices';
 import Avatar from './Avatar';
 
-interface ProfileProps {
-  user: {
-    image: string;
-    name: string;
-    username: string;
-  };
-  statistics: {
-    bubbles: number;
-    events: number;
-    interests: number;
-  };
-  banner: string;
-}
-
 function Profile() {
+  const user = getLocalUser();
+  const interests = getInterests();
+
   return (
     <div className="w-full flex items-center justify-center rounded-[20px] h-56 relative bg-[url('https://i.ytimg.com/vi/QdBZY2fkU-0/maxresdefault.jpg')] bg-cover bg-center">
       <div className="absolute flex items-center justify-center w-5 h-5 right-3 top-3 rounded-md bg-zinc-300/70 backdrop-blur-md cursor-pointer">
@@ -49,13 +39,15 @@ function Profile() {
 
           <div className="flex justify-center items-center flex-col">
             <span className="font-semibold">interesses</span>
-            <h1 className="font-bold text-3xl ">1</h1>
+            <h1 className="font-bold text-3xl ">{interests}</h1>
           </div>
         </div>
 
         <div className="flex items-center justify-center flex-col text-zinc-700">
-          <h1 className="font-bold text-2xl">Nome Sobrenome</h1>
-          <span className="font-semibold text-normal">@nickname</span>
+          <h1 className="font-bold text-2xl">{user.name}</h1>
+          <span className="font-semibold text-normal">
+            {'@' + user.username}
+          </span>
         </div>
       </div>
     </div>

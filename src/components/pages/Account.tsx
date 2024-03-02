@@ -1,4 +1,6 @@
-import { Calendar, ChatTeardrop, User } from 'phosphor-react';
+import { Calendar, ChatTeardrop, CheckCircle, User } from 'phosphor-react';
+import { ChangeEvent, KeyboardEvent, useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import { bubbles } from '../../data/bubbles';
 import { BubbleProps } from '../../interfaces/bubble';
 import { AccountCard } from '../common/AccountCard';
@@ -8,6 +10,12 @@ import Profile from '../common/Profile';
 import { HorizontalCard } from './../common/HorizontalCard';
 
 function Account() {
+  const [contentAboutMe, setContentAboutMe] = useState(() => {
+    return localStorage.getItem('contentAboutMe') ?? '';
+  });
+
+  const [isTextAreaDisable, setIsTextAreaDisable] = useState(true);
+
   const bubblesLocal: BubbleProps[] = JSON.parse(
     localStorage.getItem('bubbles') ?? '[]'
   );
@@ -16,8 +24,32 @@ function Account() {
     bubblesLocal.map((b) => b.category).includes(bubble.category)
   );
 
+  const handleContentAboutMe = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setContentAboutMe(event.target.value);
+  };
+
+  const onSaveAboutMe = (event: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+
+      localStorage.setItem('contentAboutMe', contentAboutMe);
+
+      setIsTextAreaDisable(true);
+
+      toast.success('"Sobre mim" atualizado com sucesso!', {
+        icon: <CheckCircle size={16} color="#4d9d4f" weight="duotone" />,
+      });
+    }
+  };
+
+  const enableTextArea = () => {
+    setIsTextAreaDisable(false);
+  };
+
   return (
     <>
+      <Toaster />
+
       <Navbar />
 
       <main className="min-h-screen bg-cover flex justify-center items-start pb-20">
@@ -26,15 +58,22 @@ function Account() {
 
           <div className="w-full bg-red grid grid-cols-1 lg:grid-cols-[27%_37%_30%] gap-[3%] ">
             <AccountCard
+              editAboutMe
+              onEnableTextArea={enableTextArea}
               title="Sobre mim"
               icon={<User size={16} color="#F1F5F9" weight="duotone" />}
               background="bg-slate-900"
             >
-              <p className="text-slate-100 ">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Odio
-                officia voluptate laboriosam reiciendis, qui facere. Nesciunt
-              </p>
-
+              <div className="w-full min-h-[120px]">
+                <textarea
+                  disabled={isTextAreaDisable}
+                  maxLength={200}
+                  className="w-full h-[120px] text-slate-100 bg-none border-none outline-none resize-none"
+                  value={contentAboutMe}
+                  onChange={handleContentAboutMe}
+                  onKeyDown={onSaveAboutMe}
+                />
+              </div>
               <div className="w-full h-[1px] bg-slate-800 rounded-full" />
 
               <div className="w-full flex flex-col items-start justify-start gap-4">
