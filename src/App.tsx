@@ -1,15 +1,15 @@
 import { Outlet } from 'react-router-dom';
 
 function App() {
-  const user = {
-    id: 25,
-    name: 'Baianinho Doce',
-    username: 'baianod',
-    email: 'baianin@gmail.com',
-    image: 'https://source.unsplash.com/random/250x250/?person',
+  const data = {
+    id: 1,
+    name: 'Chico Bueno',
+    username: 'chico@123',
+    email: 'chico@gmail.com',
   };
 
-  localStorage.setItem('user', JSON.stringify(user));
+  localStorage.setItem('user', JSON.stringify(data));
+
   return (
     <>
       <div className="w-screen h-screen bg-[url('../src/assets/bubbles-effect.png')] bg-cover bg-repeat-y">

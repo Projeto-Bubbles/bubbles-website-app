@@ -1,10 +1,15 @@
-import axios from 'axios';
-import { Export } from 'phosphor-react';
+import { Export, Pencil, Trash } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { bubbles } from '../../data/bubbles';
+import useBubbles from '../../hooks/useBubbles';
 import { BubbleProps } from '../../interfaces/bubble';
-import { convertImageToBase64 } from '../../utils/imageConverter';
+import {
+  createBubble,
+  deleteBubble,
+  editBubble,
+  getFilteredBubbles,
+} from '../../services/bubbleServices';
 import Search from '../Search';
 import { Bubble } from '../common/Bubble';
 import Button from '../common/Button';
@@ -12,22 +17,45 @@ import Input from '../common/Fields/Input';
 import Select from '../common/Fields/Select';
 import Textarea from '../common/Fields/Textarea';
 import Modal from '../common/Modal';
+import Navbar from '../common/Navbar';
 
 function SearchBubbles() {
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const [currentContent, setCurrentContent] = useState<string | undefined>();
+
+  const [isVisibleEdit, setIsVisibleEdit] = useState(false);
+  const [postId, setPostId] = useState(0);
+
+  const bubblesTag = bubbles(12);
+
+  const userBubbles: BubbleProps[] = JSON.parse(
+    localStorage.getItem('bubbles') || '[]'
+  );
+  const { selectedBubbles, toggleBubble } = useBubbles(userBubbles);
+
   const [isVisible, setIsVisible] = useState(false);
   const [bubblesList, setBubblesList] = useState<BubbleProps[]>([]);
+  const [bubblesDefault, setBubblesDefault] = useState<BubbleProps[]>([]);
+
   const [image, setImage] = useState<File | null>(null);
 
-  useEffect(() => {
-    axios
-      .get('http://localhost:3000/bubbles')
-      .then((response) => setBubblesList(response.data))
-      .catch((err) => console.log(err));
-  }, []);
+  const handleSearchBubbles = (e: any) => {
+    const searchBubble = e.target.value.toLowerCase();
 
-  const bubblesOptions = bubbles(12).map((bubbles) => {
-    return { label: bubbles.name, value: bubbles.category };
-  });
+    if (searchBubble === '') {
+      setBubblesList(bubblesDefault);
+    } else {
+      const searchBubbles = bubblesDefault.filter((bubble) =>
+        bubble.name.toLowerCase().includes(searchBubble)
+      );
+
+      setBubblesList(searchBubbles);
+
+      if (searchBubbles.length === 0) {
+        console.log('Nenhuma bolha encontrada para a pesquisa.');
+      }
+    }
+  };
 
   const {
     register,
@@ -35,31 +63,50 @@ function SearchBubbles() {
     handleSubmit,
   } = useForm<BubbleProps>();
 
-  // TODO: integrate api endpoint
-  const createBubble = async (data: BubbleProps) => {
-    try {
-      const imageBase64 = await convertImageToBase64(image as File);
-      const bubbleData = { ...data, image: imageBase64 };
+  const bubblesOptions = bubbles(12).map((bubbles) => {
+    return { label: bubbles.name, value: bubbles.category };
+  });
 
-      // Agora você pode fazer o POST usando o Axios
-      const response = await axios.post(
-        'http://localhost:3000/bubbles',
-        bubbleData
-      );
+  const createNewBubble = (data: BubbleProps) => {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const bubbleData = {
+      ...data,
+      creationDate: new Date().toISOString(),
+      creator: { id: user.id },
+    };
 
-      // Verifica se a resposta foi bem-sucedida
-      if (response.status === 201) {
-        // Bolha criada com sucesso
-        console.log('Bolha criada com sucesso!');
-      } else {
-        console.error('Erro ao criar a bolha.');
-      }
-    } catch (error) {
-      console.error('Erro durante o processo de criação da bolha:', error);
-    }
+    createBubble(bubbleData)
+      .then(() => {
+        getBubbles();
 
-    setIsVisible(false);
+        setIsVisible(false);
+        alert('🫧👍🏻 Bolha criada com sucesso!');
+      })
+      .catch((err) => console.log(err));
   };
+
+  const getBubbles = () => {
+    const categories = selectedBubbles.map((bubble) => bubble.category);
+
+    getFilteredBubbles(categories)
+      .then((response) => {
+        const bubbleListMapped: BubbleProps[] = response.data.map(
+          (bubble: BubbleProps) => {
+            bubble.users = Math.floor(Math.random() * (100 - 10 + 1) + 10);
+            return bubble;
+          }
+        );
+
+        setBubblesList(bubbleListMapped);
+        setBubblesDefault(bubbleListMapped);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    const categories = selectedBubbles.map((bubble) => bubble.category);
+    getBubbles();
+  }, [selectedBubbles]);
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -72,94 +119,210 @@ function SearchBubbles() {
     }
   };
 
+  const handleEditBubble = (postId: number, newContent: string) => {
+    const confirm = window.confirm('Deseja realmente editar a bolha?');
+
+    if (confirm) {
+      editBubble(postId, newContent)
+        .then(() => {
+          alert('✅ Bolha editada com sucesso!');
+          getBubbles();
+          setIsVisibleEdit(false);
+        })
+        .catch((error) => console.error(error));
+    }
+  };
+
+  const onEdit = (postId: number, content: string) => {
+    setIsVisibleEdit(true);
+    setPostId(postId);
+    setCurrentContent(content);
+  };
+
+  const onDelete = (id: number) => {
+    const confirm = window.confirm('Deseja realmente excluir a bolha?');
+
+    if (confirm) {
+      deleteBubble(id)
+        .then(() => {
+          alert('✅ Bolha excluída com sucesso!');
+          getBubbles();
+        })
+        .catch((error) => console.error(error));
+    }
+  };
+
+  const handleTextarea = (e: any) => {
+    setCurrentContent(e.target.value);
+  };
+
   return (
     <>
-      {isVisible && (
-        <Modal onClose={() => setIsVisible(false)}>
-          <form
-            onSubmit={handleSubmit(createBubble)}
-            className="w-full flex flex-col gap-8"
-          >
-            <div
-              onDragOver={handleDragOver}
-              onDrop={handleOnDrop}
-              className="w-full h-60 flex flex-col justify-center items-center gap-4 rounded-md border-dotted border-2 border-zinc-500 overflow-hidden"
-            >
-              {image ? (
-                <img
-                  src={URL.createObjectURL(image)}
-                  alt="Imagem da bolha"
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <>
-                  <Export size={32} weight="duotone" color="#6b7280" />
-                  <h1 className="text-zinc-500 font-medium">
-                    Arraste uma foto para a bolha
-                  </h1>
-                </>
-              )}
-            </div>
-
-            <div className="w-full flex justify-between items-center gap-8">
-              <div className="w-3/5">
-                <Input
-                  label="Nome da bolha:"
-                  placeholder="Digite o nome da bolha"
-                  color="bg-zinc-100/70"
-                  {...register('name', {
-                    required: 'Não esqueça o nome da bolha',
-                  })}
-                  helperText={errors?.name?.message}
-                />
-              </div>
-
-              <div className="w-2/5">
-                <Select
-                  label="Selecione uma categoria"
-                  color="bg-zinc-100/70"
-                  options={bubblesOptions}
-                  {...register('category', {
-                    required: 'Selecione a categoria',
-                  })}
-                  onChange={(e) => {
-                    register('category').onChange(e);
-                  }}
-                  helperText={errors?.category?.message}
-                />
-              </div>
-            </div>
-
+      {isVisibleEdit ? (
+        <Modal onClose={() => setIsVisibleEdit(false)}>
+          <div className="w-full flex flex-col justify-start item-center gap-4">
+            <h1 className="text-zinc-700 font-medium text-lg">
+              Editar nome da bolha
+            </h1>
             <Textarea
-              label="Descrição da bolha"
+              value={currentContent}
+              onChange={handleTextarea}
               color="bg-zinc-100/70"
-              {...register('description', {
-                required: 'Coloque uma breve descrição',
-              })}
-              maxLength={100}
-              helperText={errors?.description?.message}
             />
-
             <Button
+              text="Editar"
+              icon={<Pencil size={16} color="#334141" weight="duotone" />}
+              color="bg-green-600"
               type="submit"
-              text="Criar bolha"
-              color="bg-green-500"
-              disabled={!isValid}
-              className="mt-10"
+              onClick={() => handleEditBubble(postId, currentContent ?? '')}
             />
-          </form>
+          </div>
         </Modal>
-      )}
+      ) : (
+        <>
+          <Navbar redirectPage="/feed" isLogged />
 
-      <Search
-        title="Encontre suas bolhas favoritas aqui"
-        placeholder="Pesquisar bolhas..."
-        isOpenModal={() => setIsVisible(true)}
-      >
-        {bubblesList.map((bubble, index) => (
-          <Bubble.Card key={index} {...bubble} />
-        ))}
-      </Search>
+          {isVisible && (
+            <Modal onClose={() => setIsVisible(false)}>
+              <form
+                onSubmit={handleSubmit(createNewBubble)}
+                className="w-full flex flex-col gap-8"
+              >
+                <div
+                  onDragOver={handleDragOver}
+                  onDrop={handleOnDrop}
+                  className="w-full h-60 flex flex-col justify-center items-center gap-4 rounded-md border-dotted border-2 border-zinc-500 overflow-hidden"
+                >
+                  {image ? (
+                    <img
+                      src={URL.createObjectURL(image)}
+                      alt="Imagem da bolha"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <>
+                      <Export size={32} weight="duotone" color="#6b7280" />
+                      <h1 className="text-zinc-500 font-medium">
+                        Arraste uma foto para a bolha
+                      </h1>
+                    </>
+                  )}
+                </div>
+
+                <div className="w-full flex justify-between items-center gap-8">
+                  <div className="w-3/5">
+                    <Input
+                      label="Nome da bolha:"
+                      placeholder="Digite o nome da bolha"
+                      color="bg-zinc-100/70"
+                      {...register('name', {
+                        required: 'Não esqueça o nome da bolha',
+                      })}
+                      helperText={errors?.name?.message}
+                    />
+                  </div>
+
+                  <div className="w-2/5">
+                    <Select
+                      label="Selecione uma categoria"
+                      color="bg-zinc-100/70"
+                      options={bubblesOptions}
+                      {...register('category', {
+                        required: 'Selecione a categoria',
+                      })}
+                      onChange={(e) => {
+                        register('category').onChange(e);
+                      }}
+                      helperText={errors?.category?.message}
+                    />
+                  </div>
+                </div>
+
+                <Textarea
+                  label="Descrição da bolha"
+                  color="bg-zinc-100/70"
+                  {...register('description', {
+                    required: 'Coloque uma breve descrição',
+                  })}
+                  maxLength={100}
+                  helperText={errors?.description?.message}
+                />
+
+                <Button
+                  type="submit"
+                  text="Criar bolha"
+                  color="bg-green-500"
+                  disabled={!isValid}
+                  className="mt-10"
+                />
+              </form>
+            </Modal>
+          )}
+
+          <Search
+            title="Encontre suas bolhas favoritas aqui"
+            placeholder="Pesquisar bolhas..."
+            isOpenModal={() => setIsVisible(true)}
+            onChange={handleSearchBubbles}
+          >
+            <div className="flex flex-col gap-10">
+              <div className="flex justify-center items-center gap-4">
+                {bubblesTag.map((tag, index) => (
+                  <div
+                    key={index}
+                    onClick={() => {
+                      toggleBubble(tag);
+                    }}
+                  >
+                    <Bubble.Tag
+                      icon={tag.icon}
+                      name={tag.name}
+                      color={tag.color}
+                      selected={userBubbles.some(
+                        (bubble) => bubble.name === tag.name
+                      )}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              <div className="w-full grid grid-cols-4 gap-12 place-content-items">
+                {bubblesList.map((bubble, index) => (
+                  <div
+                    key={index}
+                    className="h-full flex justify-center items-start gap-1"
+                  >
+                    <Bubble.Card
+                      {...bubble}
+                      users={bubble.users}
+                      image={`https://source.unsplash.com/random/500x500/?${bubble.category}`}
+                    />
+
+                    {bubble?.creator?.id === user.id && (
+                      <div className="bg-zinc-300 w-5 flex flex-col justify-center items-center gap-2 rounded-md">
+                        <span
+                          onClick={() => onEdit(bubble.id ?? 0, bubble.name)}
+                          role="editar"
+                          className="w-full text-zinc-700 flex justify-center items-center gap-2 px-1 py-[2px] rounded-md transition duration-200 ease-in-out cursor-pointer hover:bg-zinc-400/20"
+                        >
+                          <Pencil size={16} color="#334141" weight="duotone" />
+                        </span>
+                        <span
+                          onClick={() => onDelete(bubble.id ?? 0)}
+                          role="excluir"
+                          className="w-full text-zinc-700 flex justify-center items-center gap-2 px-1 py-[2px] rounded-md transition duration-200 ease-in-out cursor-pointer hover:bg-slate-400/20"
+                        >
+                          <Trash size={16} color="#334141" weight="duotone" />
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Search>
+        </>
+      )}
     </>
   );
 }
