@@ -23,18 +23,18 @@ export function HorizontalCard({ bubble, event, image }: HorizontalCardProps) {
         <img
           className="w-full h-full object-cover"
           src={image}
-          alt={bubble?.name || event?.title}
+          alt={bubble?.title || event?.title}
         />
       </div>
 
       <div className="w-full h-full flex flex-col items-start justify-center gap-1">
         {event?.title ? (
           <h3 className="font-semibold text-lg text-zinc-600">
-            {bubble?.name}
+            {bubble?.title}
           </h3>
         ) : (
           <Bubble.Tag
-            name={bubbleTag[0].name}
+            title={bubbleTag[0].title}
             icon={bubbleTag[0].icon}
             color={bubbleTag[0].color}
             fixed
@@ -42,7 +42,7 @@ export function HorizontalCard({ bubble, event, image }: HorizontalCardProps) {
         )}
 
         <h1 className="font-bold text-xl text-zinc-700">
-          {bubble?.name || event?.title}
+          {bubble?.title || event?.title}
         </h1>
 
         {event?.dateTime ? (

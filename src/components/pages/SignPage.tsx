@@ -141,10 +141,10 @@ function SignPage() {
                       <div key={index} onClick={() => toggleBubble(bubble)}>
                         <Bubble.Tag
                           icon={bubble.icon}
-                          name={bubble.name}
+                          title={bubble.title}
                           color={bubble.color}
                           selected={userBubbles.some(
-                            (b) => b.name === bubble.name
+                            (b) => b.title === bubble.title
                           )}
                         />
                       </div>

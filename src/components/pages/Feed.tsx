@@ -54,8 +54,8 @@ function Feed() {
     const post: any = {
       dateTime: new Date(),
       content,
-      authorId: user.id,
-      bubble: 'Bolinha',
+      idUser: user.idUser,
+      idBubble: 1,
     };
 
     setInputValues((prevInputValues) => ({
@@ -72,7 +72,7 @@ function Feed() {
     const comment: any = {
       dateTime: new Date(),
       content,
-      authorId: user.id,
+      authorId: user.idUser,
     };
 
     setInputValues((prevInputValues) => ({
@@ -249,7 +249,10 @@ function Feed() {
                   type={user.email ? PostType.CREATE : PostType.NOT_LOGGED}
                 >
                   {user.email && (
-                    <Post.Header name={user.name} username={user.username} />
+                    <Post.Header
+                      name={user.username}
+                      username={user.nickname}
+                    />
                   )}
                   <Post.Content
                     isNotLogged={!user.email}
@@ -280,16 +283,18 @@ function Feed() {
 
                 {posts &&
                   posts.map((post) => (
-                    <Post.Root key={post.id} type={PostType.VIEW}>
+                    <Post.Root key={post.idPost} type={PostType.VIEW}>
                       <Post.Header
-                        name={post.author.name}
-                        username={post.author.username}
-                        dateTime={post.dateTime}
+                        name={post.author.username}
+                        username={post.author.nickname}
+                        dateTime={post.moment}
                         showPopup={post.author.email === user.email}
                       >
                         <div className="bg-zinc-300 w-20 flex flex-col justify-center items-center gap-2 rounded-md">
                           <span
-                            onClick={() => onEdit(post.id ?? 0, post.content)}
+                            onClick={() =>
+                              onEdit(post.idPost ?? 0, post.contents)
+                            }
                             role="editar"
                             className="w-full text-zinc-700 flex justify-start items-center gap-2 px-1 py-[2px] rounded-md transition duration-200 ease-in-out cursor-pointer hover:bg-zinc-400/20"
                           >
@@ -301,7 +306,7 @@ function Feed() {
                             Editar
                           </span>
                           <span
-                            onClick={() => onDelete(post.id ?? 0)}
+                            onClick={() => onDelete(post.idPost ?? 0)}
                             role="excluir"
                             className="w-full text-zinc-700 flex justify-start items-center gap-2 px-1 py-[2px] rounded-md transition duration-200 ease-in-out cursor-pointer hover:bg-slate-400/20"
                           >
@@ -310,18 +315,18 @@ function Feed() {
                           </span>
                         </div>
                       </Post.Header>
-                      <Post.Content content={post.content} />
+                      <Post.Content content={post.contents} />
 
-                      {post.comments?.length && post.comments?.length > 0 && (
+                      {post.comments && post.comments?.length > 0 && (
                         <Post.ShowComments>
                           {post.comments?.map((comment: any) => (
                             <Post.Comment
-                              key={comment.id}
-                              content={comment.content}
+                              key={comment.idComment}
+                              content={comment.contents}
                             >
                               <Post.Header
-                                name={comment.author.name}
-                                username={comment.author.username}
+                                name={comment.author.username}
+                                username={comment.author.nickname}
                               />
                             </Post.Comment>
                           ))}
@@ -340,13 +345,13 @@ function Feed() {
                           />
                         }
                         onKeyDown={(e) =>
-                          handleValue(e, PostType.VIEW, post.id || 0)
+                          handleValue(e, PostType.VIEW, post.idPost || 0)
                         }
-                        value={inputValues[post.id || 0] || ''}
+                        value={inputValues[post.idPost || 0] || ''}
                         onChange={(e) => {
                           setInputValues((prevInputValues) => ({
                             ...prevInputValues,
-                            [post.id || 0]: e.target.value,
+                            [post.idPost || 0]: e.target.value,
                           }));
                         }}
                       />

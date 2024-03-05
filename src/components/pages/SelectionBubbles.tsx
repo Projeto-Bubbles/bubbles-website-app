@@ -52,10 +52,10 @@ function SelectionBubbles() {
               {bubblesList.map((bubble, index) => (
                 <div key={index} onClick={() => toggleBubble(bubble)}>
                   <Bubble.Picker
-                    name={bubble.name}
+                    title={bubble.title}
                     icon={bubble.icon}
                     color={bubble.color}
-                    selected={userBubbles.some((b) => b.name === bubble.name)}
+                    selected={userBubbles.some((b) => b.title === bubble.title)}
                   />
                 </div>
               ))}

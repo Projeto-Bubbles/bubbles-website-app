@@ -35,20 +35,20 @@ function SearchEvents() {
 
   const [bubbleOptions, setBubblesOptions] = useState([]);
 
-  const [eventsList, setEventsList] = useState<any[]>([]);
+  const [eventsList, setEventsList] = useState<EventProps[]>([]);
   const [eventsDefault, setEventsDefault] = useState<EventProps[]>([]);
   const [isCheckIcon, setCheckIcon] = useState<ReactNode>(null);
 
   const [attendedEvents, setAttendedEvents] = useState<EventProps[]>([]);
 
   const setPresenceInEvent = (event: EventProps) => {
-    const isAttended = attendedEvents.some((e) => e.id === event.id);
+    const isAttended = attendedEvents.some((e) => e.idEvent === event.idEvent);
 
     if (!isAttended) {
       setAttendedEvents([...attendedEvents, event]);
     } else {
       const updatedAttendedEvents = attendedEvents.filter(
-        (e) => e.id !== event.id
+        (e) => e.idEvent !== event.idEvent
       );
       setAttendedEvents(updatedAttendedEvents);
     }
@@ -374,10 +374,10 @@ function SearchEvents() {
               >
                 <Bubble.Tag
                   icon={tag.icon}
-                  name={tag.name}
+                  title={tag.title}
                   color={tag.color}
                   selected={userBubbles.some(
-                    (bubble) => bubble.name === tag.name
+                    (bubble) => bubble.title === tag.title
                   )}
                 />
               </div>
@@ -388,11 +388,11 @@ function SearchEvents() {
             {eventsList &&
               eventsList.map((event) => (
                 <Event.Card
-                  key={event.id}
+                  key={event.idEvent}
                   title={event.title}
                   bubble={event.bubble}
                   address={event.address}
-                  url={event.url}
+                  link={event.link}
                   platform={event.platform}
                   dateTime={event.dateTime}
                   duration={event.duration}
@@ -401,17 +401,19 @@ function SearchEvents() {
                   <Button
                     onClick={() => setPresenceInEvent(event)}
                     text={
-                      attendedEvents.some((e) => e.id === event.id)
+                      attendedEvents.some((e) => e.idEvent === event.idEvent)
                         ? ''
                         : 'MARCAR PRESENÇA'
                     }
                     color={
-                      attendedEvents.some((e) => e.id === event.id)
+                      attendedEvents.some((e) => e.idEvent === event.idEvent)
                         ? 'bg-green-500'
                         : 'bg-zinc-300'
                     }
                     icon={
-                      attendedEvents.some((e) => e.id === event.id) ? (
+                      attendedEvents.some(
+                        (e) => e.idEvent === event.idEvent
+                      ) ? (
                         <CheckCircle
                           size={16}
                           color="#F1F5F9"

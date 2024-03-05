@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { BubbleProps } from '../../../interfaces/bubble';
 
-function BubblePicker({ color, name, icon, selected }: BubbleProps) {
+function BubblePicker({ color, title, icon, selected }: BubbleProps) {
   const [isClicked, setIsClicked] = useState(selected);
 
   const setBaseColor = () => {
@@ -24,7 +24,7 @@ function BubblePicker({ color, name, icon, selected }: BubbleProps) {
       >
         {icon}
       </div>
-      <h2 className="text-zinc-700 text-xl font-semibold">{name}</h2>
+      <h2 className="text-zinc-700 text-xl font-semibold">{title}</h2>
     </div>
   );
 }
