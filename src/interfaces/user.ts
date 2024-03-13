@@ -1,9 +1,9 @@
 import { BubbleProps } from './bubble';
 
-type CPF = string & { length: 11 };
+export type CPF = string & { length: 11 };
 
 export interface UserProps {
-  idUser: number;
+  idUser?: number;
   username: string;
   email: string;
   cpf?: CPF;

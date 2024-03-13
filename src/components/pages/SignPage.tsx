@@ -19,7 +19,6 @@ import { bubbles } from '../../data/bubbles';
 import useBubbles from '../../hooks/useBubbles';
 import { BubbleProps } from '../../interfaces/bubble';
 import { userRegisterSchema } from '../../schemas/userSchemas';
-import { registerUser } from '../../services/authService';
 import { createUser } from '../../services/userServices';
 import { Bubble } from '../common/Bubble';
 import Input from '../common/Fields/Input';
@@ -74,18 +73,20 @@ function SignPage() {
     e.preventDefault();
 
     data = {
-      name: data.name,
       username: data.username,
+      nickname: data.nickname,
       email: data.email,
       password: data.password,
-      cpf: data.username,
+      cpf: data.cpf,
     };
 
-    registerUser(data)
+    createUser(data)
       .then(() => {
-        createUser(data).then(() => {
-          alert('✅🫧 Usuário cadastrado com sucesso!');
-          navigate('/sign-in');
+        createUser(data).then((response) => {
+          if (response.status === 201 || response.status === 200) {
+            alert('✅🫧 Usuário cadastrado com sucesso!');
+            navigate('/sign-in');
+          }
         });
       })
       .catch((error: any) => {
@@ -169,8 +170,8 @@ function SignPage() {
                       }
                       type="text"
                       placeholder="nome"
-                      {...register('name', { required: true })}
-                      helperText={!isValid ? errors.name?.message : ''}
+                      {...register('username', { required: true })}
+                      helperText={!isValid ? errors.username?.message : ''}
                     />
 
                     <div className="w-full flex items-center justify-between gap-4">
@@ -203,6 +204,7 @@ function SignPage() {
                     </div>
 
                     <Input
+                      maxLength={14}
                       icon={
                         <IdentificationCard
                           size={16}
@@ -228,9 +230,9 @@ function SignPage() {
                     <Input
                       icon={<User size={16} color="#71717A" weight="duotone" />}
                       type="text"
-                      placeholder="username"
-                      {...register('username', { required: true })}
-                      helperText={!isValid ? errors.username?.message : ''}
+                      placeholder="nickname"
+                      {...register('nickname', { required: true })}
+                      helperText={!isValid ? errors.nickname?.message : ''}
                     />
 
                     <Input
