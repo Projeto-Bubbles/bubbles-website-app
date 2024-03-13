@@ -81,17 +81,19 @@ function SignPage() {
     };
 
     createUser(data)
-      .then(() => {
-        createUser(data).then((response) => {
-          if (response.status === 201 || response.status === 200) {
-            alert('✅🫧 Usuário cadastrado com sucesso!');
-            navigate('/sign-in');
-          }
-        });
+      .then((response) => {
+        if (response.status === 201 || response.status === 200) {
+          alert('✅🫧 Usuário cadastrado com sucesso!');
+
+          localStorage.setItem('user', JSON.stringify(data));
+          navigate('/sign-in');
+        }
       })
       .catch((error: any) => {
         if (error.response.status === 400) {
           return alert('❌🫧 Este e-mail já está cadastrado!');
+        } else if (error.response.status === 500) {
+          return alert('❌🫧 Esse nickname já está em uso!');
         }
 
         alert('❌🫧 Erro ao cadastrar usuário!');
