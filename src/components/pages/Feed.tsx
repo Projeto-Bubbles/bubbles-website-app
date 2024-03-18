@@ -11,7 +11,6 @@ import {
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { PostProps } from '../../interfaces/post';
-import { UserProps } from '../../interfaces/user';
 import {
   createComment,
   createPost,
@@ -40,7 +39,7 @@ function Feed() {
 
   const [posts, setPosts] = useState<PostProps[]>([]);
 
-  const user: UserProps = JSON.parse(localStorage.getItem('user') ?? '{}');
+  const user = JSON.parse(localStorage.getItem('user') ?? '{}');
 
   const [inputValues, setInputValues] = useState<{ [key: string]: string }>({});
 
@@ -50,11 +49,11 @@ function Feed() {
       .catch((error) => console.log('👽 ~ error:', error));
   };
 
-  const handleCreatePost = (content: string) => {
+  const handleCreatePost = (contents: string) => {
     const post: any = {
       dateTime: new Date(),
-      content,
-      idUser: user.idUser,
+      contents,
+      idAuthor: user.id,
       idBubble: 1,
     };
 
@@ -72,7 +71,7 @@ function Feed() {
     const comment: any = {
       dateTime: new Date(),
       content,
-      authorId: user.idUser,
+      idAuthor: user.id,
     };
 
     setInputValues((prevInputValues) => ({

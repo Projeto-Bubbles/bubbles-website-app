@@ -71,8 +71,7 @@ function SearchBubbles() {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const bubbleData = {
       ...data,
-      creationDate: new Date().toISOString(),
-      creator: { id: user.id },
+      creator: user.id,
     };
 
     createBubble(bubbleData)
@@ -87,6 +86,7 @@ function SearchBubbles() {
 
   const getBubbles = () => {
     const categories = selectedBubbles.map((bubble) => bubble.category);
+    console.log('👽 ~ categories:', categories);
 
     getFilteredBubbles(categories)
       .then((response) => {
@@ -301,14 +301,16 @@ function SearchBubbles() {
                     {bubble?.creator?.idUser === user.id && (
                       <div className="bg-zinc-300 w-5 flex flex-col justify-center items-center gap-2 rounded-md">
                         <span
-                          onClick={() => onEdit(bubble.id ?? 0, bubble.title)}
+                          onClick={() =>
+                            onEdit(bubble.idBubble ?? 0, bubble.title)
+                          }
                           role="editar"
                           className="w-full text-zinc-700 flex justify-center items-center gap-2 px-1 py-[2px] rounded-md transition duration-200 ease-in-out cursor-pointer hover:bg-zinc-400/20"
                         >
                           <Pencil size={16} color="#334141" weight="duotone" />
                         </span>
                         <span
-                          onClick={() => onDelete(bubble.id ?? 0)}
+                          onClick={() => onDelete(bubble.idBubble ?? 0)}
                           role="excluir"
                           className="w-full text-zinc-700 flex justify-center items-center gap-2 px-1 py-[2px] rounded-md transition duration-200 ease-in-out cursor-pointer hover:bg-slate-400/20"
                         >

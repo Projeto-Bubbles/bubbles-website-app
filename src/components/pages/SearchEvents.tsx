@@ -33,7 +33,12 @@ function SearchEvents() {
   const [image, setImage] = useState<File | null>(null);
   const [eventType, setEventType] = useState('presencial');
 
-  const [bubbleOptions, setBubblesOptions] = useState([]);
+  const [bubbleOptions, setBubblesOptions] = useState<
+    {
+      label: string;
+      value: number | undefined;
+    }[]
+  >([]);
 
   const [eventsList, setEventsList] = useState<EventProps[]>([]);
   const [eventsDefault, setEventsDefault] = useState<EventProps[]>([]);
@@ -98,14 +103,11 @@ function SearchEvents() {
 
   useEffect(() => {
     getBubbles().then((response) => {
-      const sortedBubbles = response.data.sort((a: any, b: any) =>
-        a.name.localeCompare(b.name)
-      );
-
-      const bubbleData = sortedBubbles.map((bubble: any) => ({
-        label: bubble.name,
-        value: bubble.id,
+      const bubbleData = response.data.map((bubble: BubbleProps) => ({
+        label: bubble.title,
+        value: bubble?.id,
       }));
+
       setBubblesOptions(bubbleData);
     });
   }, []);
@@ -396,7 +398,6 @@ function SearchEvents() {
                   platform={event.platform}
                   dateTime={event.dateTime}
                   duration={event.duration}
-                  image={`https://source.unsplash.com/random/500x500/?${event.bubble?.category}`}
                 >
                   <Button
                     onClick={() => setPresenceInEvent(event)}

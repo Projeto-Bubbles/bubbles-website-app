@@ -3,7 +3,7 @@ import { Category } from '../enums/category';
 import { Address, UserProps } from './user';
 
 export interface BubbleProps {
-  id?: number;
+  idBubble?: number;
   title: string;
   explanation?: string;
   creationDate?: Date;

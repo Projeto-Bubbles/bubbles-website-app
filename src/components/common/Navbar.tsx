@@ -30,8 +30,8 @@ function Navbar({ withMenu, redirectPage, isLogged }: NavbarProps) {
         {isLogged && (
           <Avatar
             isLogged
-            name={user.name}
-            username={user.username}
+            name={user.username}
+            username={user.nickname}
             image={user.image}
           />
         )}
@@ -66,9 +66,9 @@ function Navbar({ withMenu, redirectPage, isLogged }: NavbarProps) {
                   <div className="bg-slate-700 w-0 h-[1.5px] rounded-full transition-all duration-300 ease-in-out group-hover:w-full"></div>
                 </li>
               </a>
-              <a 
-              href="#benefits"
-              className="transition duration-300 ease-in-out hover:text-slate-900"
+              <a
+                href="#benefits"
+                className="transition duration-300 ease-in-out hover:text-slate-900"
               >
                 <li className="h-[2px] w-full group">
                   Junte-se
@@ -86,17 +86,19 @@ function Navbar({ withMenu, redirectPage, isLogged }: NavbarProps) {
               </a>
             </ul>
             <div className="flex gap-4">
-                <Button
-                  text="Entrar"
-                  color="bg-zinc-300"
-                  icon={<SignIn size={16} color="#182b3e" weight="duotone" />}
-                  onClick={() => navigate('sign-in')}
-                />
+              <Button
+                text="Entrar"
+                color="bg-zinc-300"
+                icon={<SignIn size={16} color="#182b3e" weight="duotone" />}
+                onClick={() => navigate('sign-in')}
+              />
 
               <Button
                 text="Cadastrar"
                 color="bg-blue-200"
-                icon={<UserCirclePlus size={20} color="#182b3e" weight="duotone" />}
+                icon={
+                  <UserCirclePlus size={20} color="#182b3e" weight="duotone" />
+                }
                 onClick={() => navigate('sign-up')}
               />
             </div>
