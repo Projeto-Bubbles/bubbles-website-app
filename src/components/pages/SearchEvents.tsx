@@ -105,7 +105,7 @@ function SearchEvents() {
     getBubbles().then((response) => {
       const bubbleData = response.data.map((bubble: BubbleProps) => ({
         label: bubble.title,
-        value: bubble?.id,
+        value: bubble?.idBubble,
       }));
 
       setBubblesOptions(bubbleData);
@@ -125,9 +125,9 @@ function SearchEvents() {
     const eventData = {
       title: data.title,
       duration: 90,
-      date: data.date,
-      author: { id: user.id },
-      bubble: { id: data.bubble },
+      moment: data.date,
+      creator: user.nickname,
+      bubbleId: data.bubble,
     };
 
     if (eventType === 'presencial') {
@@ -135,7 +135,7 @@ function SearchEvents() {
         ...eventData,
         publicPlace: true,
         peopleCapacity: 100,
-        address: { id: 1 },
+        address: { idAddress: 1 },
       };
 
       createInPersonEvent(eventInPersonData)
