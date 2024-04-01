@@ -93,7 +93,7 @@ function SignPage() {
         if (error.response.status === 400) {
           return alert('❌🫧 Este e-mail já está cadastrado!');
         } else if (error.response.status === 500) {
-          return alert('❌🫧 Esse nickname já está em uso!');
+          return alert('❌🫧 CPF inválido');
         }
 
         alert('❌🫧 Erro ao cadastrar usuário!');

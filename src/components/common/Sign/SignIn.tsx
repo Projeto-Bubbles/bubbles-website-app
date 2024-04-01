@@ -35,7 +35,7 @@ function SignIn() {
           localStorage.setItem('user', JSON.stringify(response.data));
         });
 
-        navigate('/feed');
+        setTimeout(() => navigate('/feed'), 500);
       })
       .finally(() => {
         setIsDisabled(false);

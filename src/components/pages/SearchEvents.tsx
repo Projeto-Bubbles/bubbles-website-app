@@ -126,8 +126,8 @@ function SearchEvents() {
       title: data.title,
       duration: 90,
       moment: data.date,
-      creator: user.nickname,
-      bubbleId: data.bubble,
+      idCreator: user.idUser,
+      bubbleId: data.bubble.idBubble,
     };
 
     if (eventType === 'presencial') {
