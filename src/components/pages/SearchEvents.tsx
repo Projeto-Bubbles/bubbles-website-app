@@ -1,6 +1,8 @@
+import axios from 'axios';
 import { Browser, Calendar, CheckCircle, Export, MapPin } from 'phosphor-react';
-import { ReactNode, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { bubbles } from '../../data/bubbles';
 import { Category } from '../../enums/category';
 import useBubbles from '../../hooks/useBubbles';
@@ -32,6 +34,7 @@ function SearchEvents() {
   const [isVisible, setIsVisible] = useState(false);
   const [image, setImage] = useState<File | null>(null);
   const [eventType, setEventType] = useState('presencial');
+  const [address, setAddress] = useState<any>({});
 
   const [bubbleOptions, setBubblesOptions] = useState<
     {
@@ -42,7 +45,6 @@ function SearchEvents() {
 
   const [eventsList, setEventsList] = useState<EventProps[]>([]);
   const [eventsDefault, setEventsDefault] = useState<EventProps[]>([]);
-  const [isCheckIcon, setCheckIcon] = useState<ReactNode>(null);
 
   const [attendedEvents, setAttendedEvents] = useState<EventProps[]>([]);
 
@@ -119,6 +121,7 @@ function SearchEvents() {
   }, [selectedBubbles]);
 
   const createEvent = (data: any) => {
+    console.log('👽 ~ data:', data);
     const categories = selectedBubbles.map((bubble) => bubble.category);
     const user = JSON.parse(localStorage.getItem('user') || '{}');
 
@@ -126,31 +129,52 @@ function SearchEvents() {
       title: data.title,
       duration: 90,
       moment: data.date,
-      idCreator: user.idUser,
-      bubbleId: data.bubble.idBubble,
+      idCreator: user.id,
+      idBubble: data.bubble,
     };
 
     if (eventType === 'presencial') {
-      const eventInPersonData = {
-        ...eventData,
-        publicPlace: true,
-        peopleCapacity: 100,
-        address: { idAddress: 1 },
-      };
+      const cep = data.cep.replace(/\D/g, '');
 
-      createInPersonEvent(eventInPersonData)
-        .then(() => {
-          alert('📅 Evento criado com sucesso!');
-          getEvents(categories);
-          setIsVisible(false);
+      axios
+        .get(`https://viacep.com.br/ws/${cep}/json/`)
+        .then((response) => {
+          setAddress(response.data);
+          console.log('👽 ENDEREÇO: ', response.data);
+
+          const houseNumber = data.address.replace(/\D/g, '');
+
+          const eventInPersonData = {
+            ...eventData,
+            publicPlace: true,
+            peopleCapacity: 100,
+            address: {
+              cep,
+              estate: address.uf,
+              city: address.localidade,
+              neighborhood: address.bairro,
+              street: address.logradouro,
+              houseNumber,
+            },
+          };
+
+          createInPersonEvent(eventInPersonData)
+            .then(() => {
+              alert('📅 Evento criado com sucesso!');
+              getEvents(categories);
+              setIsVisible(false);
+            })
+            .catch((err) => console.error(err));
         })
-        .catch((err) => console.error(err));
+        .catch(() => {
+          toast.error('CEP não encontrado');
+        });
     }
 
     if (eventType === 'online') {
       const eventOnlineData = {
         ...eventData,
-        url: data.url,
+        link: data.url,
         platform: data.platform,
       };
       console.log('👽 ~ eventOnlineData:', eventOnlineData);
@@ -386,7 +410,7 @@ function SearchEvents() {
             ))}
           </div>
 
-          <div className="w-full grid grid-cols-3 gap-12 place-content-items">
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 place-content-items">
             {eventsList &&
               eventsList.map((event) => (
                 <Event.Card

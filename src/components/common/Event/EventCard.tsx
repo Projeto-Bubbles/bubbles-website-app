@@ -15,7 +15,6 @@ function EventCard({
   children,
 }: EventProps) {
   const targetBubble = bubbles(12).find((b) => b.category === bubble?.category);
-  console.log('👽 ~ targetBubble:', targetBubble);
 
   return (
     <div className="bg-gray-200 w-[400px] rounded-md flex justify-start items-center gap-10">
@@ -57,7 +56,9 @@ function EventCard({
             <>
               <div className="bg-blue-200/70 rounded-full flex justify-between items-center gap-2 px-2 font-semibold text-zinc-700">
                 <Link size={12} color="#71717A" weight="duotone" />
-                <a href={link}>Link</a>
+                <a href={link} target="_blank">
+                  Link
+                </a>
               </div>
 
               <div className="bg-zinc-300/70 rounded-full flex justify-between items-center gap-2 px-2 font-semibold text-zinc-700">
