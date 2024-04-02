@@ -11,9 +11,9 @@ function useBubbles(userBubbles?: BubbleProps[]) {
   }, [selectedBubbles]);
 
   const toggleBubble = (bubble: BubbleProps) => {
-    if (selectedBubbles.some((b) => b.name === bubble.name)) {
+    if (selectedBubbles.some((b) => b.title === bubble.title)) {
       setSelectedBubbles(
-        selectedBubbles.filter((element) => element.name !== bubble.name)
+        selectedBubbles.filter((element) => element.title !== bubble.title)
       );
     } else {
       setSelectedBubbles([...selectedBubbles, bubble]);
@@ -21,8 +21,8 @@ function useBubbles(userBubbles?: BubbleProps[]) {
   };
 
   const sanitizedBubbles = selectedBubbles.map(
-    ({ name, category, color, selected }) => ({
-      name,
+    ({ title, category, color, selected }) => ({
+      title,
       category,
       color,
       selected,

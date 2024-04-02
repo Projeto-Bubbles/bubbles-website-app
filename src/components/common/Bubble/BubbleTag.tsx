@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { BubbleProps } from '../../../interfaces/bubble';
 
-function BubbleTag({ icon, name, color, selected, fixed }: BubbleProps) {
+function BubbleTag({ icon, title, color, selected, fixed }: BubbleProps) {
   const [isSelected, setIsSelected] = useState(selected);
 
   return (
@@ -14,7 +14,7 @@ function BubbleTag({ icon, name, color, selected, fixed }: BubbleProps) {
       }`}
     >
       {icon}
-      <h4 className="lowercase text-zinc-700 font-medium">{name}</h4>
+      <h4 className="lowercase text-zinc-700 font-medium">{title}</h4>
     </label>
   );
 }

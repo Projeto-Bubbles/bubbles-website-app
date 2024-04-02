@@ -10,29 +10,29 @@ function BubbleCard(bubble: BubbleProps) {
     ...bubble,
     icon: targetBubble?.icon,
     color: targetBubble?.color,
-    category: targetBubble?.name,
+    category: targetBubble?.title,
   };
 
   return (
     <div className="w-72 h-68 bg-zinc-200 text-zinc-700 rounded-lg flex flex-col justify-between items-center group mb-6">
-      <div className="w-full h-3/5 flex flex-col justify-start items-center p-6 gap-6">
+      <div className="w-full h-[170px] flex flex-col justify-start items-center p-6 gap-6">
         <div className="w-full flex justify-between items-center">
           <Bubble.Tag
             icon={bubbleInfo.icon}
-            name={bubbleInfo.category ?? ''}
+            title={bubbleInfo.category ?? ''}
             color={bubbleInfo.color}
             fixed
           />
           <div className="w-14 flex justify-end items-center gap-2">
             <Users size={16} color="#423F46" weight="duotone" />
-            <span className="font-bold">4k</span>
+            <span className="font-bold">{bubble.users}k</span>
           </div>
         </div>
 
-        <div className="w-full flex flex-col justify-start items-start gap-2 h-[full">
-          <h1 className="font-bold text-xl leading-none">{bubble.name}</h1>
+        <div className="w-full flex flex-col justify-start items-start gap-2">
+          <h1 className="font-bold text-xl leading-none">{bubble.title}</h1>
           <p className="text-base font-medium leading-none">
-            {bubble.description}
+            {bubble.explanation}
           </p>
         </div>
       </div>
@@ -43,7 +43,7 @@ function BubbleCard(bubble: BubbleProps) {
         </button>
         <img
           src={bubble.image}
-          alt={bubble.name}
+          alt={bubble.title}
           className="w-full h-full object-cover object-center rounded-[40px]"
         />
       </div>

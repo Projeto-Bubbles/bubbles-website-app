@@ -12,3 +12,19 @@ export const createPost = (body: PostProps) => {
 export const createComment = (body: CommentProps, postId: number) => {
   return api.post(`/posts/${postId}/comments`, body);
 };
+
+export const deletePost = (id: number) => {
+  return api.delete(`/posts/${id}`);
+};
+
+export const editPost = (id: number, body: string) => {
+  return api.patch(
+    `/posts/${id}`,
+    { contents: body },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+};

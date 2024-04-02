@@ -33,7 +33,12 @@ function SearchEvents() {
   const [image, setImage] = useState<File | null>(null);
   const [eventType, setEventType] = useState('presencial');
 
-  const [bubbleOptions, setBubblesOptions] = useState([]);
+  const [bubbleOptions, setBubblesOptions] = useState<
+    {
+      label: string;
+      value: number | undefined;
+    }[]
+  >([]);
 
   const [eventsList, setEventsList] = useState<EventProps[]>([]);
   const [eventsDefault, setEventsDefault] = useState<EventProps[]>([]);
@@ -42,13 +47,13 @@ function SearchEvents() {
   const [attendedEvents, setAttendedEvents] = useState<EventProps[]>([]);
 
   const setPresenceInEvent = (event: EventProps) => {
-    const isAttended = attendedEvents.some((e) => e.id === event.id);
+    const isAttended = attendedEvents.some((e) => e.idEvent === event.idEvent);
 
     if (!isAttended) {
       setAttendedEvents([...attendedEvents, event]);
     } else {
       const updatedAttendedEvents = attendedEvents.filter(
-        (e) => e.id !== event.id
+        (e) => e.idEvent !== event.idEvent
       );
       setAttendedEvents(updatedAttendedEvents);
     }
@@ -98,14 +103,11 @@ function SearchEvents() {
 
   useEffect(() => {
     getBubbles().then((response) => {
-      const sortedBubbles = response.data.sort((a: any, b: any) =>
-        a.name.localeCompare(b.name)
-      );
-
-      const bubbleData = sortedBubbles.map((bubble: any) => ({
-        label: bubble.name,
-        value: bubble.id,
+      const bubbleData = response.data.map((bubble: BubbleProps) => ({
+        label: bubble.title,
+        value: bubble?.idBubble,
       }));
+
       setBubblesOptions(bubbleData);
     });
   }, []);
@@ -123,9 +125,9 @@ function SearchEvents() {
     const eventData = {
       title: data.title,
       duration: 90,
-      date: data.date,
-      author: { id: user.id },
-      bubble: { id: data.bubble },
+      moment: data.date,
+      idCreator: user.idUser,
+      bubbleId: data.bubble.idBubble,
     };
 
     if (eventType === 'presencial') {
@@ -133,7 +135,7 @@ function SearchEvents() {
         ...eventData,
         publicPlace: true,
         peopleCapacity: 100,
-        address: { id: 1 },
+        address: { idAddress: 1 },
       };
 
       createInPersonEvent(eventInPersonData)
@@ -178,7 +180,7 @@ function SearchEvents() {
 
   return (
     <>
-      <Navbar redirectPage="feed" isLogged />
+      <Navbar redirectPage="/feed" isLogged />
 
       {isVisible && (
         <Modal onClose={() => setIsVisible(false)}>
@@ -374,10 +376,10 @@ function SearchEvents() {
               >
                 <Bubble.Tag
                   icon={tag.icon}
-                  name={tag.name}
+                  title={tag.title}
                   color={tag.color}
                   selected={userBubbles.some(
-                    (bubble) => bubble.name === tag.name
+                    (bubble) => bubble.title === tag.title
                   )}
                 />
               </div>
@@ -388,31 +390,31 @@ function SearchEvents() {
             {eventsList &&
               eventsList.map((event) => (
                 <Event.Card
-                  key={event.id}
+                  key={event.idEvent}
                   title={event.title}
                   bubble={event.bubble}
                   address={event.address}
-                  url={event.url}
+                  link={event.link}
                   platform={event.platform}
-                  date={event.date}
+                  dateTime={event.dateTime}
                   duration={event.duration}
-                  image={`https://source.unsplash.com/random/500x500/?${event.bubble?.category}`}
-
                 >
                   <Button
                     onClick={() => setPresenceInEvent(event)}
                     text={
-                      attendedEvents.some((e) => e.id === event.id)
+                      attendedEvents.some((e) => e.idEvent === event.idEvent)
                         ? ''
                         : 'MARCAR PRESENÇA'
                     }
                     color={
-                      attendedEvents.some((e) => e.id === event.id)
+                      attendedEvents.some((e) => e.idEvent === event.idEvent)
                         ? 'bg-green-500'
                         : 'bg-zinc-300'
                     }
                     icon={
-                      attendedEvents.some((e) => e.id === event.id) ? (
+                      attendedEvents.some(
+                        (e) => e.idEvent === event.idEvent
+                      ) ? (
                         <CheckCircle
                           size={16}
                           color="#F1F5F9"

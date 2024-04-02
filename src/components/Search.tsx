@@ -34,7 +34,7 @@ function Search({
 
           <div className="w-48">
             <Button
-              text="Criar bolha"
+              text="Criar"
               icon={<Plus size={12} weight="bold" color="#3f3f46" />}
               color="bg-zinc-300"
               onClick={isOpenModal}

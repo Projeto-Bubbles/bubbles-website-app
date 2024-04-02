@@ -9,19 +9,20 @@ function EventCard({
   bubble,
   address,
   image,
-  date,
-  url,
+  dateTime,
+  link,
   platform,
   children,
 }: EventProps) {
   const targetBubble = bubbles(12).find((b) => b.category === bubble?.category);
+  console.log('👽 ~ targetBubble:', targetBubble);
 
   return (
     <div className="bg-gray-200 w-[400px] rounded-md flex justify-start items-center gap-10">
       <div className="w-3/12 h-[300px] rounded-half-r rounded-l-md overflow-hidden">
         <img
           className="w-full h-full object-cover transition duration-700 ease-in-outut hover:scale-125 hover:rotate-6"
-          src={image}
+          src={`https://source.unsplash.com/random/500x500/?${bubble?.category}`}
           alt={title}
         />
       </div>
@@ -31,13 +32,13 @@ function EventCard({
           <div className="w-full flex justify-between items-center">
             <Bubble.Tag
               icon={targetBubble?.icon}
-              name={targetBubble?.name ?? ''}
+              title={targetBubble?.title ?? ''}
               color={targetBubble?.color}
               fixed
             />
 
             <h1 className="bg-slate-300/50 rounded-full flex justify-between items-center gap-2 px-2 font-semibold text-zinc-700 text-sm">
-              {url ? 'online' : 'presencial'}
+              {link ? 'online' : 'presencial'}
             </h1>
           </div>
 
@@ -46,17 +47,17 @@ function EventCard({
               {title}
             </h1>
             <h4 className="font-semibold text-xl text-zinc-500 leading-none">
-              {bubble?.name}
+              {bubble?.title}
             </h4>
           </div>
         </div>
 
         <div className="flex flex-wrap gap-2">
-          {url ? (
+          {link ? (
             <>
               <div className="bg-blue-200/70 rounded-full flex justify-between items-center gap-2 px-2 font-semibold text-zinc-700">
                 <Link size={12} color="#71717A" weight="duotone" />
-                <a href={url}>Link</a>
+                <a href={link}>Link</a>
               </div>
 
               <div className="bg-zinc-300/70 rounded-full flex justify-between items-center gap-2 px-2 font-semibold text-zinc-700">
@@ -73,12 +74,12 @@ function EventCard({
 
           <div className="bg-zinc-300/70 rounded-full flex justify-between items-center gap-2 px-2 font-semibold text-zinc-700">
             <Calendar size={12} color="#71717A" weight="duotone" />
-            {format(new Date(date), 'dd/MM')}
+            {format(new Date(dateTime), 'dd/MM')}
           </div>
 
           <div className="bg-zinc-300/70 rounded-full flex justify-between items-center  gap-2 px-2 font-semibold text-zinc-700">
             <Timer size={12} color="#71717A" weight="duotone" />
-            {format(new Date(date), 'HH:mm')}
+            {format(new Date(dateTime), 'HH:mm')}
           </div>
         </div>
 

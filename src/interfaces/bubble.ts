@@ -1,32 +1,33 @@
 import { ReactNode } from 'react';
 import { Category } from '../enums/category';
-import { Address } from './user';
+import { Address, UserProps } from './user';
 
 export interface BubbleProps {
-  name: string;
+  idBubble?: number;
+  title: string;
+  explanation?: string;
+  creationDate?: Date;
   image?: string;
-  description?: string;
+  category?: Category;
+  creator?: UserProps;
   icon?: ReactNode;
   color?: string;
-  category?: Category;
   users?: number;
   fixed?: boolean;
   selected?: boolean;
 }
 export interface EventProps {
-  id?: number;
+  idEvent?: number;
   title: string;
-  date: Date;
+  dateTime: Date;
   duration: number;
-  author?: {
-    id: number;
-  };
+  organizer?: UserProps;
   bubble?: BubbleProps;
   publicPlace?: boolean;
   peopleCapacity?: number;
   address?: Address;
   platform?: string;
-  url?: string;
+  link?: string;
   image?: string;
   children?: ReactNode;
 }

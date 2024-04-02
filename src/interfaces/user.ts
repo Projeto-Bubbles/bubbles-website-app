@@ -1,26 +1,26 @@
 import { BubbleProps } from './bubble';
 
-type CPF = string & { length: 11 };
+export type CPF = string & { length: 11 };
 
 export interface UserProps {
-  id: number;
-  name: string;
-  email: string;
-  cpf: CPF;
+  idUser?: number;
   username: string;
-  password: string;
-  dateBirthday: string;
-  bubbles: BubbleProps[];
-  address: Address;
+  email: string;
+  cpf?: CPF;
+  nickname: string;
+  password?: string;
+  dateBirthday?: string;
+  bubbles?: BubbleProps[];
+  address?: Address;
 }
 
 export interface Address {
   id: number;
   cep: string;
   country: string;
-  state: string;
+  estate: string;
   city: string;
   neighborhood: string;
   street: string;
-  number: string;
+  houseNumber: string;
 }
