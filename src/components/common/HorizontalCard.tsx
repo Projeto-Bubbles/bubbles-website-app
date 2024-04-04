@@ -15,8 +15,6 @@ export function HorizontalCard({ bubble, event, image }: HorizontalCardProps) {
     (b) => b.category === bubble?.category
   );
 
-  const date = Date.now();
-
   return (
     <div className="flex justify-start items-center gap-8 w-full min-h-20 max-h-24 bg-slate-100 text-zinc-700 rounded-md leading-none">
       <div className="w-2/5 h-full rounded-l-md overflow-hidden">

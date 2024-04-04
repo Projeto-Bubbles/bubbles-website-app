@@ -8,7 +8,6 @@ function EventCard({
   title,
   bubble,
   address,
-  image,
   dateTime,
   link,
   platform,

@@ -104,7 +104,6 @@ function SearchBubbles() {
   };
 
   useEffect(() => {
-    const categories = selectedBubbles.map((bubble) => bubble.category);
     getBubbles();
   }, [selectedBubbles]);
 

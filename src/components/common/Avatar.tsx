@@ -9,14 +9,7 @@ interface AvatarProps {
   isLarged?: boolean;
 }
 
-function Avatar({
-  name,
-  image,
-  username,
-  isLogged,
-  isSelected,
-  isLarged,
-}: AvatarProps) {
+function Avatar({ name, image, username, isLogged, isLarged }: AvatarProps) {
   return (
     <div className="flex justify-center items-center gap-2">
       <div
