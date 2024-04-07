@@ -8,7 +8,7 @@ function EventCard({
   title,
   bubble,
   address,
-  dateTime,
+  moment,
   link,
   platform,
   children,
@@ -74,12 +74,12 @@ function EventCard({
 
           <div className="bg-zinc-300/70 rounded-full flex justify-between items-center gap-2 px-2 font-semibold text-zinc-700">
             <Calendar size={12} color="#71717A" weight="duotone" />
-            {format(new Date(dateTime), 'dd/MM')}
+            {format(new Date(moment), 'dd/MM')}
           </div>
 
           <div className="bg-zinc-300/70 rounded-full flex justify-between items-center  gap-2 px-2 font-semibold text-zinc-700">
             <Timer size={12} color="#71717A" weight="duotone" />
-            {format(new Date(dateTime), 'HH:mm')}
+            {format(new Date(moment), 'HH:mm')}
           </div>
         </div>
 

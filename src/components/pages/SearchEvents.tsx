@@ -128,7 +128,7 @@ function SearchEvents() {
     const eventData = {
       title: data.title,
       duration: 90,
-      moment: data.date,
+      dateTime: data.date,
       idCreator: user.id,
       idBubble: data.bubble,
     };
@@ -157,6 +157,7 @@ function SearchEvents() {
               houseNumber,
             },
           };
+          console.log('👽 ~ eventInPersonData:', eventInPersonData);
 
           createInPersonEvent(eventInPersonData)
             .then(() => {
@@ -420,7 +421,7 @@ function SearchEvents() {
                   address={event.address}
                   link={event.link}
                   platform={event.platform}
-                  dateTime={event.dateTime}
+                  moment={event.moment}
                   duration={event.duration}
                 >
                   <Button
