@@ -15,26 +15,24 @@ export function HorizontalCard({ bubble, event, image }: HorizontalCardProps) {
     (b) => b.category === bubble?.category
   );
 
-  const date = Date.now();
-
   return (
     <div className="flex justify-start items-center gap-8 w-full min-h-20 max-h-24 bg-slate-100 text-zinc-700 rounded-md leading-none">
       <div className="w-2/5 h-full rounded-l-md overflow-hidden">
         <img
           className="w-full h-full object-cover"
           src={image}
-          alt={bubble?.name || event?.title}
+          alt={bubble?.title || event?.title}
         />
       </div>
 
       <div className="w-full h-full flex flex-col items-start justify-center gap-1">
         {event?.title ? (
           <h3 className="font-semibold text-lg text-zinc-600">
-            {bubble?.name}
+            {bubble?.title}
           </h3>
         ) : (
           <Bubble.Tag
-            name={bubbleTag[0].name}
+            title={bubbleTag[0].title}
             icon={bubbleTag[0].icon}
             color={bubbleTag[0].color}
             fixed
@@ -42,14 +40,14 @@ export function HorizontalCard({ bubble, event, image }: HorizontalCardProps) {
         )}
 
         <h1 className="font-bold text-xl text-zinc-700">
-          {bubble?.name || event?.title}
+          {bubble?.title || event?.title}
         </h1>
 
-        {event?.dateTime ? (
+        {event?.moment ? (
           <div className="w-full flex items-center justify-start gap-4 text-zinc-700 font-bold text-normal">
-            <span>{format(new Date(event.dateTime), 'dd/MM')}</span>
+            <span>{format(new Date(event.moment), 'dd/MM')}</span>
             <div className="w-[1.5px] h-full bg-zinc-300 rounded-full" />
-            <span>{format(new Date(event.dateTime), 'HH:mm')}</span>
+            <span>{format(new Date(event.moment), 'HH:mm')}</span>
             <div className="w-[1.5px] h-full bg-zinc-300 rounded-full" />
             {/* <span>{event.url ? 'online' : 'presencial'}</span> */}
           </div>

@@ -20,7 +20,7 @@ export const deletePost = (id: number) => {
 export const editPost = (id: number, body: string) => {
   return api.patch(
     `/posts/${id}`,
-    { content: body },
+    { contents: body },
     {
       headers: {
         'Content-Type': 'application/json',

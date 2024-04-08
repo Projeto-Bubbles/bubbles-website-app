@@ -82,8 +82,8 @@ function Account() {
                 <div className="w-full flex flex-wrap items-start justify-start gap-4">
                   {interests.map((interest) => (
                     <Bubble.Tag
-                      key={interest.name}
-                      name={interest.name}
+                      key={interest.title}
+                      title={interest.title}
                       color={interest.color}
                       icon={interest.icon}
                       fixed

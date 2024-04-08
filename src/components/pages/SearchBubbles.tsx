@@ -46,14 +46,10 @@ function SearchBubbles() {
       setBubblesList(bubblesDefault);
     } else {
       const searchBubbles = bubblesDefault.filter((bubble) =>
-        bubble.name.toLowerCase().includes(searchBubble)
+        bubble.title.toLowerCase().includes(searchBubble)
       );
 
       setBubblesList(searchBubbles);
-
-      if (searchBubbles.length === 0) {
-        console.log('Nenhuma bolha encontrada para a pesquisa.');
-      }
     }
   };
 
@@ -64,47 +60,41 @@ function SearchBubbles() {
   } = useForm<BubbleProps>();
 
   const bubblesOptions = bubbles(12).map((bubbles) => {
-    return { label: bubbles.name, value: bubbles.category };
+    return { label: bubbles.title, value: bubbles.category };
   });
 
   const createNewBubble = (data: BubbleProps) => {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const bubbleData = {
       ...data,
-      creationDate: new Date().toISOString(),
-      creator: { id: user.id },
+      creator: user.id,
     };
 
-    createBubble(bubbleData)
-      .then(() => {
-        getBubbles();
+    createBubble(bubbleData).then(() => {
+      getBubbles();
 
-        setIsVisible(false);
-        alert('🫧👍🏻 Bolha criada com sucesso!');
-      })
-      .catch((err) => console.log(err));
+      setIsVisible(false);
+      alert('🫧👍🏻 Bolha criada com sucesso!');
+    });
   };
 
   const getBubbles = () => {
     const categories = selectedBubbles.map((bubble) => bubble.category);
 
-    getFilteredBubbles(categories)
-      .then((response) => {
-        const bubbleListMapped: BubbleProps[] = response.data.map(
-          (bubble: BubbleProps) => {
-            bubble.users = Math.floor(Math.random() * (100 - 10 + 1) + 10);
-            return bubble;
-          }
-        );
+    getFilteredBubbles(categories).then((response) => {
+      const bubbleListMapped: BubbleProps[] = response.data.map(
+        (bubble: BubbleProps) => {
+          bubble.users = Math.floor(Math.random() * (100 - 10 + 1) + 10);
+          return bubble;
+        }
+      );
 
-        setBubblesList(bubbleListMapped);
-        setBubblesDefault(bubbleListMapped);
-      })
-      .catch((err) => console.log(err));
+      setBubblesList(bubbleListMapped);
+      setBubblesDefault(bubbleListMapped);
+    });
   };
 
   useEffect(() => {
-    const categories = selectedBubbles.map((bubble) => bubble.category);
     getBubbles();
   }, [selectedBubbles]);
 
@@ -215,10 +205,10 @@ function SearchBubbles() {
                       label="Nome da bolha:"
                       placeholder="Digite o nome da bolha"
                       color="bg-zinc-100/70"
-                      {...register('name', {
+                      {...register('title', {
                         required: 'Não esqueça o nome da bolha',
                       })}
-                      helperText={errors?.name?.message}
+                      helperText={errors?.title?.message}
                     />
                   </div>
 
@@ -241,11 +231,11 @@ function SearchBubbles() {
                 <Textarea
                   label="Descrição da bolha"
                   color="bg-zinc-100/70"
-                  {...register('description', {
+                  {...register('explanation', {
                     required: 'Coloque uma breve descrição',
                   })}
                   maxLength={100}
-                  helperText={errors?.description?.message}
+                  helperText={errors?.explanation?.message}
                 />
 
                 <Button
@@ -276,10 +266,10 @@ function SearchBubbles() {
                   >
                     <Bubble.Tag
                       icon={tag.icon}
-                      name={tag.name}
+                      title={tag.title}
                       color={tag.color}
                       selected={userBubbles.some(
-                        (bubble) => bubble.name === tag.name
+                        (bubble) => bubble.title === tag.title
                       )}
                     />
                   </div>
@@ -298,17 +288,19 @@ function SearchBubbles() {
                       image={`https://source.unsplash.com/random/500x500/?${bubble.category}`}
                     />
 
-                    {bubble?.creator?.id === user.id && (
+                    {bubble?.creator?.idUser === user.id && (
                       <div className="bg-zinc-300 w-5 flex flex-col justify-center items-center gap-2 rounded-md">
                         <span
-                          onClick={() => onEdit(bubble.id ?? 0, bubble.name)}
+                          onClick={() =>
+                            onEdit(bubble.idBubble ?? 0, bubble.title)
+                          }
                           role="editar"
                           className="w-full text-zinc-700 flex justify-center items-center gap-2 px-1 py-[2px] rounded-md transition duration-200 ease-in-out cursor-pointer hover:bg-zinc-400/20"
                         >
                           <Pencil size={16} color="#334141" weight="duotone" />
                         </span>
                         <span
-                          onClick={() => onDelete(bubble.id ?? 0)}
+                          onClick={() => onDelete(bubble.idBubble ?? 0)}
                           role="excluir"
                           className="w-full text-zinc-700 flex justify-center items-center gap-2 px-1 py-[2px] rounded-md transition duration-200 ease-in-out cursor-pointer hover:bg-slate-400/20"
                         >
