@@ -50,10 +50,6 @@ function SearchBubbles() {
       );
 
       setBubblesList(searchBubbles);
-
-      if (searchBubbles.length === 0) {
-        console.log('Nenhuma bolha encontrada para a pesquisa.');
-      }
     }
   };
 
@@ -74,33 +70,28 @@ function SearchBubbles() {
       creator: user.id,
     };
 
-    createBubble(bubbleData)
-      .then(() => {
-        getBubbles();
+    createBubble(bubbleData).then(() => {
+      getBubbles();
 
-        setIsVisible(false);
-        alert('🫧👍🏻 Bolha criada com sucesso!');
-      })
-      .catch((err) => console.log(err));
+      setIsVisible(false);
+      alert('🫧👍🏻 Bolha criada com sucesso!');
+    });
   };
 
   const getBubbles = () => {
     const categories = selectedBubbles.map((bubble) => bubble.category);
-    console.log('👽 ~ categories:', categories);
 
-    getFilteredBubbles(categories)
-      .then((response) => {
-        const bubbleListMapped: BubbleProps[] = response.data.map(
-          (bubble: BubbleProps) => {
-            bubble.users = Math.floor(Math.random() * (100 - 10 + 1) + 10);
-            return bubble;
-          }
-        );
+    getFilteredBubbles(categories).then((response) => {
+      const bubbleListMapped: BubbleProps[] = response.data.map(
+        (bubble: BubbleProps) => {
+          bubble.users = Math.floor(Math.random() * (100 - 10 + 1) + 10);
+          return bubble;
+        }
+      );
 
-        setBubblesList(bubbleListMapped);
-        setBubblesDefault(bubbleListMapped);
-      })
-      .catch((err) => console.log(err));
+      setBubblesList(bubbleListMapped);
+      setBubblesDefault(bubbleListMapped);
+    });
   };
 
   useEffect(() => {

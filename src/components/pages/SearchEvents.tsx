@@ -61,10 +61,6 @@ function SearchEvents() {
     }
   };
 
-  useEffect(() => {
-    console.log('👽 ~ attendedEvents:', attendedEvents);
-  }, [attendedEvents]);
-
   const {
     register,
     formState: { errors, isValid },
@@ -73,34 +69,25 @@ function SearchEvents() {
   } = useForm();
 
   const handleSearchEvents = (e: any) => {
-    console.log('👽 ~ e.target.value:', e.target.value);
     const searchEvent = e.target.value.toLowerCase();
 
     if (searchEvent === '') {
       setEventsList(eventsDefault);
     } else {
-      console.log(eventsDefault);
-
       const searchEvents = eventsDefault.filter((event) =>
         event.title.toLowerCase().includes(searchEvent)
       );
 
       setEventsList(searchEvents);
-
-      if (searchEvents.length === 0) {
-        console.log('Nenhum evento encontrado.');
-      }
     }
   };
 
   const getEvents = (categories: (Category | undefined)[]) => {
-    getFilteredEvents(categories)
-      .then((response) => {
-        // Atualize tanto a lista padrão quanto a lista atual com a nova resposta
-        setEventsList(response.data);
-        setEventsDefault(response.data);
-      })
-      .catch((err) => console.log(err));
+    getFilteredEvents(categories).then((response) => {
+      // Atualize tanto a lista padrão quanto a lista atual com a nova resposta
+      setEventsList(response.data);
+      setEventsDefault(response.data);
+    });
   };
 
   useEffect(() => {
@@ -121,7 +108,6 @@ function SearchEvents() {
   }, [selectedBubbles]);
 
   const createEvent = (data: any) => {
-    console.log('👽 ~ data:', data);
     const categories = selectedBubbles.map((bubble) => bubble.category);
     const user = JSON.parse(localStorage.getItem('user') || '{}');
 
@@ -140,7 +126,6 @@ function SearchEvents() {
         .get(`https://viacep.com.br/ws/${cep}/json/`)
         .then((response) => {
           setAddress(response.data);
-          console.log('👽 ENDEREÇO: ', response.data);
 
           const houseNumber = data.address.replace(/\D/g, '');
 
@@ -157,7 +142,6 @@ function SearchEvents() {
               houseNumber,
             },
           };
-          console.log('👽 ~ eventInPersonData:', eventInPersonData);
 
           createInPersonEvent(eventInPersonData)
             .then(() => {
@@ -178,7 +162,6 @@ function SearchEvents() {
         link: data.url,
         platform: data.platform,
       };
-      console.log('👽 ~ eventOnlineData:', eventOnlineData);
 
       createOnlineEvent(eventOnlineData)
         .then(() => {

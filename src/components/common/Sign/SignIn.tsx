@@ -17,7 +17,6 @@ function SignIn() {
 
   const onSubmit = () => {
     const data = getValues();
-    console.log('👽 ~ data:', data);
 
     setIsDisabled(true);
 

@@ -44,9 +44,7 @@ function Feed() {
   const [inputValues, setInputValues] = useState<{ [key: string]: string }>({});
 
   const getAllPosts = () => {
-    getPosts()
-      .then((response) => setPosts(response.data))
-      .catch((error) => console.log('👽 ~ error:', error));
+    getPosts().then((response) => setPosts(response.data));
   };
 
   const handleCreatePost = (contents: string) => {
@@ -62,9 +60,7 @@ function Feed() {
       [0]: '', // Limpa o valor apenas para o componente específico
     }));
 
-    createPost(post)
-      .then(() => getAllPosts())
-      .catch((err) => console.log('Erro ao criar post:', err));
+    createPost(post).then(() => getAllPosts());
   };
 
   const handleCreateComment = (content: string, postId: number) => {
@@ -79,11 +75,7 @@ function Feed() {
       [postId]: '', // Limpa o valor apenas para o componente específico
     }));
 
-    console.log('👽 ~ comment:', comment, postId);
-
-    createComment(comment, postId)
-      .then(() => getAllPosts())
-      .catch((err) => console.log('Erro ao criar comentário:', err));
+    createComment(comment, postId).then(() => getAllPosts());
   };
 
   const handleValue = (e: any, type: PostType, postId: number) => {
@@ -124,8 +116,6 @@ function Feed() {
     setIsVisible(true);
     setPostId(postId);
     setCurrentContent(content);
-
-    console.log('edit');
   };
 
   const onDelete = (id: number) => {

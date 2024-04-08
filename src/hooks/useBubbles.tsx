@@ -1,14 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { BubbleProps } from '../interfaces/bubble';
 
 function useBubbles(userBubbles?: BubbleProps[]) {
   const [selectedBubbles, setSelectedBubbles] = useState<BubbleProps[]>(
     userBubbles ?? []
   );
-
-  useEffect(() => {
-    console.log(selectedBubbles);
-  }, [selectedBubbles]);
 
   const toggleBubble = (bubble: BubbleProps) => {
     if (selectedBubbles.some((b) => b.title === bubble.title)) {
