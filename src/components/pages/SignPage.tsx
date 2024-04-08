@@ -19,7 +19,6 @@ import { bubbles } from '../../data/bubbles';
 import useBubbles from '../../hooks/useBubbles';
 import { BubbleProps } from '../../interfaces/bubble';
 import { userRegisterSchema } from '../../schemas/userSchemas';
-import { registerUser } from '../../services/authService';
 import { createUser } from '../../services/userServices';
 import { Bubble } from '../common/Bubble';
 import Input from '../common/Fields/Input';
@@ -74,23 +73,27 @@ function SignPage() {
     e.preventDefault();
 
     data = {
-      name: data.name,
       username: data.username,
+      nickname: data.nickname,
       email: data.email,
       password: data.password,
-      cpf: data.username,
+      cpf: data.cpf,
     };
 
-    registerUser(data)
-      .then(() => {
-        createUser(data).then(() => {
+    createUser(data)
+      .then((response) => {
+        if (response.status === 201 || response.status === 200) {
           alert('✅🫧 Usuário cadastrado com sucesso!');
+
+          localStorage.setItem('user', JSON.stringify(data));
           navigate('/sign-in');
-        });
+        }
       })
       .catch((error: any) => {
         if (error.response.status === 400) {
           return alert('❌🫧 Este e-mail já está cadastrado!');
+        } else if (error.response.status === 500) {
+          return alert('❌🫧 CPF inválido');
         }
 
         alert('❌🫧 Erro ao cadastrar usuário!');
@@ -141,10 +144,10 @@ function SignPage() {
                       <div key={index} onClick={() => toggleBubble(bubble)}>
                         <Bubble.Tag
                           icon={bubble.icon}
-                          name={bubble.name}
+                          title={bubble.title}
                           color={bubble.color}
                           selected={userBubbles.some(
-                            (b) => b.name === bubble.name
+                            (b) => b.title === bubble.title
                           )}
                         />
                       </div>
@@ -169,8 +172,8 @@ function SignPage() {
                       }
                       type="text"
                       placeholder="nome"
-                      {...register('name', { required: true })}
-                      helperText={!isValid ? errors.name?.message : ''}
+                      {...register('username', { required: true })}
+                      helperText={!isValid ? errors.username?.message : ''}
                     />
 
                     <div className="w-full flex items-center justify-between gap-4">
@@ -203,6 +206,7 @@ function SignPage() {
                     </div>
 
                     <Input
+                      maxLength={14}
                       icon={
                         <IdentificationCard
                           size={16}
@@ -228,9 +232,9 @@ function SignPage() {
                     <Input
                       icon={<User size={16} color="#71717A" weight="duotone" />}
                       type="text"
-                      placeholder="username"
-                      {...register('username', { required: true })}
-                      helperText={!isValid ? errors.username?.message : ''}
+                      placeholder="nickname"
+                      {...register('nickname', { required: true })}
+                      helperText={!isValid ? errors.nickname?.message : ''}
                     />
 
                     <Input

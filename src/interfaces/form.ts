@@ -1,6 +1,6 @@
-import { User } from './user';
+import { UserProps } from './user';
 
 export interface FormProps {
-  data?: User;
+  data?: UserProps;
   updateFieldHandler: (key: string, value: any) => void;
 }

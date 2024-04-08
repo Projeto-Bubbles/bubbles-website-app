@@ -14,13 +14,13 @@ import { BubbleProps } from '../interfaces/bubble';
 export function bubbles(iconSize: number): BubbleProps[] {
   return [
     {
-      name: 'Esportes',
+      title: 'Esportes',
       icon: <SoccerBall size={iconSize} color="#3f3f46" weight="duotone" />,
       color: 'bg-amber-200',
       category: Category.SPORTS,
     },
     {
-      name: 'Música',
+      title: 'Música',
       icon: (
         <MusicNotesSimple size={iconSize} color="#3f3f46" weight="duotone" />
       ),
@@ -28,37 +28,37 @@ export function bubbles(iconSize: number): BubbleProps[] {
       category: Category.MUSIC,
     },
     {
-      name: 'Games',
+      title: 'Games',
       icon: <GameController size={iconSize} color="#3f3f46" weight="duotone" />,
       color: 'bg-green-200',
       category: Category.GAME,
     },
     {
-      name: 'Arte',
+      title: 'Arte',
       icon: <Palette size={iconSize} color="#3f3f46" weight="duotone" />,
       color: 'bg-fuchsia-200',
       category: Category.ART,
     },
     {
-      name: 'Tecnologia',
+      title: 'Tecnologia',
       icon: <Desktop size={iconSize} color="#3f3f46" weight="duotone" />,
       color: 'bg-teal-200',
       category: Category.TECHNOLOGY,
     },
     {
-      name: 'Ciência',
+      title: 'Ciência',
       icon: <Atom size={iconSize} color="#3f3f46" weight="duotone" />,
       color: 'bg-blue-200',
       category: Category.SCIENCE,
     },
     {
-      name: 'Gastronomia',
+      title: 'Gastronomia',
       icon: <ForkKnife size={iconSize} color="#3f3f46" weight="duotone" />,
       color: 'bg-orange-200',
       category: Category.CULINARY,
     },
     {
-      name: 'Leitura',
+      title: 'Leitura',
       icon: <BookBookmark size={iconSize} color="#3f3f46" weight="duotone" />,
       color: 'bg-lime-200',
       category: Category.READING,

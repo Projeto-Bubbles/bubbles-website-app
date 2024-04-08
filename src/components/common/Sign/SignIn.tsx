@@ -17,7 +17,6 @@ function SignIn() {
 
   const onSubmit = () => {
     const data = getValues();
-    console.log('👽 ~ data:', data);
 
     setIsDisabled(true);
 
@@ -35,7 +34,7 @@ function SignIn() {
           localStorage.setItem('user', JSON.stringify(response.data));
         });
 
-        navigate('/feed');
+        setTimeout(() => navigate('/feed'), 500);
       })
       .finally(() => {
         setIsDisabled(false);

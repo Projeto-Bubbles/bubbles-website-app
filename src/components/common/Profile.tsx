@@ -44,7 +44,7 @@ function Profile() {
         </div>
 
         <div className="flex items-center justify-center flex-col text-zinc-700">
-          <h1 className="font-bold text-2xl">{user.name}</h1>
+          <h1 className="font-bold text-2xl">{user.username}</h1>
           <span className="font-semibold text-normal">
             {'@' + user.username}
           </span>
