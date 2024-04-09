@@ -10,7 +10,6 @@ import { BubbleProps, EventProps } from '../../interfaces/bubble';
 import { getBubbles } from '../../services/bubbleServices';
 import {
   createInPersonEvent,
-  createOnlineEvent,
   getFilteredEvents,
 } from '../../services/eventServices';
 import Search from '../Search';
@@ -143,13 +142,17 @@ function SearchEvents() {
             },
           };
 
-          createInPersonEvent(eventInPersonData)
-            .then(() => {
-              alert('📅 Evento criado com sucesso!');
+          toast.promise(
+            createInPersonEvent(eventInPersonData).then(() => {
               getEvents(categories);
               setIsVisible(false);
-            })
-            .catch((err) => console.error(err));
+            }),
+            {
+              loading: '🫧 Criando evento...',
+              success: 'Evento criado com sucesso!',
+              error: 'Ops, tente criar a evento novamente',
+            }
+          );
         })
         .catch(() => {
           toast.error('CEP não encontrado');
@@ -163,13 +166,17 @@ function SearchEvents() {
         platform: data.platform,
       };
 
-      createOnlineEvent(eventOnlineData)
-        .then(() => {
-          alert('📅 Evento criado com sucesso!');
+      toast.promise(
+        createInPersonEvent(eventOnlineData).then(() => {
           getEvents(categories);
           setIsVisible(false);
-        })
-        .catch((err) => console.error(err));
+        }),
+        {
+          loading: '🫧 Criando evento...',
+          success: 'Evento criado com sucesso!',
+          error: 'Ops, tente criar a evento novamente',
+        }
+      );
     }
 
     reset();
