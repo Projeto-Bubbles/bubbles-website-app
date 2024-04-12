@@ -235,12 +235,18 @@ function Feed() {
                   />
                 </Link>
 
-                <SidebarTopic
-                  icon={
-                    <ChatsTeardrop size={14} color="#423F46" weight="duotone" />
-                  }
-                  text="Minhas bolhas"
-                />
+                <Link to={'/my-bubbles'}>
+                  <SidebarTopic
+                    icon={
+                      <ChatsTeardrop
+                        size={14}
+                        color="#423F46"
+                        weight="duotone"
+                      />
+                    }
+                    text="Minhas bolhas"
+                  />
+                </Link>
 
                 <Link to={'/events'}>
                   <SidebarTopic
