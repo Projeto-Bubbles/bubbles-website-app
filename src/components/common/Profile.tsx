@@ -16,6 +16,7 @@ function Profile() {
         <Avatar
           isLogged
           isSelected
+          size="lg"
           image="https://picsum.photos/id/237/200/300"
           isLarged
         />

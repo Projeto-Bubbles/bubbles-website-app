@@ -6,15 +6,21 @@ interface AvatarProps {
   username?: string;
   isLogged?: boolean;
   isSelected?: boolean;
-  isLarged?: boolean;
+  size?: 'sm' | 'md' | 'lg';
 }
 
-function Avatar({ name, image, username, isLogged, isLarged }: AvatarProps) {
+const avatarSize = {
+  sm: 'w-9 h-9',
+  md: 'w-12 h-12',
+  lg: 'w-24 h-24',
+};
+
+function Avatar({ name, image, username, isLogged, size }: AvatarProps) {
   return (
     <div className="flex justify-center items-center gap-2">
       <div
         className={`${
-          isLarged ? 'w-24 h-24' : 'w-9 h-9'
+          avatarSize[size ?? 'sm']
         }  grid place-content-center bg-slate-300 rounded-full ring-2 ring-slate-300 overflow-hidden`}
       >
         {isLogged ? (
