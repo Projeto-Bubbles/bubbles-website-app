@@ -1,5 +1,6 @@
 import { PaperPlaneRight } from 'phosphor-react';
 import { useState } from 'react';
+import { Bubble } from '../common/Bubble';
 import { Chat } from '../common/Chat';
 import Input from '../common/Fields/Input';
 
@@ -57,9 +58,7 @@ export function MyBubbles() {
 
   return (
     <main className="w-full h-screen bg-slate-100 grid grid-cols-[7%_72%_21%]">
-      <div>
-        <Chat.Sidebar />
-      </div>
+      <Chat.Sidebar />
 
       <div className="bg-[url('../src/assets/bubbles-effect.png')] bg-cover flex flex-col items-center justify-between px-20 py-10">
         <div className="w-full flex flex-col justify-start gap-6 max-h-[600px] scrollbar-hide overflow-y-auto">
@@ -94,7 +93,7 @@ export function MyBubbles() {
         </div>
       </div>
 
-      <div className="bg-yellow-50">chat details</div>
+      <Bubble.Details />
     </main>
   );
 }
