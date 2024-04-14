@@ -2,7 +2,7 @@ import { Chat } from '../common/Chat';
 
 export function MyBubbles() {
   return (
-    <main className="w-full h-screen bg-slate-100 grid grid-cols-[8%_72%_20%]">
+    <main className="w-full h-screen bg-slate-100 grid grid-cols-[7%_72%_21%]">
       <div className="bg-red-100">
         <Chat.Sidebar />
       </div>

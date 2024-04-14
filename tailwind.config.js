@@ -9,4 +9,8 @@ export default {
     },
   },
   plugins: [],
+  corePlugins: {
+    // Habilitar overflow-y para poder utilizá-lo na configuração
+    overflowY: false,
+  },
 };

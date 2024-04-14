@@ -17,11 +17,11 @@ const avatarSize = {
 
 function Avatar({ name, image, username, isLogged, size }: AvatarProps) {
   return (
-    <div className="flex justify-center items-center gap-2">
+    <div className="flex justify-center items-center gap-2 cursor-pointer">
       <div
         className={`${
           avatarSize[size ?? 'sm']
-        }  grid place-content-center bg-slate-300 rounded-full ring-2 ring-slate-300 overflow-hidden`}
+        }  grid place-content-center bg-slate-300 rounded-3xl ring-2 ring-[#C1C0C0] overflow-hidden transition-all duration-300 ease-in-out hover:rounded-xl`}
       >
         {isLogged ? (
           <img
