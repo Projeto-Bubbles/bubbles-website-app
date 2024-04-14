@@ -30,13 +30,12 @@ export function ChatSidebar() {
 
       <div className="w-[400px] flex flex-col items-center justify-start gap-4 max-h-[400px] py-2 overflow-y-auto scrollbar-hide absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         {avatars.map((avatar, index) => (
-          <div className="relative flex items-center group">
+          <div key={index} className="relative flex items-center group">
             <span className="w-max bg-slate-800 text-slate-100 p-1 rounded-md absolute translate-x-16 opacity-0 transition ease-in-out duration-200 group-hover:opacity-100 z-50">
               {avatar}
             </span>
 
             <Avatar
-              key={index}
               image={`https://picsum.photos/id/${index + 67}/200/300`}
               isLogged
               size="md"
