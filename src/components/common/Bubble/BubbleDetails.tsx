@@ -6,7 +6,7 @@ const bubbleInfos: BubbleInfo[] = [
   {
     icon: <UsersFour size={20} color="#bfdbfe" weight="duotone" />,
     title: 'Usuários',
-    insight: 123,
+    insight: 16987897987,
   },
   {
     icon: <Calendar size={20} color="#bfdbfe" weight="duotone" />,

@@ -35,6 +35,10 @@ export function ChatSidebar() {
               {avatar}
             </span>
 
+            <div className="bg-red-500 text-slate-100 font-medium size-4 grid place-content-center rounded-full leading-none absolute right-0 bottom-0">
+              1
+            </div>
+
             <Avatar
               image={`https://picsum.photos/id/${index + 67}/200/300`}
               isLogged
