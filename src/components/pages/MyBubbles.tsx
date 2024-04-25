@@ -1,59 +1,45 @@
 import { PaperPlaneRight } from 'phosphor-react';
 import { useState } from 'react';
+import useSocket from '../../hooks/useSocket';
+import { ChatMessage } from '../../interfaces/chat';
 import { Bubble } from '../common/Bubble';
 import { Chat } from '../common/Chat';
 import Input from '../common/Fields/Input';
 
-const chatList = [
-  {
-    id: 1,
-    user: { id: 1, username: 'Pedro' },
-    message: 'Olá, pessoal! Como estão?',
-  },
-  {
-    id: 2,
-    user: { id: 2, username: 'Leonidas' },
-    message: 'Estou ótimo, obrigado por perguntar!',
-  },
-  {
-    id: 3,
-    user: { id: 3, username: 'Marianus' },
-    message: 'Alguém sabe quando será a próxima reunião?',
-  },
-  {
-    id: 4,
-    user: { id: 1, username: 'Pedro' },
-    message: 'A próxima reunião será na próxima quarta-feira.',
-  },
-  {
-    id: 5,
-    user: { id: 2, username: 'Leonidas' },
-    message: 'Obrigado, David, por compartilhar!',
-  },
-];
-
 export function MyBubbles() {
-  const [chats, setChats] = useState(chatList);
   const [message, setMessage] = useState('');
+  const [chats, setChats] = useState<ChatMessage[]>([]);
+  const { sendMessage } = useSocket();
 
-  const handleSendMessage = (e?: any) => {
-    if (e.key === 'Enter') {
-      sendMessage(message);
+  const userId = Math.floor(Math.random() * 100); // Gera um ID único para cada usuário
+
+  const handleSendMessage = (message: string) => {
+    if (message.trim() !== '') {
+      const chatMessage: ChatMessage = {
+        id: chats.length + 1,
+        user: {
+          id: userId, // Adiciona o ID do usuário à mensagem
+          username: 'helloWorldRu',
+        },
+        bubble: {
+          id: 1,
+          name: 'Futeboula',
+        },
+        message,
+      };
+
+      sendMessage(chatMessage);
+
+      setChats((prevChats) => [...prevChats, chatMessage]);
+
+      setMessage('');
     }
   };
 
-  const sendMessage = (message: string) => {
-    message &&
-      setChats([
-        ...chats,
-        {
-          id: 1,
-          user: { id: 1, username: 'Pedro' },
-          message,
-        },
-      ]);
-
-    setMessage('');
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSendMessage(message);
+    }
   };
 
   return (
@@ -63,7 +49,7 @@ export function MyBubbles() {
       <div className="bg-[url('../src/assets/bubbles-effect.png')] bg-cover flex flex-col items-center justify-between px-20 py-10">
         <div className="w-full flex flex-col justify-start gap-6 max-h-[600px] scrollbar-hide overflow-y-auto">
           {chats.map((chat) =>
-            chat.user.id === 1 ? (
+            chat.user.id === userId ? (
               <Chat.SenderMessage key={chat.id} message={chat.message} />
             ) : (
               <Chat.RecipientMessage
@@ -81,11 +67,11 @@ export function MyBubbles() {
             color="bg-zinc-200"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            onKeyDown={(e) => handleSendMessage(e)}
+            onKeyDown={(e) => handleKeyDown(e)}
           />
 
           <div
-            onClick={() => sendMessage(message)}
+            onClick={() => handleSendMessage(message)}
             className="bg-blue-200 w-[2.5rem] h-[2.5rem] grid place-content-center rounded-md cursor-pointer transition duration-300 ease-in-out hover:bg-blue-300"
           >
             <PaperPlaneRight size={20} color="#0F172A" weight="duotone" />

@@ -33,8 +33,9 @@ export function BubbleDetails() {
         </div>
 
         <div className="w-full grid grid-cols-2 gap-4">
-          {bubbleInfos.map((bubble) => (
+          {bubbleInfos.map((bubble, index) => (
             <Bubble.Info
+              key={index}
               icon={bubble.icon}
               title={bubble.title}
               insight={bubble.insight}
