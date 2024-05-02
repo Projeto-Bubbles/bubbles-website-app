@@ -2,20 +2,20 @@ import { useNavigate } from 'react-router-dom';
 import Avatar from '../Avatar';
 import BackButton from './../BackButton';
 
-export function ChatSidebar() {
+interface ChatSidebar {
+  joinBubbleChat: (bubbleId: number) => void;
+}
+
+export function ChatSidebar({ joinBubbleChat }: ChatSidebar) {
   const navigate = useNavigate();
 
   const avatars = [
-    'Bolha 1',
-    'Uma máquina minha',
-    'Receba',
-    'Bolha 1',
-    'Para',
-    'Bolha 1',
-    'Bolha 1',
-    'Bolha 1',
-    'Bolha 1',
-    'Bolha 1',
+    { id: 1, name: 'Bolha 1' },
+    { id: 2, name: 'Futeboula' },
+    { id: 3, name: 'Vamos juntos' },
+    { id: 4, name: 'Receba' },
+    { id: 5, name: 'Pega e tome' },
+    { id: 6, name: 'Ui papai' },
   ];
 
   return (
@@ -32,18 +32,20 @@ export function ChatSidebar() {
         {avatars.map((avatar, index) => (
           <div key={index} className="relative flex items-center group">
             <span className="w-max bg-slate-800 text-slate-100 p-1 rounded-md absolute translate-x-16 opacity-0 transition ease-in-out duration-200 group-hover:opacity-100 z-50">
-              {avatar}
+              {avatar.name}
             </span>
 
             <div className="bg-red-500 text-slate-100 font-medium size-4 grid place-content-center rounded-full leading-none absolute right-0 bottom-0">
               1
             </div>
 
-            <Avatar
-              image={`https://picsum.photos/id/${index + 67}/200/300`}
-              isLogged
-              size="md"
-            />
+            <div onClick={() => joinBubbleChat(avatar.id)}>
+              <Avatar
+                image={`https://picsum.photos/id/${index + 67}/200/300`}
+                isLogged
+                size="md"
+              />
+            </div>
           </div>
         ))}
       </div>
