@@ -1,4 +1,6 @@
 export interface ChatMessage {
-  user?: { id: number; username: string };
+  id: number;
+  user: { id: number; username: string };
+  bubble: { id: number; name: string };
   message: string;
 }

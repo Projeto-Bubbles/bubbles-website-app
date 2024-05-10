@@ -6,7 +6,7 @@ const bubbleInfos: BubbleInfo[] = [
   {
     icon: <UsersFour size={20} color="#bfdbfe" weight="duotone" />,
     title: 'Usuários',
-    insight: 123,
+    insight: 16987897987,
   },
   {
     icon: <Calendar size={20} color="#bfdbfe" weight="duotone" />,
@@ -33,8 +33,9 @@ export function BubbleDetails() {
         </div>
 
         <div className="w-full grid grid-cols-2 gap-4">
-          {bubbleInfos.map((bubble) => (
+          {bubbleInfos.map((bubble, index) => (
             <Bubble.Info
+              key={index}
               icon={bubble.icon}
               title={bubble.title}
               insight={bubble.insight}
