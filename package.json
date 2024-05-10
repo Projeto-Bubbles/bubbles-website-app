@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
+    "@types/dom-speech-recognition": "^0.0.4",
     "axios": "^1.5.1",
     "date-fns": "^2.30.0",
     "express": "^4.19.2",
