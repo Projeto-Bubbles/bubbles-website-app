@@ -1,6 +1,8 @@
+import axios from 'axios';
 import { Browser, Calendar, CheckCircle, Export, MapPin } from 'phosphor-react';
-import { ReactNode, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { bubbles } from '../../data/bubbles';
 import { Category } from '../../enums/category';
 import useBubbles from '../../hooks/useBubbles';
@@ -8,7 +10,6 @@ import { BubbleProps, EventProps } from '../../interfaces/bubble';
 import { getBubbles } from '../../services/bubbleServices';
 import {
   createInPersonEvent,
-  createOnlineEvent,
   getFilteredEvents,
 } from '../../services/eventServices';
 import Search from '../Search';
@@ -32,6 +33,7 @@ function SearchEvents() {
   const [isVisible, setIsVisible] = useState(false);
   const [image, setImage] = useState<File | null>(null);
   const [eventType, setEventType] = useState('presencial');
+  const [address, setAddress] = useState<any>({});
 
   const [bubbleOptions, setBubblesOptions] = useState<
     {
@@ -42,7 +44,6 @@ function SearchEvents() {
 
   const [eventsList, setEventsList] = useState<EventProps[]>([]);
   const [eventsDefault, setEventsDefault] = useState<EventProps[]>([]);
-  const [isCheckIcon, setCheckIcon] = useState<ReactNode>(null);
 
   const [attendedEvents, setAttendedEvents] = useState<EventProps[]>([]);
 
@@ -59,10 +60,6 @@ function SearchEvents() {
     }
   };
 
-  useEffect(() => {
-    console.log('👽 ~ attendedEvents:', attendedEvents);
-  }, [attendedEvents]);
-
   const {
     register,
     formState: { errors, isValid },
@@ -71,34 +68,25 @@ function SearchEvents() {
   } = useForm();
 
   const handleSearchEvents = (e: any) => {
-    console.log('👽 ~ e.target.value:', e.target.value);
     const searchEvent = e.target.value.toLowerCase();
 
     if (searchEvent === '') {
       setEventsList(eventsDefault);
     } else {
-      console.log(eventsDefault);
-
       const searchEvents = eventsDefault.filter((event) =>
         event.title.toLowerCase().includes(searchEvent)
       );
 
       setEventsList(searchEvents);
-
-      if (searchEvents.length === 0) {
-        console.log('Nenhum evento encontrado.');
-      }
     }
   };
 
   const getEvents = (categories: (Category | undefined)[]) => {
-    getFilteredEvents(categories)
-      .then((response) => {
-        // Atualize tanto a lista padrão quanto a lista atual com a nova resposta
-        setEventsList(response.data);
-        setEventsDefault(response.data);
-      })
-      .catch((err) => console.log(err));
+    getFilteredEvents(categories).then((response) => {
+      // Atualize tanto a lista padrão quanto a lista atual com a nova resposta
+      setEventsList(response.data);
+      setEventsDefault(response.data);
+    });
   };
 
   useEffect(() => {
@@ -125,43 +113,70 @@ function SearchEvents() {
     const eventData = {
       title: data.title,
       duration: 90,
-      moment: data.date,
-      idCreator: user.idUser,
-      bubbleId: data.bubble.idBubble,
+      dateTime: data.date,
+      idCreator: user.id,
+      idBubble: data.bubble,
     };
 
     if (eventType === 'presencial') {
-      const eventInPersonData = {
-        ...eventData,
-        publicPlace: true,
-        peopleCapacity: 100,
-        address: { idAddress: 1 },
-      };
+      const cep = data.cep.replace(/\D/g, '');
 
-      createInPersonEvent(eventInPersonData)
-        .then(() => {
-          alert('📅 Evento criado com sucesso!');
-          getEvents(categories);
-          setIsVisible(false);
+      axios
+        .get(`https://viacep.com.br/ws/${cep}/json/`)
+        .then((response) => {
+          setAddress(response.data);
+
+          const houseNumber = data.address.replace(/\D/g, '');
+
+          const eventInPersonData = {
+            ...eventData,
+            publicPlace: true,
+            peopleCapacity: 100,
+            address: {
+              cep,
+              estate: address.uf,
+              city: address.localidade,
+              neighborhood: address.bairro,
+              street: address.logradouro,
+              houseNumber,
+            },
+          };
+
+          toast.promise(
+            createInPersonEvent(eventInPersonData).then(() => {
+              getEvents(categories);
+              setIsVisible(false);
+            }),
+            {
+              loading: '🫧 Criando evento...',
+              success: 'Evento criado com sucesso!',
+              error: 'Ops, tente criar a evento novamente',
+            }
+          );
         })
-        .catch((err) => console.error(err));
+        .catch(() => {
+          toast.error('CEP não encontrado');
+        });
     }
 
     if (eventType === 'online') {
       const eventOnlineData = {
         ...eventData,
-        url: data.url,
+        link: data.url,
         platform: data.platform,
       };
-      console.log('👽 ~ eventOnlineData:', eventOnlineData);
 
-      createOnlineEvent(eventOnlineData)
-        .then(() => {
-          alert('📅 Evento criado com sucesso!');
+      toast.promise(
+        createInPersonEvent(eventOnlineData).then(() => {
           getEvents(categories);
           setIsVisible(false);
-        })
-        .catch((err) => console.error(err));
+        }),
+        {
+          loading: '🫧 Criando evento...',
+          success: 'Evento criado com sucesso!',
+          error: 'Ops, tente criar a evento novamente',
+        }
+      );
     }
 
     reset();
@@ -386,7 +401,7 @@ function SearchEvents() {
             ))}
           </div>
 
-          <div className="w-full grid grid-cols-3 gap-12 place-content-items">
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 place-content-items">
             {eventsList &&
               eventsList.map((event) => (
                 <Event.Card
@@ -396,7 +411,7 @@ function SearchEvents() {
                   address={event.address}
                   link={event.link}
                   platform={event.platform}
-                  dateTime={event.dateTime}
+                  moment={event.moment}
                   duration={event.duration}
                 >
                   <Button

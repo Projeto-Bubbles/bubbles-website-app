@@ -9,6 +9,7 @@ import {
   User,
 } from 'phosphor-react';
 import { useEffect, useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { PostProps } from '../../interfaces/post';
 import {
@@ -35,6 +36,7 @@ function Feed() {
   const [currentContent, setCurrentContent] = useState<string | undefined>();
 
   const [isVisible, setIsVisible] = useState(false);
+
   const [postId, setPostId] = useState(0);
 
   const [posts, setPosts] = useState<PostProps[]>([]);
@@ -44,9 +46,7 @@ function Feed() {
   const [inputValues, setInputValues] = useState<{ [key: string]: string }>({});
 
   const getAllPosts = () => {
-    getPosts()
-      .then((response) => setPosts(response.data))
-      .catch((error) => console.log('👽 ~ error:', error));
+    getPosts().then((response) => setPosts(response.data));
   };
 
   const handleCreatePost = (contents: string) => {
@@ -62,9 +62,13 @@ function Feed() {
       [0]: '', // Limpa o valor apenas para o componente específico
     }));
 
-    createPost(post)
-      .then(() => getAllPosts())
-      .catch((err) => console.log('Erro ao criar post:', err));
+    createPost(post).then(() => getAllPosts());
+
+    toast.promise(createPost(post), {
+      loading: 'Criando post...',
+      success: 'Post criado com sucesso!',
+      error: 'Não foi possível criar o post, tente novamente',
+    });
   };
 
   const handleCreateComment = (content: string, postId: number) => {
@@ -79,11 +83,7 @@ function Feed() {
       [postId]: '', // Limpa o valor apenas para o componente específico
     }));
 
-    console.log('👽 ~ comment:', comment, postId);
-
-    createComment(comment, postId)
-      .then(() => getAllPosts())
-      .catch((err) => console.log('Erro ao criar comentário:', err));
+    createComment(comment, postId).then(() => getAllPosts());
   };
 
   const handleValue = (e: any, type: PostType, postId: number) => {
@@ -107,38 +107,79 @@ function Feed() {
   };
 
   const handleEditPost = (postId: number, newContent: string) => {
-    const confirm = window.confirm('Deseja realmente editar o post?');
+    toast((t) => (
+      <span>
+        Deseja realmente editar o post?
+        <div className="flex justify-center items-center gap-2 my-2">
+          <Button
+            text="Editar"
+            color="bg-green-500"
+            onClick={() => {
+              editPost(postId, newContent)
+                .then(() => {
+                  toast.promise(getPosts(), {
+                    loading: 'Editando post...',
+                    success: 'Post editado com sucesso!',
+                    error: 'Não foi possível editar o post, tente novamente',
+                  });
 
-    if (confirm) {
-      editPost(postId, newContent)
-        .then(() => {
-          alert('✅ Post editado com sucesso!');
-          getAllPosts();
-          setIsVisible(false);
-        })
-        .catch((error) => console.error(error));
-    }
+                  toast.dismiss(t.id);
+
+                  setIsVisible(false);
+                })
+                .catch((error) => console.error(error));
+            }}
+          />
+
+          <Button
+            text="Cancelar"
+            color="bg-red-500"
+            onClick={() => toast.dismiss(t.id)}
+          />
+        </div>
+      </span>
+    ));
   };
 
   const onEdit = (postId: number, content: string) => {
     setIsVisible(true);
     setPostId(postId);
     setCurrentContent(content);
-
-    console.log('edit');
   };
 
   const onDelete = (id: number) => {
-    const confirm = window.confirm('Deseja realmente excluir o post?');
+    toast((t) => (
+      <span>
+        Deseja realmente editar o post?
+        <div className="flex justify-center items-center gap-2 my-2">
+          <Button
+            text="Excluir"
+            color="bg-green-500"
+            onClick={() => {
+              deletePost(id)
+                .then(() => {
+                  toast.promise(getPosts(), {
+                    loading: 'Excluindo post...',
+                    success: 'Post excluído com sucesso!',
+                    error: 'Não foi possível excluir o post, tente novamente',
+                  });
 
-    if (confirm) {
-      deletePost(id)
-        .then(() => {
-          alert('✅ Post excluído com sucesso!');
-          getAllPosts();
-        })
-        .catch((error) => console.error(error));
-    }
+                  toast.dismiss(t.id);
+
+                  setIsVisible(false);
+                })
+                .catch((error) => console.error(error));
+            }}
+          />
+
+          <Button
+            text="Cancelar"
+            color="bg-red-500"
+            onClick={() => toast.dismiss(t.id)}
+          />
+        </div>
+      </span>
+    ));
   };
 
   useEffect(() => {
@@ -147,6 +188,8 @@ function Feed() {
 
   return (
     <>
+      <Toaster />
+
       {isVisible ? (
         <Modal onClose={() => setIsVisible(false)}>
           <div className="w-full flex flex-col justify-start item-center gap-4">
@@ -192,12 +235,18 @@ function Feed() {
                   />
                 </Link>
 
-                <SidebarTopic
-                  icon={
-                    <ChatsTeardrop size={14} color="#423F46" weight="duotone" />
-                  }
-                  text="Minhas bolhas"
-                />
+                <Link to={'/my-bubbles'}>
+                  <SidebarTopic
+                    icon={
+                      <ChatsTeardrop
+                        size={14}
+                        color="#423F46"
+                        weight="duotone"
+                      />
+                    }
+                    text="Minhas bolhas"
+                  />
+                </Link>
 
                 <Link to={'/events'}>
                   <SidebarTopic

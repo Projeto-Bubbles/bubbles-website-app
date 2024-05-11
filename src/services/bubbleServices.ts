@@ -24,13 +24,5 @@ export const deleteBubble = (id: number) => {
 };
 
 export const editBubble = (id: number, body: string) => {
-  return api.patch(
-    `/bubbles/update/${id}`,
-    { title: body },
-    {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-  );
+  return api.patch(`/bubbles/update/${id}`, { title: body });
 };

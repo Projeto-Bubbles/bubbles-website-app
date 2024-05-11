@@ -21,7 +21,7 @@ function SignPersonalInfos({ data, updateFieldHandler }: FormProps) {
           }
           type="text"
           placeholder="nome"
-          value={data?.name ?? ''}
+          value={data?.username ?? ''}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             updateFieldHandler('name', e.target.value)
           }

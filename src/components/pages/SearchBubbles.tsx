@@ -1,6 +1,7 @@
 import { Export, Pencil, Trash } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast, { Toaster } from 'react-hot-toast';
 import { bubbles } from '../../data/bubbles';
 import useBubbles from '../../hooks/useBubbles';
 import { BubbleProps } from '../../interfaces/bubble';
@@ -50,10 +51,6 @@ function SearchBubbles() {
       );
 
       setBubblesList(searchBubbles);
-
-      if (searchBubbles.length === 0) {
-        console.log('Nenhuma bolha encontrada para a pesquisa.');
-      }
     }
   };
 
@@ -74,37 +71,35 @@ function SearchBubbles() {
       creator: user.id,
     };
 
-    createBubble(bubbleData)
-      .then(() => {
-        getBubbles();
+    createBubble(bubbleData).then(() => {
+      getBubbles();
+      toast.promise(createBubble(bubbleData), {
+        loading: '🫧 Criando bolha...',
+        success: 'Bolha criada com sucesso!',
+        error: 'Ops, tente criar a bolha novamente',
+      });
 
-        setIsVisible(false);
-        alert('🫧👍🏻 Bolha criada com sucesso!');
-      })
-      .catch((err) => console.log(err));
+      setIsVisible(false);
+    });
   };
 
   const getBubbles = () => {
     const categories = selectedBubbles.map((bubble) => bubble.category);
-    console.log('👽 ~ categories:', categories);
 
-    getFilteredBubbles(categories)
-      .then((response) => {
-        const bubbleListMapped: BubbleProps[] = response.data.map(
-          (bubble: BubbleProps) => {
-            bubble.users = Math.floor(Math.random() * (100 - 10 + 1) + 10);
-            return bubble;
-          }
-        );
+    getFilteredBubbles(categories).then((response) => {
+      const bubbleListMapped: BubbleProps[] = response.data.map(
+        (bubble: BubbleProps) => {
+          bubble.users = Math.floor(Math.random() * (100 - 10 + 1) + 10);
+          return bubble;
+        }
+      );
 
-        setBubblesList(bubbleListMapped);
-        setBubblesDefault(bubbleListMapped);
-      })
-      .catch((err) => console.log(err));
+      setBubblesList(bubbleListMapped);
+      setBubblesDefault(bubbleListMapped);
+    });
   };
 
   useEffect(() => {
-    const categories = selectedBubbles.map((bubble) => bubble.category);
     getBubbles();
   }, [selectedBubbles]);
 
@@ -119,18 +114,42 @@ function SearchBubbles() {
     }
   };
 
-  const handleEditBubble = (postId: number, newContent: string) => {
-    const confirm = window.confirm('Deseja realmente editar a bolha?');
+  const handleEditBubble = (bubbleId: number, newContent: string) => {
+    const categories = selectedBubbles.map((bubble) => bubble.category);
 
-    if (confirm) {
-      editBubble(postId, newContent)
-        .then(() => {
-          alert('✅ Bolha editada com sucesso!');
-          getBubbles();
-          setIsVisibleEdit(false);
-        })
-        .catch((error) => console.error(error));
-    }
+    toast((t) => (
+      <span>
+        Deseja realmente editar a bolha?
+        <div className="flex justify-center items-center gap-2 my-2">
+          <Button
+            text="Editar"
+            color="bg-green-500"
+            onClick={() => {
+              editBubble(bubbleId, newContent).then(() => {
+                toast.promise(
+                  getFilteredBubbles(categories).then(() => {
+                    toast.dismiss(t.id);
+
+                    setIsVisibleEdit(false);
+                  }),
+                  {
+                    loading: 'Editando bolha...',
+                    success: 'Bolha editada com sucesso!',
+                    error: 'Não foi possível editar a bolha, tente novamente',
+                  }
+                );
+              });
+            }}
+          />
+
+          <Button
+            text="Cancelar"
+            color="bg-red-500"
+            onClick={() => toast.dismiss(t.id)}
+          />
+        </div>
+      </span>
+    ));
   };
 
   const onEdit = (postId: number, content: string) => {
@@ -140,16 +159,42 @@ function SearchBubbles() {
   };
 
   const onDelete = (id: number) => {
-    const confirm = window.confirm('Deseja realmente excluir a bolha?');
+    const categories = selectedBubbles.map((bubble) => bubble.category);
 
-    if (confirm) {
-      deleteBubble(id)
-        .then(() => {
-          alert('✅ Bolha excluída com sucesso!');
-          getBubbles();
-        })
-        .catch((error) => console.error(error));
-    }
+    toast((t) => (
+      <span>
+        Deseja realmente excluir a bolha?
+        <div className="flex justify-center items-center gap-2 my-2">
+          <Button
+            text="Excluir"
+            color="bg-green-500"
+            onClick={() => {
+              deleteBubble(id).then(() => {
+                toast.promise(
+                  getFilteredBubbles(categories).then(() => {
+                    toast.dismiss(t.id);
+
+                    setIsVisibleEdit(false);
+                  }),
+
+                  {
+                    loading: 'Excluindo bolha...',
+                    success: 'Bolha excluída com sucesso!',
+                    error: 'Não foi possível excluir a bolha, tente novamente',
+                  }
+                );
+              });
+            }}
+          />
+
+          <Button
+            text="Cancelar"
+            color="bg-red-500"
+            onClick={() => toast.dismiss(t.id)}
+          />
+        </div>
+      </span>
+    ));
   };
 
   const handleTextarea = (e: any) => {
@@ -158,6 +203,8 @@ function SearchBubbles() {
 
   return (
     <>
+      <Toaster />
+
       {isVisibleEdit ? (
         <Modal onClose={() => setIsVisibleEdit(false)}>
           <div className="w-full flex flex-col justify-start item-center gap-4">
