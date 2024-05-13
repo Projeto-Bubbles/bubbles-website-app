@@ -1,8 +1,7 @@
-FROM node:21-alpine3.18 as build
-WORKDIR /app
-COPY . .
-RUN npm install
+FROM nginx:alpine
 
-FROM nginx:stable-alpine
-RUN apk update && apk add vim
-CMD ["nginx", "-g", "daemon off;"] 
+COPY ./dist /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
