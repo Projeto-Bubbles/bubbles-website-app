@@ -1,8 +1,10 @@
 import { Calendar, ChatTeardrop, CheckCircle, User } from 'phosphor-react';
-import { ChangeEvent, KeyboardEvent, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { bubbles } from '../../data/bubbles';
-import { BubbleProps } from '../../interfaces/bubble';
+import { BubbleProps, EventProps } from '../../interfaces/bubble';
+import { getBubbles } from '../../services/bubbleServices';
+import { getEvents } from '../../services/eventServices';
 import { AccountCard } from '../common/AccountCard';
 import { Bubble } from '../common/Bubble';
 import Navbar from '../common/Navbar';
@@ -13,6 +15,19 @@ function Account() {
   const [contentAboutMe, setContentAboutMe] = useState(() => {
     return localStorage.getItem('contentAboutMe') ?? '';
   });
+
+  const [userBubbles, setUserBubbles] = useState<BubbleProps[]>([]);
+  const [userEvents, setUserEvents] = useState<EventProps[]>([]);
+
+  useEffect(() => {
+    getBubbles().then((response: any) => {
+      setUserBubbles(response.data);
+    });
+
+    getEvents().then((response: any) => {
+      setUserEvents(response.data);
+    });
+  }, []);
 
   const [isTextAreaDisable, setIsTextAreaDisable] = useState(true);
 
@@ -50,7 +65,7 @@ function Account() {
     <>
       <Toaster />
 
-      <Navbar />
+      <Navbar redirectPage="/feed" />
 
       <main className="min-h-screen bg-cover flex justify-center items-start pb-20">
         <div className="mt-24 w-3/4 flex flex-col items-center gap-10">
@@ -98,12 +113,15 @@ function Account() {
               icon={<Calendar size={16} color="#423F46" weight="duotone" />}
               background="bg-zinc-300"
             >
-              <HorizontalCard
-                image={`https://picsum.photos/id/${Math.floor(
-                  Math.random() * 100
-                ).toString()}/200/300`}
-                bubble={bubbles(16)[2]}
-              />
+              {userEvents.map((event) => (
+                <HorizontalCard
+                  key={event.idEvent}
+                  image={`https://picsum.photos/id/${Math.floor(
+                    Math.random() * 100
+                  ).toString()}/200/300`}
+                  event={event}
+                />
+              ))}
             </AccountCard>
 
             <AccountCard
@@ -111,12 +129,15 @@ function Account() {
               icon={<ChatTeardrop size={16} color="#423F46" weight="duotone" />}
               background="bg-zinc-300"
             >
-              <HorizontalCard
-                image={`https://picsum.photos/id/${Math.floor(
-                  Math.random() * 100
-                ).toString()}/200/300`}
-                bubble={bubbles(16)[2]}
-              />
+              {userBubbles.map((bubble) => (
+                <HorizontalCard
+                  key={bubble.idBubble}
+                  image={`https://picsum.photos/id/${Math.floor(
+                    Math.random() * 100
+                  ).toString()}/200/300`}
+                  bubble={bubble}
+                />
+              ))}
             </AccountCard>
           </div>
         </div>

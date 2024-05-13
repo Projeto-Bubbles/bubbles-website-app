@@ -71,16 +71,18 @@ function SearchBubbles() {
       creator: user.id,
     };
 
-    createBubble(bubbleData).then(() => {
-      getBubbles();
-      toast.promise(createBubble(bubbleData), {
+    toast.promise(
+      createBubble(bubbleData).then(() => {
+        getBubbles();
+      }),
+      {
         loading: '🫧 Criando bolha...',
         success: 'Bolha criada com sucesso!',
         error: 'Ops, tente criar a bolha novamente',
-      });
+      }
+    );
 
-      setIsVisible(false);
-    });
+    setIsVisible(false);
   };
 
   const getBubbles = () => {
@@ -115,8 +117,6 @@ function SearchBubbles() {
   };
 
   const handleEditBubble = (bubbleId: number, newContent: string) => {
-    const categories = selectedBubbles.map((bubble) => bubble.category);
-
     toast((t) => (
       <span>
         Deseja realmente editar a bolha?
@@ -125,20 +125,16 @@ function SearchBubbles() {
             text="Editar"
             color="bg-green-500"
             onClick={() => {
-              editBubble(bubbleId, newContent).then(() => {
-                toast.promise(
-                  getFilteredBubbles(categories).then(() => {
-                    toast.dismiss(t.id);
-
-                    setIsVisibleEdit(false);
-                  }),
-                  {
-                    loading: 'Editando bolha...',
-                    success: 'Bolha editada com sucesso!',
-                    error: 'Não foi possível editar a bolha, tente novamente',
-                  }
-                );
-              });
+              toast.promise(
+                editBubble(bubbleId, newContent).then(() => {
+                  getBubbles();
+                }),
+                {
+                  loading: 'Editando bolha...',
+                  success: 'Bolha editada com sucesso!',
+                  error: 'Não foi possível editar a bolha, tente novamente',
+                }
+              );
             }}
           />
 
@@ -159,8 +155,6 @@ function SearchBubbles() {
   };
 
   const onDelete = (id: number) => {
-    const categories = selectedBubbles.map((bubble) => bubble.category);
-
     toast((t) => (
       <span>
         Deseja realmente excluir a bolha?
@@ -169,21 +163,16 @@ function SearchBubbles() {
             text="Excluir"
             color="bg-green-500"
             onClick={() => {
-              deleteBubble(id).then(() => {
-                toast.promise(
-                  getFilteredBubbles(categories).then(() => {
-                    toast.dismiss(t.id);
-
-                    setIsVisibleEdit(false);
-                  }),
-
-                  {
-                    loading: 'Excluindo bolha...',
-                    success: 'Bolha excluída com sucesso!',
-                    error: 'Não foi possível excluir a bolha, tente novamente',
-                  }
-                );
-              });
+              toast.promise(
+                deleteBubble(id).then(() => {
+                  getBubbles();
+                }),
+                {
+                  loading: 'Excluindo bolha...',
+                  success: 'Bolha excluída com sucesso!',
+                  error: 'Não foi possível excluir a bolha, tente novamente',
+                }
+              );
             }}
           />
 

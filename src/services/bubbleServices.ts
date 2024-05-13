@@ -1,6 +1,4 @@
-import { AxiosResponse } from 'axios';
 import { Category } from '../enums/category';
-import { BubbleProps } from '../interfaces/bubble';
 import { api } from '../utils/axios';
 
 export const getFilteredBubbles = (categories: (Category | undefined)[]) => {
@@ -11,7 +9,7 @@ export const getFilteredBubbles = (categories: (Category | undefined)[]) => {
   return api.get(`/bubbles/categories?${params.toString()}`);
 };
 
-export const getBubbles = async (): Promise<AxiosResponse<BubbleProps[]>> => {
+export const getBubbles = (): any => {
   return api.get('/bubbles');
 };
 
