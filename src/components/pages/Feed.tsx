@@ -230,10 +230,12 @@ function Feed() {
               className="h-screen flex flex-col justify-between items-left fixed pt-28 p-6"
             >
               <div className="flex flex-col gap-4">
-                <SidebarTopic
-                  icon={<User size={14} color="#423F46" weight="duotone" />}
-                  text="Minha conta"
-                />
+                <Link to={'/account'}>
+                  <SidebarTopic
+                    icon={<User size={14} color="#423F46" weight="duotone" />}
+                    text="Minha conta"
+                  />
+                </Link>
 
                 <Link to={'/bubbles'}>
                   <SidebarTopic
