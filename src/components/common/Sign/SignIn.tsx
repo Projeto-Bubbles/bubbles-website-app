@@ -3,8 +3,6 @@ import { ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../../../services/authService';
-import { getUserByEmail } from '../../../services/userServices';
 import Button from '../Button';
 import Input from '../Fields/Input';
 import Navbar from './../Navbar';
@@ -16,29 +14,34 @@ function SignIn() {
   const navigate = useNavigate();
 
   const onSubmit = () => {
-    const data = getValues();
+    toast.loading('Validando autenticação...', { duration: 2000 });
+    setTimeout(() => toast.success('Login bem sucedido!'), 2000);
 
-    setIsDisabled(true);
+    setTimeout(() => navigate('/feed'), 3000);
 
-    toast.promise(loginUser(data), {
-      loading: 'Validando autenticação...',
-      success: <b>Login bem sucedido!</b>,
-      error: <b>Login ou senha incorretos</b>,
-    });
+    // const data = getValues();
 
-    return loginUser(data)
-      .then((response) => {
-        sessionStorage.setItem('token', JSON.stringify(response.data));
+    // setIsDisabled(true);
 
-        getUserByEmail(data.email).then((response) => {
-          localStorage.setItem('user', JSON.stringify(response.data));
-        });
+    // toast.promise(loginUser(data), {
+    //   loading: 'Validando autenticação...',
+    //   success: <b>Login bem sucedido!</b>,
+    //   error: <b>Login ou senha incorretos</b>,
+    // });
 
-        setTimeout(() => navigate('/feed'), 500);
-      })
-      .finally(() => {
-        setIsDisabled(false);
-      });
+    // return loginUser(data)
+    //   .then((response) => {
+    //     sessionStorage.setItem('token', JSON.stringify(response.data));
+
+    //     getUserByEmail(data.email).then((response) => {
+    //       localStorage.setItem('user', JSON.stringify(response.data));
+    //     });
+
+    //     setTimeout(() => navigate('/feed'), 500);
+    //   })
+    //   .finally(() => {
+    //     setIsDisabled(false);
+    //   });
   };
 
   const togglePasswordVisibility = (): ReactNode => {
