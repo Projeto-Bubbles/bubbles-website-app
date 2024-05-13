@@ -4,5 +4,5 @@ COPY . .
 RUN npm install
 
 FROM nginx:stable-alpine
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+RUN apk update && apk add vim
+CMD ["nginx", "-g", "daemon off;"] 
