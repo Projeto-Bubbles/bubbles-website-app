@@ -90,7 +90,7 @@ function SearchEvents() {
   };
 
   useEffect(() => {
-    getBubbles().then((response) => {
+    getBubbles().then((response: any) => {
       const bubbleData = response.data.map((bubble: BubbleProps) => ({
         label: bubble.title,
         value: bubble?.idBubble,

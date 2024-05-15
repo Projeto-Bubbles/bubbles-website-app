@@ -65,7 +65,7 @@ function Account() {
     <>
       <Toaster />
 
-      <Navbar redirectPage="/feed" />
+      <Navbar />
 
       <main className="min-h-screen bg-cover flex justify-center items-start pb-20">
         <div className="mt-24 w-3/4 flex flex-col items-center gap-10">

@@ -13,13 +13,13 @@ import {
 } from 'phosphor-react';
 import { ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { bubbles } from '../../data/bubbles';
 import useBubbles from '../../hooks/useBubbles';
 import { BubbleProps } from '../../interfaces/bubble';
 import { userRegisterSchema } from '../../schemas/userSchemas';
+import { createUser } from '../../services/userServices';
 import { Bubble } from '../common/Bubble';
 import Input from '../common/Fields/Input';
 import Navbar from './../common/Navbar';
@@ -80,37 +80,30 @@ function SignPage() {
       cpf: data.cpf,
     };
 
-    toast.loading('Cadastrando usuário...', { duration: 2000 });
-    setTimeout(() => toast.success('Usuário cadastrado com sucesso!'), 2000);
+    createUser(data)
+      .then((response) => {
+        if (response.status === 201 || response.status === 200) {
+          alert('✅🫧 Usuário cadastrado com sucesso!');
 
-    setTimeout(() => navigate('/sign-in'), 3000);
+          localStorage.setItem('user', JSON.stringify(data));
+          navigate('/sign-in');
+        }
+      })
+      .catch((error: any) => {
+        if (error.response.status === 400) {
+          return alert('❌🫧 Este e-mail já está cadastrado!');
+        } else if (error.response.status === 500) {
+          return alert('❌🫧 CPF inválido');
+        }
 
-    // createUser(data)
-    //   .then((response) => {
-    //     if (response.status === 201 || response.status === 200) {
-    //       alert('✅🫧 Usuário cadastrado com sucesso!');
-
-    //       localStorage.setItem('user', JSON.stringify(data));
-    //       navigate('/sign-in');
-    //     }
-    //   })
-    //   .catch((error: any) => {
-    //     if (error.response.status === 400) {
-    //       return alert('❌🫧 Este e-mail já está cadastrado!');
-    //     } else if (error.response.status === 500) {
-    //       return alert('❌🫧 CPF inválido');
-    //     }
-
-    //     alert('❌🫧 Erro ao cadastrar usuário!');
-    //   });
+        alert('❌🫧 Erro ao cadastrar usuário!');
+      });
   };
 
   const previousPage = localStorage.getItem('previousPage') ?? '/';
 
   return (
     <>
-      <Toaster></Toaster>
-
       <Navbar redirectPage={previousPage} />
 
       <div className="w-screen pt-28 flex flex-col justify-center items-center gap-1 ">
