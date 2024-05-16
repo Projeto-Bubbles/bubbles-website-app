@@ -13,9 +13,10 @@ function PostContent({ content, isNotLogged }: PostContentProps) {
         isNotLogged ? 'text-slate-100' : 'text-zinc-700'
       } relative`}
     >
-      <h2 className="text-2xl font-medium leading-none">
+      <p className="text-2xl font-medium leading-none">
         {isNotLogged ? 'Venha interagir com a bolha!' : content}
-      </h2>
+      </p>
+
       {isNotLogged && (
         <span>
           Entre na bolha fazendo{' '}
@@ -28,16 +29,6 @@ function PostContent({ content, isNotLogged }: PostContentProps) {
           </Link>
         </span>
       )}
-
-      {/* <div>
-        <textarea
-          className={`w-full h-40 bg-none absolute transition duration-300 ease-in-out ${
-            isOpenModal ? 'opacity-100 z-50' : 'opacity-0 -z-50'
-          }`}
-        >
-          {content}
-        </textarea>
-      </div> */}
     </div>
   );
 }
