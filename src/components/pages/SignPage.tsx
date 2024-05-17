@@ -23,6 +23,7 @@ import { createUser } from '../../services/userServices';
 import { Bubble } from '../common/Bubble';
 import Input from '../common/Fields/Input';
 import Navbar from './../common/Navbar';
+import { api } from '../../utils/axios';
 
 function SignPage() {
   const navigate = useNavigate();
@@ -84,6 +85,11 @@ function SignPage() {
       .then((response) => {
         if (response.status === 201 || response.status === 200) {
           alert('✅🫧 Usuário cadastrado com sucesso!');
+
+          localStorage.setItem('token', response.data.token);
+          api.defaults.headers.common[
+            'Authorization'
+          ] = `Bearer ${response.data.token}`;
 
           localStorage.setItem('user', JSON.stringify(data));
           navigate('/sign-in');
