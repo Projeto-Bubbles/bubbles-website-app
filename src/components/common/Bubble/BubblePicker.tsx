@@ -5,9 +5,7 @@ function BubblePicker({ color, title, icon, selected }: BubbleProps) {
   const [isClicked, setIsClicked] = useState(selected);
 
   const setBaseColor = () => {
-    return isClicked
-      ? color + ' border-slate-700 border-1 hover:' + color
-      : 'bg-slate-200 hover:bg-slate-300';
+    return isClicked ? color : 'bg-slate-200 hover:bg-slate-300/60';
   };
 
   const setIconBaseColor = () => {
@@ -16,7 +14,7 @@ function BubblePicker({ color, title, icon, selected }: BubbleProps) {
 
   return (
     <div
-      className={`h-52 flex flex-col justify-between items-center rounded-md p-6 transition duration-200 ease-out cursor-pointer ${setBaseColor()} transition duration-300 ease-out`}
+      className={`h-48 flex flex-col justify-between items-center rounded-3xl p-6 transition duration-200 ease-out cursor-pointer ${setBaseColor()} transition duration-300 ease-out`}
       onClick={() => setIsClicked(!isClicked)}
     >
       <div
