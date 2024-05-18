@@ -1,22 +1,9 @@
-import gabriel from "@/assets/members/member_gabriel.png";
-import laviny from "@/assets/members/member_laviny.png";
-import paulo from "@/assets/members/member_paulo.png";
-import ruan from "@/assets/members/member_ruan.png";
-import vinicius from "@/assets/members/member_vinicius.png";
+import laviny from '@/assets/members/member_laviny.png';
+import paulo from '@/assets/members/member_paulo.png';
+import ruan from '@/assets/members/member_ruan.png';
+import vinicius from '@/assets/members/member_vinicius.png';
 
 export const members: any[] = [
-  {
-    photo: gabriel,
-    name: 'Gabriel',
-    lastName: 'Martins',
-    role: 'BackEnd',
-    social: {
-      linkedin: 'https://www.linkedin.com/in/gabriel-martins-rocha-0a8030239/',
-      instagram: 'https://www.instagram.com/gabriel_m_rocha.exe/',
-      github: 'https://github.com/Gabriel-MRocha',
-      email: 'mailto:gabriel.rocha@sptech.school',
-    },
-  },
   {
     photo: laviny,
     name: 'Laviny',
