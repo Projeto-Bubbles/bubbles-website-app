@@ -62,12 +62,15 @@ function Feed() {
       [0]: '', // Limpa o valor apenas para o componente específico
     }));
 
-    createPost(post).then(() => getAllPosts());
-
-    toast.promise(createPost(post), {
-      loading: 'Criando post...',
-      success: 'Post criado com sucesso!',
-      error: 'Não foi possível criar o post, tente novamente',
+    createPost(post).then(() => {
+      toast.promise(
+        getPosts().then((response) => setPosts(response.data)),
+        {
+          loading: 'Criando post...',
+          success: 'Post criado com sucesso!',
+          error: 'Não foi possível criar o post, tente novamente',
+        }
+      );
     });
   };
 
@@ -117,11 +120,14 @@ function Feed() {
             onClick={() => {
               editPost(postId, newContent)
                 .then(() => {
-                  toast.promise(getPosts(), {
-                    loading: 'Editando post...',
-                    success: 'Post editado com sucesso!',
-                    error: 'Não foi possível editar o post, tente novamente',
-                  });
+                  toast.promise(
+                    getPosts().then((response) => setPosts(response.data)),
+                    {
+                      loading: 'Editando post...',
+                      success: 'Post editado com sucesso!',
+                      error: 'Não foi possível editar o post, tente novamente',
+                    }
+                  );
 
                   toast.dismiss(t.id);
 
@@ -158,11 +164,14 @@ function Feed() {
             onClick={() => {
               deletePost(id)
                 .then(() => {
-                  toast.promise(getPosts(), {
-                    loading: 'Excluindo post...',
-                    success: 'Post excluído com sucesso!',
-                    error: 'Não foi possível excluir o post, tente novamente',
-                  });
+                  toast.promise(
+                    getPosts().then((response) => setPosts(response.data)),
+                    {
+                      loading: 'Excluindo post...',
+                      success: 'Post excluído com sucesso!',
+                      error: 'Não foi possível excluir o post, tente novamente',
+                    }
+                  );
 
                   toast.dismiss(t.id);
 
@@ -221,10 +230,12 @@ function Feed() {
               className="h-screen flex flex-col justify-between items-left fixed pt-28 p-6"
             >
               <div className="flex flex-col gap-4">
-                <SidebarTopic
-                  icon={<User size={14} color="#423F46" weight="duotone" />}
-                  text="Minha conta"
-                />
+                <Link to={'/account'}>
+                  <SidebarTopic
+                    icon={<User size={14} color="#423F46" weight="duotone" />}
+                    text="Minha conta"
+                  />
+                </Link>
 
                 <Link to={'/bubbles'}>
                   <SidebarTopic

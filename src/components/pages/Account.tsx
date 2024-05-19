@@ -1,8 +1,13 @@
 import { Calendar, ChatTeardrop, CheckCircle, User } from 'phosphor-react';
-import { ChangeEvent, KeyboardEvent, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { bubbles } from '../../data/bubbles';
-import { BubbleProps } from '../../interfaces/bubble';
+import { BubbleProps, EventProps } from '../../interfaces/bubble';
+import {
+  getBubblesForUser,
+  getEventsForUser,
+  getLocalUser,
+} from '../../services/userServices';
 import { AccountCard } from '../common/AccountCard';
 import { Bubble } from '../common/Bubble';
 import Navbar from '../common/Navbar';
@@ -13,6 +18,21 @@ function Account() {
   const [contentAboutMe, setContentAboutMe] = useState(() => {
     return localStorage.getItem('contentAboutMe') ?? '';
   });
+
+  const [userBubbles, setUserBubbles] = useState<BubbleProps[]>([]);
+  const [userEvents, setUserEvents] = useState<EventProps[]>([]);
+
+  const user: any = getLocalUser();
+
+  useEffect(() => {
+    getBubblesForUser(user.id).then((response: any) => {
+      setUserBubbles(response.data);
+    });
+
+    getEventsForUser(user.id).then((response: any) => {
+      setUserEvents(response.data);
+    });
+  }, []);
 
   const [isTextAreaDisable, setIsTextAreaDisable] = useState(true);
 
@@ -50,11 +70,11 @@ function Account() {
     <>
       <Toaster />
 
-      <Navbar />
+      <Navbar redirectPage="/feed" />
 
       <main className="min-h-screen bg-cover flex justify-center items-start pb-20">
         <div className="mt-24 w-3/4 flex flex-col items-center gap-10">
-          <Profile />
+          <Profile events={userEvents.length} bubbles={userBubbles.length} />
 
           <div className="w-full bg-red grid grid-cols-1 lg:grid-cols-[27%_37%_30%] gap-[3%] ">
             <AccountCard
@@ -68,7 +88,9 @@ function Account() {
                 <textarea
                   disabled={isTextAreaDisable}
                   maxLength={200}
-                  className="w-full h-[120px] text-slate-100 bg-none border-none outline-none resize-none"
+                  className={`w-full h-[120px] text-slate-100 bg-none border-none outline-none resize-none ${
+                    !isTextAreaDisable && 'animate-pulse'
+                  }`}
                   value={contentAboutMe}
                   onChange={handleContentAboutMe}
                   onKeyDown={onSaveAboutMe}
@@ -98,12 +120,15 @@ function Account() {
               icon={<Calendar size={16} color="#423F46" weight="duotone" />}
               background="bg-zinc-300"
             >
-              <HorizontalCard
-                image={`https://picsum.photos/id/${Math.floor(
-                  Math.random() * 100
-                ).toString()}/200/300`}
-                bubble={bubbles(16)[2]}
-              />
+              {userEvents.map((event: any) => (
+                <HorizontalCard
+                  key={event.idParticipation}
+                  image={`https://picsum.photos/id/${Math.floor(
+                    Math.random() * 100
+                  ).toString()}/200/300`}
+                  event={event}
+                />
+              ))}
             </AccountCard>
 
             <AccountCard
@@ -111,12 +136,15 @@ function Account() {
               icon={<ChatTeardrop size={16} color="#423F46" weight="duotone" />}
               background="bg-zinc-300"
             >
-              <HorizontalCard
-                image={`https://picsum.photos/id/${Math.floor(
-                  Math.random() * 100
-                ).toString()}/200/300`}
-                bubble={bubbles(16)[2]}
-              />
+              {userBubbles.map((bubble) => (
+                <HorizontalCard
+                  key={bubble.idBubble}
+                  image={`https://picsum.photos/id/${Math.floor(
+                    Math.random() * 100
+                  ).toString()}/200/300`}
+                  bubble={bubble}
+                />
+              ))}
             </AccountCard>
           </div>
         </div>

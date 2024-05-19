@@ -13,6 +13,7 @@ import {
 } from 'phosphor-react';
 import { ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { bubbles } from '../../data/bubbles';
@@ -104,6 +105,8 @@ function SignPage() {
 
   return (
     <>
+      <Toaster></Toaster>
+
       <Navbar redirectPage={previousPage} />
 
       <div className="w-screen pt-28 flex flex-col justify-center items-center gap-1 ">

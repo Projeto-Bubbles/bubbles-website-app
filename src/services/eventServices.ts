@@ -9,6 +9,10 @@ export const getFilteredEvents = (categories: (Category | undefined)[]) => {
     : api.get('/events');
 };
 
+export const getEvents = () => {
+  return api.get('events');
+};
+
 export const createOnlineEvent = (event: any) => {
   return api.post('/events/online', event);
 };
