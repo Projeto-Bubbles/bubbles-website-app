@@ -1,17 +1,17 @@
 import { format } from 'date-fns';
 import { Users } from 'phosphor-react';
 import { bubbles } from '../../data/bubbles';
-import { BubbleProps, EventProps } from '../../interfaces/bubble';
+import { BubbleProps } from '../../interfaces/bubble';
 import { Bubble } from './Bubble';
 
 interface HorizontalCardProps {
   bubble?: BubbleProps;
-  event?: EventProps;
+  event?: any;
   image: string;
 }
 
 export function HorizontalCard({ bubble, event, image }: HorizontalCardProps) {
-  const bubbleTag: BubbleProps[] = bubbles(14).filter(
+  const bubbleTag: BubbleProps | undefined = bubbles(14).find(
     (b) => b.category === bubble?.category
   );
 
@@ -21,35 +21,35 @@ export function HorizontalCard({ bubble, event, image }: HorizontalCardProps) {
         <img
           className="w-full h-full object-cover"
           src={image}
-          alt={bubble?.title || event?.title}
+          alt={bubble?.title || event?.event.title}
         />
       </div>
 
-      <div className="w-full h-full flex flex-col items-start justify-center gap-1">
-        {event?.title ? (
-          <h3 className="font-semibold text-lg text-zinc-600">
-            {bubble?.title}
+      <div className="w-full h-full flex flex-col items-start justify-center">
+        {event?.event.title ? (
+          <h3 className="font-semibold text-md text-zinc-600 leading-none">
+            {event?.event.bubbleName}
           </h3>
         ) : (
           <Bubble.Tag
-            title={bubbleTag[0].title}
-            icon={bubbleTag[0].icon}
-            color={bubbleTag[0].color}
+            title={bubbleTag?.title!!}
+            icon={bubbleTag?.icon!!}
+            color={bubbleTag?.color!!}
             fixed
           />
         )}
 
         <h1 className="font-bold text-xl text-zinc-700">
-          {bubble?.title || event?.title}
+          {bubble?.title || event?.event.title}
         </h1>
 
-        {event?.moment ? (
-          <div className="w-full flex items-center justify-start gap-4 text-zinc-700 font-bold text-normal">
-            <span>{format(new Date(event.moment), 'dd/MM')}</span>
-            <div className="w-[1.5px] h-full bg-zinc-300 rounded-full" />
-            <span>{format(new Date(event.moment), 'HH:mm')}</span>
-            <div className="w-[1.5px] h-full bg-zinc-300 rounded-full" />
-            {/* <span>{event.url ? 'online' : 'presencial'}</span> */}
+        {event?.event.moment ? (
+          <div className="w-full flex items-center justify-start gap-2 text-zinc-700 font-bold text-sm">
+            <span>{format(new Date(event.event.moment), 'dd/MM')}</span>
+            <div className="size-1 bg-zinc-400 rounded-full" />
+            <span>{format(new Date(event.event.moment), 'HH:mm')}</span>
+            <div className="size-1 bg-zinc-400 rounded-full" />
+            <span>{event.url ? 'online' : 'presencial'}</span>
           </div>
         ) : (
           <div className="w-full flex items-end justify-start gap-1">

@@ -2,7 +2,12 @@ import { Image } from 'phosphor-react';
 import { getInterests, getLocalUser } from '../../services/userServices';
 import Avatar from './Avatar';
 
-function Profile() {
+interface ProfileProps {
+  events: number;
+  bubbles: number;
+}
+
+function Profile({ events, bubbles }: ProfileProps) {
   const user = getLocalUser();
   const interests = getInterests();
 
@@ -25,14 +30,14 @@ function Profile() {
         <div className="flex absolute left-10 justify-start items-center justify-self-start text-zinc-700 gap-8">
           <div className="flex justify-center items-center flex-col">
             <span className="font-semibold">bolhas</span>
-            <h1 className="font-bold text-3xl ">1</h1>
+            <h1 className="font-bold text-3xl ">{bubbles}</h1>
           </div>
 
           <div className="rounded-full w-[1px] h-10 bg-zinc-700" />
 
           <div className="flex justify-center items-center flex-col">
             <span className="font-semibold">eventos</span>
-            <h1 className="font-bold text-3xl ">1</h1>
+            <h1 className="font-bold text-3xl ">{events}</h1>
           </div>
 
           <div className="rounded-full w-[1px] h-10 bg-zinc-700" />
