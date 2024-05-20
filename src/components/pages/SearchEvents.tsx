@@ -90,7 +90,7 @@ function SearchEvents() {
   };
 
   useEffect(() => {
-    getBubbles().then((response) => {
+    getBubbles().then((response: any) => {
       const bubbleData = response.data.map((bubble: BubbleProps) => ({
         label: bubble.title,
         value: bubble?.idBubble,
@@ -401,7 +401,7 @@ function SearchEvents() {
             ))}
           </div>
 
-          <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 place-content-items">
+          <div className="w-full grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 place-content-items">
             {eventsList &&
               eventsList.map((event) => (
                 <Event.Card
@@ -411,7 +411,7 @@ function SearchEvents() {
                   address={event.address}
                   link={event.link}
                   platform={event.platform}
-                  moment={event.moment}
+                  dateTime={event.dateTime}
                   duration={event.duration}
                 >
                   <Button

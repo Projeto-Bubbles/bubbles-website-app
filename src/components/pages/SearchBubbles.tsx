@@ -323,7 +323,7 @@ function SearchBubbles() {
                 ))}
               </div>
 
-              <div className="w-full grid grid-cols-4 gap-12 place-content-items">
+              <div className="w-full grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 place-content-items">
                 {bubblesList.map((bubble, index) => (
                   <div
                     key={index}

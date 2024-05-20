@@ -1,4 +1,4 @@
-import { Users } from 'phosphor-react';
+import { ArrowRight, Users } from 'phosphor-react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { Bubble } from '.';
@@ -34,7 +34,7 @@ function BubbleCard(bubble: BubbleProps) {
   };
 
   return (
-    <div className="w-72 h-68 bg-zinc-200 text-zinc-700 rounded-lg flex flex-col justify-between items-center group mb-6">
+    <div className="w-96 h-68 bg-zinc-200 text-zinc-700 rounded-2xl flex flex-col justify-between items-center group mb-6">
       <div className="w-full h-[170px] flex flex-col justify-start items-center p-6 gap-6">
         <div className="w-full flex justify-between items-center">
           <Bubble.Tag
@@ -60,8 +60,9 @@ function BubbleCard(bubble: BubbleProps) {
       <div className="w-full h-[100px] flex justify-center items-center relative overflow-hidden translate-y-5">
         <button
           onClick={() => onEnterBubble()}
-          className="bg-slate-400/70 font-bold uppercase backdrop-blur-lg flex justify-around items-center rounded-full p-1 translate-x-52 absolute transition duration-300 ease-in-out group-hover:translate-x-28"
+          className="w-full h-full rounded-[40px] bg-blue-100/70 font-bold text-lg uppercase backdrop-blur-md flex justify-center items-center gap-2 absolute translate-x-72 opacity-50 transition duration-500 ease-in-out group-hover:opacity-100 group-hover:-translate-x-0 "
         >
+          <ArrowRight size={14} color="#3f3f46" weight="duotone" />
           Entrar
         </button>
         <img

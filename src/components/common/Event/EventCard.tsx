@@ -8,7 +8,7 @@ function EventCard({
   title,
   bubble,
   address,
-  moment,
+  dateTime,
   link,
   platform,
   children,
@@ -16,8 +16,8 @@ function EventCard({
   const targetBubble = bubbles(12).find((b) => b.category === bubble?.category);
 
   return (
-    <div className="bg-gray-200 w-[400px] rounded-md flex justify-start items-center gap-10">
-      <div className="w-3/12 h-[300px] rounded-half-r rounded-l-md overflow-hidden">
+    <div className="bg-gray-200 w-4/4 rounded-2xl flex justify-start items-center gap-10">
+      <div className="w-3/12 h-[280px] rounded-2xl overflow-hidden">
         <img
           className="w-full h-full object-cover transition duration-700 ease-in-outut hover:scale-125 hover:rotate-6"
           src={`https://source.unsplash.com/random/500x500/?${bubble?.category}`}
@@ -25,7 +25,7 @@ function EventCard({
         />
       </div>
 
-      <div className="w-7/12 h-full flex flex-col justify-between items-start py-10">
+      <div className="w-7/12 h-full flex flex-col justify-between items-start py-6">
         <div className="w-full flex flex-col justify-between items-start leading-none gap-2">
           <div className="w-full flex justify-between items-center">
             <Bubble.Tag
@@ -44,7 +44,7 @@ function EventCard({
             <h1 className="font-bold text-2xl text-zinc-700 leading-none">
               {title}
             </h1>
-            <h4 className="font-semibold text-xl text-zinc-500 leading-none">
+            <h4 className="font-semibold text-lg text-zinc-500 leading-none">
               {bubble?.title}
             </h4>
           </div>
@@ -54,32 +54,32 @@ function EventCard({
           {link ? (
             <>
               <div className="bg-blue-200/70 rounded-full flex justify-between items-center gap-2 px-2 font-semibold text-zinc-700">
-                <Link size={12} color="#71717A" weight="duotone" />
+                <Link size={11} color="#71717A" weight="duotone" />
                 <a href={link} target="_blank">
                   Link
                 </a>
               </div>
 
-              <div className="bg-zinc-300/70 rounded-full flex justify-between items-center gap-2 px-2 font-semibold text-zinc-700">
-                <AppWindow size={12} color="#71717A" weight="duotone" />
+              <div className="bg-zinc-300/70 rounded-full flex justify-between items-center gap-2 px-2 text-sm font-semibold text-zinc-700">
+                <AppWindow size={11} color="#71717A" weight="duotone" />
                 {platform}
               </div>
             </>
           ) : (
-            <div className="bg-zinc-300/70 rounded-full flex justify-between items-center gap-2 px-2 font-semibold text-zinc-700">
-              <MapPin size={12} color="#71717A" weight="duotone" />
+            <div className="bg-zinc-300/70 rounded-full flex justify-between items-center gap-2 px-2 text-sm font-semibold text-zinc-700 leading-none">
+              <MapPin size={11} color="#71717A" weight="duotone" />
               {address?.street}
             </div>
           )}
 
-          <div className="bg-zinc-300/70 rounded-full flex justify-between items-center gap-2 px-2 font-semibold text-zinc-700">
-            <Calendar size={12} color="#71717A" weight="duotone" />
-            {format(new Date(moment), 'dd/MM')}
+          <div className="bg-zinc-300/70 rounded-full flex justify-between items-center gap-2 px-2 text-sm font-semibold text-zinc-700">
+            <Calendar size={11} color="#71717A" weight="duotone" />
+            {format(new Date(dateTime), 'dd/MM')}
           </div>
 
-          <div className="bg-zinc-300/70 rounded-full flex justify-between items-center  gap-2 px-2 font-semibold text-zinc-700">
-            <Timer size={12} color="#71717A" weight="duotone" />
-            {format(new Date(moment), 'HH:mm')}
+          <div className="bg-zinc-300/70 rounded-full flex justify-between items-center  gap-2 px-2 text-sm font-semibold text-zinc-700">
+            <Timer size={11} color="#71717A" weight="duotone" />
+            {format(new Date(dateTime), 'HH:mm')}
           </div>
         </div>
 
