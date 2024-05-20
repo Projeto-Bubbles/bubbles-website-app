@@ -21,7 +21,7 @@ export const getInterests = (): number => {
 };
 
 export const getBubblesForUser = (userId: number) => {
-  return api.get(`/members/user/1`);
+  return api.get(`/members/user/${userId}`);
 };
 
 export const addUserToBubble = (userId: number, bubbleId: number) => {
@@ -29,7 +29,7 @@ export const addUserToBubble = (userId: number, bubbleId: number) => {
 };
 
 export const getEventsForUser = (userId: number) => {
-  return api.get(`/participation/1`);
+  return api.get(`/participation/${userId}`);
 };
 
 export const addUserToEvent = (userId: number, eventId: number) => {
