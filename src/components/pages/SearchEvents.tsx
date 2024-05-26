@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Browser, Calendar, CheckCircle, Export, MapPin } from 'phosphor-react';
+import { Browser, Calendar, Export, MapPin } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -12,6 +12,7 @@ import {
   createInPersonEvent,
   getFilteredEvents,
 } from '../../services/eventServices';
+import { getLocalUser } from '../../services/userServices';
 import Search from '../Search';
 import { Bubble } from '../common/Bubble';
 import Button from '../common/Button';
@@ -24,6 +25,7 @@ import Navbar from '../common/Navbar';
 
 function SearchEvents() {
   const bubblesTag = bubbles(12);
+  const user: any = getLocalUser();
 
   const userBubbles: BubbleProps[] = JSON.parse(
     localStorage.getItem('bubbles') || '[]'
@@ -44,21 +46,6 @@ function SearchEvents() {
 
   const [eventsList, setEventsList] = useState<EventProps[]>([]);
   const [eventsDefault, setEventsDefault] = useState<EventProps[]>([]);
-
-  const [attendedEvents, setAttendedEvents] = useState<EventProps[]>([]);
-
-  const setPresenceInEvent = (event: EventProps) => {
-    const isAttended = attendedEvents.some((e) => e.idEvent === event.idEvent);
-
-    if (!isAttended) {
-      setAttendedEvents([...attendedEvents, event]);
-    } else {
-      const updatedAttendedEvents = attendedEvents.filter(
-        (e) => e.idEvent !== event.idEvent
-      );
-      setAttendedEvents(updatedAttendedEvents);
-    }
-  };
 
   const {
     register,
@@ -406,6 +393,7 @@ function SearchEvents() {
               eventsList.map((event) => (
                 <Event.Card
                   key={event.idEvent}
+                  idEvent={event.idEvent}
                   title={event.title}
                   bubble={event.bubble}
                   address={event.address}
@@ -413,32 +401,7 @@ function SearchEvents() {
                   platform={event.platform}
                   dateTime={event.dateTime}
                   duration={event.duration}
-                >
-                  <Button
-                    onClick={() => setPresenceInEvent(event)}
-                    text={
-                      attendedEvents.some((e) => e.idEvent === event.idEvent)
-                        ? ''
-                        : 'MARCAR PRESENÇA'
-                    }
-                    color={
-                      attendedEvents.some((e) => e.idEvent === event.idEvent)
-                        ? 'bg-green-500'
-                        : 'bg-zinc-300'
-                    }
-                    icon={
-                      attendedEvents.some(
-                        (e) => e.idEvent === event.idEvent
-                      ) ? (
-                        <CheckCircle
-                          size={16}
-                          color="#F1F5F9"
-                          weight="duotone"
-                        />
-                      ) : null
-                    }
-                  />
-                </Event.Card>
+                />
               ))}
           </div>
         </div>

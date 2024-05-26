@@ -32,8 +32,8 @@ export const getEventsForUser = (userId: number) => {
   return api.get(`/participation/${userId}`);
 };
 
-export const addUserToEvent = (userId: number, eventId: number) => {
-  return api.post(`/participation/${userId}/event/${eventId}`);
+export const addUserToEvent = (data: { idUser: number; idEvent: number }) => {
+  return api.post('/participation/create', data);
 };
 
 export const createUser = (data: any) => {

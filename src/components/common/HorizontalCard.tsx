@@ -11,12 +11,12 @@ interface HorizontalCardProps {
 }
 
 export function HorizontalCard({ bubble, event, image }: HorizontalCardProps) {
-  const bubbleTag: BubbleProps | undefined = bubbles(14).find(
+  const bubbleTag: BubbleProps | undefined = bubbles(12).find(
     (b) => b.category === bubble?.category
   );
 
   return (
-    <div className="flex justify-start items-center gap-8 w-full min-h-20 max-h-24 bg-slate-100 text-zinc-700 rounded-md leading-none">
+    <div className="flex justify-start items-center gap-8 w-full min-h-24 max-h-28 bg-slate-100 text-zinc-700 rounded-xl leading-none">
       <div className="w-2/5 h-full rounded-l-md overflow-hidden">
         <img
           className="w-full h-full object-cover"
@@ -25,9 +25,9 @@ export function HorizontalCard({ bubble, event, image }: HorizontalCardProps) {
         />
       </div>
 
-      <div className="w-full h-full flex flex-col items-start justify-center">
+      <div className="w-full h-full flex flex-col items-start justify-center gap-2">
         {event?.event.title ? (
-          <h3 className="font-semibold text-md text-zinc-600 leading-none">
+          <h3 className="font-semibold text-sm text-zinc-600 leading-none">
             {event?.event.bubbleName}
           </h3>
         ) : (
@@ -39,7 +39,7 @@ export function HorizontalCard({ bubble, event, image }: HorizontalCardProps) {
           />
         )}
 
-        <h1 className="font-bold text-xl text-zinc-700">
+        <h1 className="font-bold text-lg text-zinc-700 leading-none">
           {bubble?.title || event?.event.title}
         </h1>
 
