@@ -334,7 +334,7 @@ function SearchBubbles() {
                       image={`https://source.unsplash.com/random/500x500/?${bubble.category}`}
                     />
 
-                    {bubble?.creator?.idUser === user.id && (
+                    {bubble?.creator?.id === user.id && (
                       <div className="bg-zinc-300 w-5 flex flex-col justify-center items-center gap-2 rounded-md">
                         <span
                           onClick={() =>

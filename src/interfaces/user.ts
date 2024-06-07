@@ -3,7 +3,7 @@ import { BubbleProps } from './bubble';
 export type CPF = string & { length: 11 };
 
 export interface UserProps {
-  idUser?: number;
+  id?: number;
   username: string;
   email: string;
   cpf?: CPF;
@@ -12,6 +12,7 @@ export interface UserProps {
   dateBirthday?: string;
   bubbles?: BubbleProps[];
   address?: Address;
+  image?: string;
 }
 
 export interface Address {

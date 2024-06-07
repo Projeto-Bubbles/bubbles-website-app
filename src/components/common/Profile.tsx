@@ -1,10 +1,36 @@
+import { useState } from 'react';
 import { Image } from 'phosphor-react';
 import { getInterests, getLocalUser } from '../../services/userServices';
+import { uploadFileUsers, getProfilePictureUrl } from '../../utils/supabase';
 import Avatar from './Avatar';
+import { api } from '../../utils/axios';
 
 function Profile() {
   const user = getLocalUser();
   const interests = getInterests();
+  const [avatarUrl, setAvatarUrl] = useState(user.image || "https://picsum.photos/id/237/200/300")
+
+  const handleFileChange = async (event: any) => {
+    const file = event.target.files[0];
+    console.log(file);
+    
+    if (file) {
+      const filePath = await uploadFileUsers(file);
+      const url = await getProfilePictureUrl(filePath);
+      setAvatarUrl(url);
+
+      const user = getLocalUser()
+      user.image = url;
+
+      await api.patch(`/users/edit/${user.id}`, user, {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+
+      localStorage.setItem("user", JSON.stringify(user))
+    }
+  };
 
   return (
     <div className="w-full flex items-center justify-center rounded-[20px] h-56 relative bg-[url('https://i.ytimg.com/vi/QdBZY2fkU-0/maxresdefault.jpg')] bg-cover bg-center">
@@ -13,11 +39,20 @@ function Profile() {
       </div>
 
       <div className="-translate-y-1 z-10">
-        <Avatar
-          isLogged
-          isSelected
-          size="lg"
-          image="https://picsum.photos/id/237/200/300"
+        <label htmlFor="avatar-upload" className='cursor-pointer'>
+          <Avatar
+            isLogged
+            isSelected
+            size="lg"
+            image={avatarUrl}
+          />
+        </label>
+        <input
+          id='avatar-upload' 
+          type="file" 
+          accept='image/*'
+          className='hidden'
+          onChange={handleFileChange}
         />
       </div>
 
