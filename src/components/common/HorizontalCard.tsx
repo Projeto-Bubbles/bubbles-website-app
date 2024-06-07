@@ -27,7 +27,7 @@ export function HorizontalCard({ bubble, event, image }: HorizontalCardProps) {
 
       <div className="w-full h-full flex flex-col items-start justify-center gap-2">
         {event?.event.title ? (
-          <h3 className="font-semibold text-sm text-zinc-600 leading-none">
+          <h3 className="font-semibold text-sm text-zinc-600 leading-none -mb-1">
             {event?.event.bubbleName}
           </h3>
         ) : (
