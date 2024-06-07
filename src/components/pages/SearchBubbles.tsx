@@ -11,6 +11,7 @@ import {
   editBubble,
   getFilteredBubbles,
 } from '../../services/bubbleServices';
+import { getLocalUser } from '../../services/userServices';
 import Search from '../Search';
 import { Bubble } from '../common/Bubble';
 import Button from '../common/Button';
@@ -21,7 +22,7 @@ import Modal from '../common/Modal';
 import Navbar from '../common/Navbar';
 
 function SearchBubbles() {
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const user: any = getLocalUser();
   const [currentContent, setCurrentContent] = useState<string | undefined>();
 
   const [isVisibleEdit, setIsVisibleEdit] = useState(false);
@@ -322,7 +323,7 @@ function SearchBubbles() {
                 ))}
               </div>
 
-              <div className="w-full grid grid-cols-4 gap-12 place-content-items">
+              <div className="w-full grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 place-content-items">
                 {bubblesList.map((bubble, index) => (
                   <div
                     key={index}

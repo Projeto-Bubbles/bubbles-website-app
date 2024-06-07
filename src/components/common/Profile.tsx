@@ -5,7 +5,12 @@ import { uploadFileUsers, getProfilePictureUrl } from '../../utils/supabase';
 import Avatar from './Avatar';
 import { api } from '../../utils/axios';
 
-function Profile() {
+interface ProfileProps {
+  events: number;
+  bubbles: number;
+}
+
+function Profile({ events, bubbles }: ProfileProps) {
   const user = getLocalUser();
   const interests = getInterests();
   const [avatarUrl, setAvatarUrl] = useState(user.image || "https://picsum.photos/id/237/200/300")
@@ -56,18 +61,18 @@ function Profile() {
         />
       </div>
 
-      <div className="flex justify-center items-center absolute bottom-0 w-full h-2/5 rounded-[20px] bg-zinc-300/70 backdrop-blur-lg leading-none">
+      <div className="flex justify-center items-center absolute bottom-0 w-full h-2/5 rounded-2xl bg-zinc-300/70 backdrop-blur-lg leading-none">
         <div className="flex absolute left-10 justify-start items-center justify-self-start text-zinc-700 gap-8">
           <div className="flex justify-center items-center flex-col">
             <span className="font-semibold">bolhas</span>
-            <h1 className="font-bold text-3xl ">1</h1>
+            <h1 className="font-bold text-3xl ">{bubbles}</h1>
           </div>
 
           <div className="rounded-full w-[1px] h-10 bg-zinc-700" />
 
           <div className="flex justify-center items-center flex-col">
             <span className="font-semibold">eventos</span>
-            <h1 className="font-bold text-3xl ">1</h1>
+            <h1 className="font-bold text-3xl ">{events}</h1>
           </div>
 
           <div className="rounded-full w-[1px] h-10 bg-zinc-700" />

@@ -13,6 +13,7 @@ import {
 } from 'phosphor-react';
 import { ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { bubbles } from '../../data/bubbles';
@@ -86,11 +87,6 @@ function SignPage() {
         if (response.status === 201 || response.status === 200) {
           alert('✅🫧 Usuário cadastrado com sucesso!');
 
-          localStorage.setItem('token', response.data.token);
-          api.defaults.headers.common[
-            'Authorization'
-          ] = `Bearer ${response.data.token}`;
-
           localStorage.setItem('user', JSON.stringify(data));
           navigate('/sign-in');
         }
@@ -110,6 +106,8 @@ function SignPage() {
 
   return (
     <>
+      <Toaster />
+
       <Navbar redirectPage={previousPage} />
 
       <div className="w-screen pt-28 flex flex-col justify-center items-center gap-1 ">
