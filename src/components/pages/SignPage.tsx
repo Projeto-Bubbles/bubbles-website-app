@@ -105,7 +105,7 @@ function SignPage() {
 
   return (
     <>
-      <Toaster></Toaster>
+      <Toaster />
 
       <Navbar redirectPage={previousPage} />
 
