@@ -26,7 +26,7 @@ function Profile({ events, bubbles }: ProfileProps) {
         />
       </div>
 
-      <div className="flex justify-center items-center absolute bottom-0 w-full h-2/5 rounded-[20px] bg-zinc-300/70 backdrop-blur-lg leading-none">
+      <div className="flex justify-center items-center absolute bottom-0 w-full h-2/5 rounded-2xl bg-zinc-300/70 backdrop-blur-lg leading-none">
         <div className="flex absolute left-10 justify-start items-center justify-self-start text-zinc-700 gap-8">
           <div className="flex justify-center items-center flex-col">
             <span className="font-semibold">bolhas</span>

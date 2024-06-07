@@ -120,15 +120,16 @@ function Account() {
               icon={<Calendar size={16} color="#423F46" weight="duotone" />}
               background="bg-zinc-300"
             >
-              {userEvents.map((event: any) => (
-                <HorizontalCard
-                  key={event.idParticipation}
-                  image={`https://picsum.photos/id/${Math.floor(
-                    Math.random() * 100
-                  ).toString()}/200/300`}
-                  event={event}
-                />
-              ))}
+              {userEvents &&
+                userEvents.map((event: any) => (
+                  <HorizontalCard
+                    key={event.idParticipation}
+                    image={`https://picsum.photos/id/${Math.floor(
+                      Math.random() * 100
+                    ).toString()}/200/300`}
+                    event={event}
+                  />
+                ))}
             </AccountCard>
 
             <AccountCard
@@ -136,15 +137,16 @@ function Account() {
               icon={<ChatTeardrop size={16} color="#423F46" weight="duotone" />}
               background="bg-zinc-300"
             >
-              {userBubbles.map((bubble) => (
-                <HorizontalCard
-                  key={bubble.idBubble}
-                  image={`https://picsum.photos/id/${Math.floor(
-                    Math.random() * 100
-                  ).toString()}/200/300`}
-                  bubble={bubble}
-                />
-              ))}
+              {userBubbles &&
+                userBubbles.map((bubble) => (
+                  <HorizontalCard
+                    key={bubble.idBubble}
+                    image={`https://picsum.photos/id/${Math.floor(
+                      Math.random() * 100
+                    ).toString()}/200/300`}
+                    bubble={bubble}
+                  />
+                ))}
             </AccountCard>
           </div>
         </div>
