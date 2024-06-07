@@ -26,7 +26,7 @@ function Avatar({ name, image, username, isLogged, size }: AvatarProps) {
         {isLogged ? (
           <img
             src={image ?? 'https://picsum.photos/id/237/200/300'}
-            className="w-full h-full object-cover rounded-full "
+            className="w-full h-full object-cover"
           />
         ) : (
           <User size={20} color="#3f3f46" weight="duotone" />

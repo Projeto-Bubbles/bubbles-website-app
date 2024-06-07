@@ -12,7 +12,7 @@ import {
   createInPersonEvent,
   getFilteredEvents,
 } from '../../services/eventServices';
-import { getLocalUser } from '../../services/userServices';
+// import { getLocalUser } from '../../services/userServices';
 import Search from '../Search';
 import { Bubble } from '../common/Bubble';
 import Button from '../common/Button';
@@ -25,7 +25,7 @@ import Navbar from '../common/Navbar';
 
 function SearchEvents() {
   const bubblesTag = bubbles(12);
-  const user: any = getLocalUser();
+  // const user: any = getLocalUser();
 
   const userBubbles: BubbleProps[] = JSON.parse(
     localStorage.getItem('bubbles') || '[]'
