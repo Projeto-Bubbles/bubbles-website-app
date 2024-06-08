@@ -117,9 +117,9 @@ function SearchBubbles() {
     const file = event.target.files[0];
     if (file) {
         const filePath = await uploadFileBubbles(file);
-        console.log('File path from Supabase:', filePath); // Log do caminho do arquivo
+        console.log('File path from Supabase:', filePath);
         const url = await getCoverUrl(filePath);
-        console.log('Cover URL from Supabase:', url); // Log da URL da imagem
+        console.log('Cover URL from Supabase:', url);
         setCoverUrl(url);
     }
 };

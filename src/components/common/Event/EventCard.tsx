@@ -18,6 +18,7 @@ import Button from '../Button';
 function EventCard({
   idEvent,
   title,
+  image,
   bubble,
   address,
   dateTime,
@@ -25,7 +26,7 @@ function EventCard({
   platform,
 }: EventProps) {
   const targetBubble = bubbles(12).find((b) => b.category === bubble?.category);
-
+  
   const user: any = getLocalUser();
 
   const [isClicked, setIsClicked] = useState(false);
@@ -45,7 +46,7 @@ function EventCard({
       }
     );
   };
-
+  console.log(platform)
   return (
     <>
       <div className="absolute w-screen h-screen -z-10">
@@ -56,7 +57,7 @@ function EventCard({
         <div className="w-3/12 h-[280px] rounded-2xl overflow-hidden">
           <img
             className="w-full h-full object-cover transition duration-700 ease-in-outut hover:scale-125 hover:rotate-6"
-            src={`https://source.unsplash.com/random/500x500/?${bubble?.category}`}
+            src={image || `https://source.unsplash.com/random/500x500/?${bubble?.category}`}
             alt={title}
           />
         </div>

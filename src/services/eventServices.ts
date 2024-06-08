@@ -14,9 +14,11 @@ export const getEvents = () => {
 };
 
 export const createOnlineEvent = (event: any) => {
+  console.log('Evento no create:', event)
   return api.post('/events/online', event);
 };
 
 export const createInPersonEvent = (event: any) => {
+  console.log('Evento no create:', event)
   return api.post('/events/inPerson', event);
 };

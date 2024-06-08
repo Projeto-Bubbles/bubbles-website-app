@@ -48,3 +48,25 @@ export async function getCoverUrl(filePath: string) {
 
   return data.publicUrl;
 }
+
+export async function uploadFileEvents(file: File) {
+  console.log('file passou no upload: ' + file.name);
+
+  const { data, error } = await supabase.storage
+    .from('bubbles-bucket')
+    .upload(`Events/${new Date().toISOString() + '-' + file.name}`, file);
+
+  if (error) {
+    return error.message;
+  } else {
+    return data.path;
+  }
+}
+
+export async function getCoverEventsUrl(filePath: string) {
+  const { data } = await supabase.storage
+    .from('bubbles-bucket')
+    .getPublicUrl(filePath);
+
+  return data.publicUrl;
+}
