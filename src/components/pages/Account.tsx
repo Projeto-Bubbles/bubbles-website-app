@@ -124,7 +124,7 @@ function Account() {
                 userEvents.map((event: any) => (
                   <HorizontalCard
                     key={event.idParticipation}
-                    image={`https://picsum.photos/id/${Math.floor(
+                    image={event?.event.image || `https://picsum.photos/id/${Math.floor(
                       Math.random() * 100
                     ).toString()}/200/300`}
                     event={event}
@@ -141,7 +141,7 @@ function Account() {
                 userBubbles.map((bubble) => (
                   <HorizontalCard
                     key={bubble.idBubble}
-                    image={`https://picsum.photos/id/${Math.floor(
+                    image={bubble.image || `https://picsum.photos/id/${Math.floor(
                       Math.random() * 100
                     ).toString()}/200/300`}
                     bubble={bubble}
