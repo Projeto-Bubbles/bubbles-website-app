@@ -30,6 +30,7 @@ function Navbar({ withMenu, redirectPage, isLogged }: NavbarProps) {
         {isLogged && (
           <Avatar
             isLogged
+            size="sm"
             name={user.username}
             username={user.nickname}
             image={user.image}

@@ -32,11 +32,11 @@ function PostHeader({
       } flex justify-between items-center relative`}
     >
       <div className="w-3/4 flex justify-start gap-4 items-center">
-        <Avatar isLogged isSelected image={image} />
+        <Avatar isLogged size='sm' isSelected image={image} />
 
         <h4 className="w-max bg-red text-lg font-bold">{name}</h4>
 
-        <div className="w-48 flex justify-start item-center gap-3">
+        <div className="w-40 flex justify-start item-center gap-3">
           <span>{`@${username}`} </span>
 
           {dateTime && (
