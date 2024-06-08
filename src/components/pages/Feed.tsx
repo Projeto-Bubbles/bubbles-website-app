@@ -309,6 +309,7 @@ function Feed() {
                 >
                   {user.email && (
                     <Post.Header
+                      image={user.image}
                       name={user.username}
                       username={user.nickname}
                     />
@@ -344,6 +345,7 @@ function Feed() {
                   posts.map((post) => (
                     <Post.Root key={post.idPost} type={PostType.VIEW}>
                       <Post.Header
+                        image={post.author.image}
                         name={post.author.username}
                         username={post.author.nickname}
                         dateTime={post.moment}
@@ -384,6 +386,7 @@ function Feed() {
                               content={comment.contents}
                             >
                               <Post.Header
+                                image={comment.author.image}
                                 name={comment.author.username}
                                 username={comment.author.nickname}
                               />

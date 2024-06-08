@@ -1,8 +1,10 @@
 import { format } from 'date-fns';
 import { DotsThreeOutline } from 'phosphor-react';
 import { useState } from 'react';
+import Avatar  from '../Avatar';
 
 interface PostHeaderProps {
+  image?: string;
   name: string;
   username: string;
   dateTime?: Date;
@@ -12,6 +14,7 @@ interface PostHeaderProps {
 }
 
 function PostHeader({
+  image,
   name,
   username,
   isNotLogged,
@@ -29,6 +32,8 @@ function PostHeader({
       } flex justify-between items-center relative`}
     >
       <div className="w-3/4 flex justify-start gap-4 items-center">
+        <Avatar isLogged isSelected image={image} />
+
         <h4 className="w-max bg-red text-lg font-bold">{name}</h4>
 
         <div className="w-48 flex justify-start item-center gap-3">
