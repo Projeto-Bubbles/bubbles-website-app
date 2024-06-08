@@ -13,7 +13,7 @@ interface ProfileProps {
 function Profile({ events, bubbles }: ProfileProps) {
   const user = getLocalUser();
   const interests = getInterests();
-  const [avatarUrl, setAvatarUrl] = useState(user.image || "https://picsum.photos/id/237/200/300")
+  const [avatarUrl, setAvatarUrl] = useState(user.image)
 
   const handleFileChange = async (event: any) => {
     const file = event.target.files[0];

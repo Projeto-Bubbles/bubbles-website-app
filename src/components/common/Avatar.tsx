@@ -6,30 +6,27 @@ interface AvatarProps {
   username?: string;
   isLogged?: boolean;
   isSelected?: boolean;
-  size?: 'sm' | 'md' | 'lg';
+  size: 'sm' | 'md' | 'lg';
 }
 
 const avatarSize = {
-  sm: 'w-9 h-9',
-  md: 'w-12 h-12',
-  lg: 'w-24 h-24',
+  sm: { common: 'w-9 h-9', icon: 20 },
+  md: { common: 'w-12 h-12', icon: 30 },
+  lg: { common: 'w-24 h-24', icon: 55 },
 };
 
 function Avatar({ name, image, username, isLogged, size }: AvatarProps) {
+  const { common, icon } = avatarSize[size] || avatarSize['sm'];
+
   return (
     <div className="flex justify-center items-center gap-2 cursor-pointer">
       <div
-        className={`${
-          avatarSize[size ?? 'sm']
-        }  grid place-content-center bg-slate-300 rounded-3xl ring-2 ring-[#C1C0C0] overflow-hidden transition-all duration-300 ease-in-out hover:rounded-xl`}
+        className={`${common} grid place-content-center bg-slate-300 rounded-3xl ring-2 ring-[#C1C0C0] overflow-hidden transition-all duration-300 ease-in-out hover:rounded-xl`}
       >
-        {isLogged ? (
-          <img
-            src={image ?? 'https://picsum.photos/id/237/200/300'}
-            className="w-full h-full object-cover"
-          />
+        {isLogged && image ? (
+          <img src={image} className="w-full h-full object-cover" />
         ) : (
-          <User size={20} color="#3f3f46" weight="duotone" />
+          <User size={icon} color="#3f3f46" weight="duotone" />
         )}
       </div>
 
