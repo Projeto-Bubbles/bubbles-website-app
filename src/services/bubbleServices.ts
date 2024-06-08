@@ -14,6 +14,7 @@ export const getBubbles = (): any => {
 };
 
 export const createBubble = (bubble: any) => {
+  console.log('Bolha no create:', bubble)
   return api.post('/bubbles/create', bubble);
 };
 
