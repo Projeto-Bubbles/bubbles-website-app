@@ -22,6 +22,7 @@ import Select from '../common/Fields/Select';
 import Textarea from '../common/Fields/Textarea';
 import Modal from '../common/Modal';
 import Navbar from '../common/Navbar';
+import { Skeleton } from '../common/Skeleton';
 
 function SearchEvents() {
   const bubblesTag = bubbles(12);
@@ -389,7 +390,7 @@ function SearchEvents() {
           </div>
 
           <div className="w-full grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 place-content-items">
-            {eventsList &&
+            {eventsList.length > 0 ? (
               eventsList.map((event) => (
                 <Event.Card
                   key={event.idEvent}
@@ -402,7 +403,14 @@ function SearchEvents() {
                   dateTime={event.dateTime}
                   duration={event.duration}
                 />
-              ))}
+              ))
+            ) : (
+              <>
+                {[...Array(6)].map((_, index) => (
+                  <Skeleton.EventCard key={index} />
+                ))}
+              </>
+            )}
           </div>
         </div>
       </Search>

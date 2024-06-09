@@ -27,6 +27,7 @@ import Navbar from '../common/Navbar';
 import { Post } from '../common/Post';
 import { PostType } from '../common/Post/PostRoot';
 import SidebarTopic from '../common/SidebarTopic';
+import { Skeleton } from '../common/Skeleton';
 import { mockData } from './../../data/events';
 import { Event } from './../common/Event/index';
 
@@ -303,7 +304,7 @@ function Feed() {
               </div>
 
               {/* Post */}
-              <div className="w-full flex flex-col gap-16">
+              <div className="w-full flex flex-col gap-12">
                 <Post.Root
                   type={user.email ? PostType.CREATE : PostType.NOT_LOGGED}
                 >
@@ -416,8 +417,13 @@ function Feed() {
                       />
                     </Post.Root>
                   ))}
+
                 {posts.length === 0 && (
-                  <h1>🙁 Ops, não conseguimos trazer os posts</h1>
+                  <>
+                    {[...Array(4)].map((_, index) => (
+                      <Skeleton.Post key={index} />
+                    ))}
+                  </>
                 )}
               </div>
             </div>
