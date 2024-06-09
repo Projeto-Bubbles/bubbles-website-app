@@ -67,7 +67,11 @@ function Profile({ events, bubbles }: ProfileProps) {
 
   return (
     <div
-      className="w-full flex items-center justify-center rounded-[20px] h-56 relative bg-cover bg-center"
+      className={`w-full flex items-center justify-center rounded-[20px] relative bg-cover bg-center ${
+        coverUrl
+          ? 'h-56'
+          : 'h-60 flex-col gap-4 border-dotted border-2 border-zinc-500 overflow-hidden'
+      }`}
       style={{ backgroundImage: `url(${coverUrl})` }}
     >
       <label htmlFor="user-cover-upload">

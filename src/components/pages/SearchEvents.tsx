@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Browser, Calendar, Export, MapPin } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { bubbles } from '../../data/bubbles';
 import { Category } from '../../enums/category';
 import useBubbles from '../../hooks/useBubbles';
@@ -168,7 +168,6 @@ function SearchEvents() {
         }
       );
     }
-    console.log('Event data being sent to DB:', eventData);
     reset();
   };
 
@@ -180,9 +179,7 @@ function SearchEvents() {
     const file = event.target.files[0];
     if (file) {
       const filePath = await uploadFileEvents(file);
-      console.log('File path from Supabase:', filePath);
       const url = await getCoverEventsUrl(filePath);
-      console.log('Cover URL from Supabase:', url);
       setEventCoverUrl(url);
     }
   };
@@ -190,6 +187,7 @@ function SearchEvents() {
   return (
     <>
       <Navbar redirectPage="/feed" isLogged />
+      <Toaster />
 
       {isVisible && (
         <Modal onClose={() => setIsVisible(false)}>

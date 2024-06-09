@@ -46,7 +46,6 @@ function EventCard({
       }
     );
   };
-  console.log(platform)
   return (
     <>
       <div className="absolute w-screen h-screen -z-10">

@@ -72,9 +72,9 @@ function SearchBubbles() {
       image: coverUrl,
       creator: user.id,
     };
-  
+
     console.log('Bubble data being sent to DB:', bubbleData);
-    
+
     toast.promise(
       createBubble(bubbleData).then(() => {
         getBubbles();
@@ -85,7 +85,7 @@ function SearchBubbles() {
         error: 'Ops, tente criar a bolha novamente',
       }
     );
-  
+
     setIsVisible(false);
   };
 
@@ -116,13 +116,13 @@ function SearchBubbles() {
   const handleOnDrop = async (event: any) => {
     const file = event.target.files[0];
     if (file) {
-        const filePath = await uploadFileBubbles(file);
-        console.log('File path from Supabase:', filePath);
-        const url = await getCoverUrl(filePath);
-        console.log('Cover URL from Supabase:', url);
-        setCoverUrl(url);
+      const filePath = await uploadFileBubbles(file);
+      console.log('File path from Supabase:', filePath);
+      const url = await getCoverUrl(filePath);
+      console.log('Cover URL from Supabase:', url);
+      setCoverUrl(url);
     }
-};
+  };
 
   const handleEditBubble = (bubbleId: number, newContent: string) => {
     toast((t) => (
