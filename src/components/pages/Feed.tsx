@@ -11,7 +11,9 @@ import {
 import { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import { EventProps } from '../../interfaces/bubble';
 import { PostProps } from '../../interfaces/post';
+import { getNext5Events } from '../../services/eventServices';
 import {
   createComment,
   createPost,
@@ -28,8 +30,7 @@ import { Post } from '../common/Post';
 import { PostType } from '../common/Post/PostRoot';
 import SidebarTopic from '../common/SidebarTopic';
 import { Skeleton } from '../common/Skeleton';
-import { mockData } from './../../data/events';
-import { Event } from './../common/Event/index';
+import Event from './../common/Event/index';
 
 function Feed() {
   localStorage.setItem('previousPage', 'feed');
@@ -196,6 +197,21 @@ function Feed() {
     getAllPosts();
   }, []);
 
+  const [events, setEvents] = useState<EventProps[]>([]);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await getNext5Events();
+        setEvents(response.data.slice(0, 5));
+      } catch (error) {
+        console.error('Erro ao buscar eventos:', error);
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
   return (
     <>
       <Toaster />
@@ -296,9 +312,9 @@ function Feed() {
                     Próximos eventos
                   </h1>
                 </div>
-                <div className="w-full h-72 flex justify-between items-center">
-                  {mockData.map((events, index) => (
-                    <Event.Story key={index} {...events} />
+                <div className="w-full h-72 flex justify-between items-center gap-2">
+                  {events.map((event, index) => (
+                    <Event.Story key={index} {...event} />
                   ))}
                 </div>
               </div>
@@ -310,6 +326,7 @@ function Feed() {
                 >
                   {user.email && (
                     <Post.Header
+                      image={user.image}
                       name={user.username}
                       username={user.nickname}
                     />
@@ -345,6 +362,7 @@ function Feed() {
                   posts.map((post) => (
                     <Post.Root key={post.idPost} type={PostType.VIEW}>
                       <Post.Header
+                        image={post.author.image}
                         name={post.author.username}
                         username={post.author.nickname}
                         dateTime={post.moment}
@@ -385,6 +403,7 @@ function Feed() {
                               content={comment.contents}
                             >
                               <Post.Header
+                                image={comment.author.image}
                                 name={comment.author.username}
                                 username={comment.author.nickname}
                               />

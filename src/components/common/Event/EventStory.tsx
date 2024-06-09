@@ -1,7 +1,16 @@
 import { EventProps } from '../../../interfaces/bubble';
 import { formatter } from '../../../utils/dateFormatter';
 
-function EventStory({ title, moment, image, bubble }: EventProps) {
+function EventStory({ title, dateTime, image, bubble }: EventProps) {
+  if (typeof dateTime === 'string') {
+    dateTime = new Date(dateTime);
+  }
+  
+  if (!(dateTime instanceof Date) || isNaN(dateTime.getTime())) {
+    console.error('dateTime não é uma data válida:', dateTime);
+    return null;
+  }
+
   return (
     <div
       role="event-story"
@@ -17,9 +26,9 @@ function EventStory({ title, moment, image, bubble }: EventProps) {
       />
       <div className="bg-gradient-to-t from-slate-900 to-black/5 flex flex-col justify-start items-start gap-2 text-slate-100 h-full p-4 pt-28 absolute">
         <div className="text-3xl font-bold leading-none">
-          <h3>{formatter({ day: 'numeric' }, moment)}</h3>
+          <h3>{formatter({ day: 'numeric' }, dateTime)}</h3>
           <h3 className="uppercase">
-            {formatter({ month: 'long' }, moment).slice(0, 3)}
+            {formatter({ month: 'long' }, dateTime).slice(0, 3)}
           </h3>
         </div>
         <h4 className="font-bold text-lg leading-none">{title}</h4>

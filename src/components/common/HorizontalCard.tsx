@@ -49,7 +49,7 @@ export function HorizontalCard({ bubble, event, image }: HorizontalCardProps) {
             <div className="size-1 bg-zinc-400 rounded-full" />
             <span>{format(new Date(event.event.moment), 'HH:mm')}</span>
             <div className="size-1 bg-zinc-400 rounded-full" />
-            <span>{event.url ? 'online' : 'presencial'}</span>
+            <span>{event.url != null ? 'online' : 'presencial'}</span>
           </div>
         ) : (
           <div className="w-full flex items-end justify-start gap-1">

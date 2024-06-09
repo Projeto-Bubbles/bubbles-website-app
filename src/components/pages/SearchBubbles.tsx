@@ -12,6 +12,7 @@ import {
   getFilteredBubbles,
 } from '../../services/bubbleServices';
 import { getLocalUser } from '../../services/userServices';
+import { getCoverUrl, uploadFileBubbles } from '../../utils/supabase';
 import Search from '../Search';
 import { Bubble } from '../common/Bubble';
 import Button from '../common/Button';
@@ -25,6 +26,7 @@ import { Skeleton } from '../common/Skeleton';
 function SearchBubbles() {
   const user: any = getLocalUser();
   const [currentContent, setCurrentContent] = useState<string | undefined>();
+  const [coverUrl, setCoverUrl] = useState('');
 
   const [isVisibleEdit, setIsVisibleEdit] = useState(false);
   const [postId, setPostId] = useState(0);
@@ -39,8 +41,6 @@ function SearchBubbles() {
   const [isVisible, setIsVisible] = useState(false);
   const [bubblesList, setBubblesList] = useState<BubbleProps[]>([]);
   const [bubblesDefault, setBubblesDefault] = useState<BubbleProps[]>([]);
-
-  const [image, setImage] = useState<File | null>(null);
 
   const handleSearchBubbles = (e: any) => {
     const searchBubble = e.target.value.toLowerCase();
@@ -66,12 +66,15 @@ function SearchBubbles() {
     return { label: bubbles.title, value: bubbles.category };
   });
 
-  const createNewBubble = (data: BubbleProps) => {
+  const createNewBubble = async (data: BubbleProps) => {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const bubbleData = {
       ...data,
+      image: coverUrl,
       creator: user.id,
     };
+
+    console.log('Bubble data being sent to DB:', bubbleData);
 
     toast.promise(
       createBubble(bubbleData).then(() => {
@@ -111,10 +114,14 @@ function SearchBubbles() {
     e.preventDefault();
   };
 
-  const handleOnDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    if (e.dataTransfer.files.length > 0) {
-      setImage(e.dataTransfer.files[0]);
+  const handleOnDrop = async (event: any) => {
+    const file = event.target.files[0];
+    if (file) {
+      const filePath = await uploadFileBubbles(file);
+      console.log('File path from Supabase:', filePath);
+      const url = await getCoverUrl(filePath);
+      console.log('Cover URL from Supabase:', url);
+      setCoverUrl(url);
     }
   };
 
@@ -223,29 +230,46 @@ function SearchBubbles() {
           {isVisible && (
             <Modal onClose={() => setIsVisible(false)}>
               <form
-                onSubmit={handleSubmit(createNewBubble)}
+                onSubmit={handleSubmit(async (data) => {
+                  if (coverUrl) {
+                    await createNewBubble(data);
+                  } else {
+                    toast.error(
+                      'Por favor, carregue uma imagem antes de criar a bolha.'
+                    );
+                  }
+                })}
                 className="w-full flex flex-col gap-8"
               >
-                <div
-                  onDragOver={handleDragOver}
-                  onDrop={handleOnDrop}
-                  className="w-full h-60 flex flex-col justify-center items-center gap-4 rounded-md border-dotted border-2 border-zinc-500 overflow-hidden"
-                >
-                  {image ? (
-                    <img
-                      src={URL.createObjectURL(image)}
-                      alt="Imagem da bolha"
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <>
-                      <Export size={32} weight="duotone" color="#6b7280" />
-                      <h1 className="text-zinc-500 font-medium">
-                        Arraste uma foto para a bolha
-                      </h1>
-                    </>
-                  )}
-                </div>
+                <label htmlFor="bubble-upload" className="cursor-pointer">
+                  <div
+                    onDragOver={handleDragOver}
+                    onDrop={handleOnDrop}
+                    className="w-full h-60 flex flex-col justify-center items-center gap-4 rounded-md border-dotted border-2 border-zinc-500 overflow-hidden"
+                  >
+                    {coverUrl ? (
+                      <img
+                        src={coverUrl}
+                        alt="Imagem da bolha"
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <>
+                        <Export size={32} weight="duotone" color="#6b7280" />
+                        <h1 className="text-zinc-500 font-medium">
+                          Arraste uma foto para a bolha
+                        </h1>
+                      </>
+                    )}
+                  </div>
+                </label>
+                <input
+                  id="bubble-upload"
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleOnDrop}
+                />
 
                 <div className="w-full flex justify-between items-center gap-8">
                   <div className="w-3/5">
@@ -334,7 +358,10 @@ function SearchBubbles() {
                       <Bubble.Card
                         {...bubble}
                         users={bubble.users}
-                        image={`https://source.unsplash.com/random/500x500/?${bubble.category}`}
+                        image={
+                          bubble.image ||
+                          `https://source.unsplash.com/random/500x500/?${bubble.category}`
+                        }
                       />
 
                       {bubble?.creator?.idUser === user.id && (

@@ -5,3 +5,5 @@ export const Event = {
   Card: EventCard,
   Story: EventStory,
 };
+
+export default Event
