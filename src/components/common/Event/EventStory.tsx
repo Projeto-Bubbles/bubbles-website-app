@@ -2,6 +2,15 @@ import { EventProps } from '../../../interfaces/bubble';
 import { formatter } from '../../../utils/dateFormatter';
 
 function EventStory({ title, dateTime, image, bubble }: EventProps) {
+  if (typeof dateTime === 'string') {
+    dateTime = new Date(dateTime);
+  }
+  
+  if (!(dateTime instanceof Date) || isNaN(dateTime.getTime())) {
+    console.error('dateTime não é uma data válida:', dateTime);
+    return null;
+  }
+
   return (
     <div
       role="event-story"

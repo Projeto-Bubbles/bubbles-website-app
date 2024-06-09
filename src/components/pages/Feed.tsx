@@ -19,6 +19,7 @@ import {
   editPost,
   getPosts,
 } from '../../services/postServices';
+import { getNext5Events } from '../../services/eventServices';
 import Button from '../common/Button';
 import Input from '../common/Fields/Input';
 import Textarea from '../common/Fields/Textarea';
@@ -27,8 +28,8 @@ import Navbar from '../common/Navbar';
 import { Post } from '../common/Post';
 import { PostType } from '../common/Post/PostRoot';
 import SidebarTopic from '../common/SidebarTopic';
-import { mockData } from './../../data/events';
-import { Event } from './../common/Event/index';
+import Event from './../common/Event/index';
+import { EventProps } from '../../interfaces/bubble';
 
 function Feed() {
   localStorage.setItem('previousPage', 'feed');
@@ -195,6 +196,21 @@ function Feed() {
     getAllPosts();
   }, []);
 
+  const [events, setEvents] = useState<EventProps[]>([]);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await getNext5Events();
+        setEvents(response.data.slice(0, 5));
+      } catch (error) {
+        console.error('Erro ao buscar eventos:', error);
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
   return (
     <>
       <Toaster />
@@ -296,8 +312,8 @@ function Feed() {
                   </h1>
                 </div>
                 <div className="w-full h-72 flex justify-between items-center">
-                  {mockData.map((events, index) => (
-                    <Event.Story key={index} {...events} />
+                  {events.map((event, index) => (
+                    <Event.Story key={index} {...event} />
                   ))}
                 </div>
               </div>
