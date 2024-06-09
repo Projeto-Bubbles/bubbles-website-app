@@ -17,9 +17,9 @@ export function SkeletonEventCard() {
         </div>
 
         <div className="flex flex-wrap gap-2">
-          <div className="bg-gray-300 h-6 w-full rounded-full"></div>
-          <div className="bg-gray-300 h-6 w-20 rounded-full"></div>
-          <div className="bg-gray-300 h-6 w-20 rounded-full"></div>
+          <div className="bg-gray-300 h-4 w-full rounded-full"></div>
+          <div className="bg-gray-300 h-4 w-20 rounded-full"></div>
+          <div className="bg-gray-300 h-4 w-20 rounded-full"></div>
         </div>
 
         <div className="bg-gray-300 h-10 w-full rounded-full" />
