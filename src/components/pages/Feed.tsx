@@ -311,7 +311,7 @@ function Feed() {
                     Próximos eventos
                   </h1>
                 </div>
-                <div className="w-full h-72 flex justify-between items-center">
+                <div className="w-full h-72 flex justify-between items-center gap-2">
                   {events.map((event, index) => (
                     <Event.Story key={index} {...event} />
                   ))}
