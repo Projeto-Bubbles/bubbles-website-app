@@ -27,6 +27,28 @@ export async function getProfilePictureUrl(filePath: string) {
   return data.publicUrl;
 }
 
+export async function uploadFileUserCover(file: File) {
+  console.log('file passou no upload: ' + file.name);
+
+  const { data, error } = await supabase.storage
+    .from('bubbles-bucket')
+    .upload(`UserCover/${new Date().toISOString() + '-' + file.name}`, file);
+
+  if (error) {
+    return error.message;
+  } else {
+    return data.path;
+  }
+}
+
+export async function getProfileCoverUrl(filePath: string) {
+  const { data } = await supabase.storage
+    .from('bubbles-bucket')
+    .getPublicUrl(filePath);
+
+  return data.publicUrl;
+}
+
 export async function uploadFileBubbles(file: File) {
   console.log('file passou no upload: ' + file.name);
 

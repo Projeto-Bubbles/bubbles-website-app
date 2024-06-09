@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import { Image } from 'phosphor-react';
 import { getInterests, getLocalUser } from '../../services/userServices';
-import { uploadFileUsers, getProfilePictureUrl } from '../../utils/supabase';
+import {
+  uploadFileUsers,
+  getProfilePictureUrl,
+  uploadFileUserCover,
+  getProfileCoverUrl,
+} from '../../utils/supabase';
 import Avatar from './Avatar';
 import { api } from '../../utils/axios';
 
@@ -13,50 +18,80 @@ interface ProfileProps {
 function Profile({ events, bubbles }: ProfileProps) {
   const user = getLocalUser();
   const interests = getInterests();
-  const [avatarUrl, setAvatarUrl] = useState(user.image)
+  const [avatarUrl, setAvatarUrl] = useState(user.image);
+  const [coverUrl, setCoverUrl] = useState(user.userCover);
 
   const handleFileChange = async (event: any) => {
     const file = event.target.files[0];
     console.log(file);
-    
+
     if (file) {
       const filePath = await uploadFileUsers(file);
       const url = await getProfilePictureUrl(filePath);
       setAvatarUrl(url);
 
-      const user = getLocalUser()
+      const user = getLocalUser();
       user.image = url;
 
       await api.patch(`/users/edit/${user.id}`, user, {
         headers: {
-          "Content-Type": "application/json"
-        }
-      })
+          'Content-Type': 'application/json',
+        },
+      });
 
-      localStorage.setItem("user", JSON.stringify(user))
+      localStorage.setItem('user', JSON.stringify(user));
+    }
+  };
+
+  const handleFileChangeCover = async (event: any) => {
+    const file = event.target.files[0];
+    console.log(file);
+
+    if (file) {
+      const filePath = await uploadFileUserCover(file);
+      const url = await getProfileCoverUrl(filePath);
+      setCoverUrl(url);
+
+      const user = getLocalUser();
+      user.userCover = url;
+
+      await api.patch(`/users/edit/${user.id}`, user, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      localStorage.setItem('user', JSON.stringify(user));
     }
   };
 
   return (
-    <div className="w-full flex items-center justify-center rounded-[20px] h-56 relative bg-[url('https://i.ytimg.com/vi/QdBZY2fkU-0/maxresdefault.jpg')] bg-cover bg-center">
-      <div className="absolute flex items-center justify-center w-5 h-5 right-3 top-3 rounded-md bg-zinc-300/70 backdrop-blur-md cursor-pointer">
-        <Image size={12} weight="duotone" />
-      </div>
+    <div
+      className="w-full flex items-center justify-center rounded-[20px] h-56 relative bg-cover bg-center"
+      style={{ backgroundImage: `url(${coverUrl})` }}
+    >
+      <label htmlFor="user-cover-upload">
+        <div className="absolute flex items-center justify-center w-5 h-5 right-3 top-3 rounded-md bg-zinc-300/70 backdrop-blur-md cursor-pointer">
+          <Image size={12} weight="duotone" />
+        </div>
+      </label>
+      <input
+        id="user-cover-upload"
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={handleFileChangeCover}
+      />
 
       <div className="-translate-y-1 z-10">
-        <label htmlFor="avatar-upload" className='cursor-pointer'>
-          <Avatar
-            isLogged
-            isSelected
-            size="lg"
-            image={avatarUrl}
-          />
+        <label htmlFor="avatar-upload" className="cursor-pointer">
+          <Avatar isLogged isSelected size="lg" image={avatarUrl} />
         </label>
         <input
-          id='avatar-upload' 
-          type="file" 
-          accept='image/*'
-          className='hidden'
+          id="avatar-upload"
+          type="file"
+          accept="image/*"
+          className="hidden"
           onChange={handleFileChange}
         />
       </div>

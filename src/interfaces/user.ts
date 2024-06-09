@@ -13,6 +13,7 @@ export interface UserProps {
   bubbles?: BubbleProps[];
   address?: Address;
   image?: string;
+  userCover?: string
 }
 
 export interface Address {
