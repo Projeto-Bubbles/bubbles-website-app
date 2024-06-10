@@ -17,10 +17,10 @@ export const deletePost = (id: number) => {
   return api.delete(`/posts/${id}`);
 };
 
-export const editPost = (id: number, body: string) => {
+export const editPost = (id: number, newImage: string, body: string) => {
   return api.patch(
     `/posts/${id}`,
-    { contents: body },
+    { image: newImage, contents: body },
     {
       headers: {
         'Content-Type': 'application/json',

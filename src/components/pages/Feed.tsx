@@ -66,7 +66,7 @@ function Feed() {
 
     setInputValues((prevInputValues) => ({
       ...prevInputValues,
-      [0]: '', // Limpa o valor apenas para o componente específico
+      [0]: '',
     }));
 
     createPost(post).then(() => {
@@ -96,7 +96,11 @@ function Feed() {
     createComment(comment, postId).then(() => getAllPosts());
   };
 
-  const handleValue = (e: React.KeyboardEvent<HTMLInputElement>, type: PostType, postId: number) => {
+  const handleValue = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    type: PostType,
+    postId: number
+  ) => {
     if (e.key === 'Enter') {
       const content = e.currentTarget.value;
 
@@ -116,7 +120,11 @@ function Feed() {
     setCurrentContent(e.target.value);
   };
 
-  const handleEditPost = (postId: number, newContent: string) => {
+  const handleEditPost = (
+    postId: number,
+    newCoverUrl: string,
+    newContent: string
+  ) => {
     toast((t) => (
       <span>
         Deseja realmente editar o post?
@@ -125,7 +133,7 @@ function Feed() {
             text="Editar"
             color="bg-green-500"
             onClick={() => {
-              editPost(postId, newContent)
+              editPost(postId, newCoverUrl, newContent)
                 .then(() => {
                   toast.promise(
                     getPosts().then((response) => setPosts(response.data)),
@@ -154,9 +162,10 @@ function Feed() {
     ));
   };
 
-  const onEdit = (postId: number, content: string) => {
+  const onEdit = (postId: number, imageUrl: string, content: string) => {
     setIsVisible(true);
     setPostId(postId);
+    setCoverUrl(imageUrl);
     setCurrentContent(content);
   };
 
@@ -240,6 +249,35 @@ function Feed() {
             <h1 className="text-zinc-700 font-medium text-lg">
               Editar conteúdo do post
             </h1>
+            <label htmlFor="post-upload-edit" className="cursor-pointer">
+              <div
+                onDragOver={handleDragOver}
+                onDrop={handleOnDrop}
+                className="w-full flex items-center justify-center gap-4 mx-auto rounded-md border-dotted border-2 border-zinc-500 overflow-hidden p-2"
+              >
+                {coverUrl ? (
+                  <img
+                    src={coverUrl}
+                    alt="Imagem do Post"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <>
+                    <Export size={32} weight="duotone" color="#6b7280" />
+                    <h1 className="text-zinc-500 font-medium">
+                      Mostre como você está
+                    </h1>
+                  </>
+                )}
+              </div>
+            </label>
+            <input
+              id="post-upload-edit"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleOnDrop}
+            />
             <Textarea
               value={currentContent}
               onChange={handleTextarea}
@@ -250,7 +288,9 @@ function Feed() {
               icon={<Pencil size={16} color="#334141" weight="duotone" />}
               color="bg-green-600"
               type="submit"
-              onClick={() => handleEditPost(postId, currentContent ?? '')}
+              onClick={() =>
+                handleEditPost(postId, coverUrl ?? '', currentContent ?? '')
+              }
             />
           </div>
         </Modal>
@@ -418,7 +458,11 @@ function Feed() {
                         <div className="bg-zinc-300 w-20 flex flex-col justify-center items-center gap-2 rounded-md">
                           <span
                             onClick={() =>
-                              onEdit(post.idPost ?? 0, post.contents)
+                              onEdit(
+                                post.idPost ?? 0,
+                                post.image ?? '',
+                                post.contents
+                              )
                             }
                             role="editar"
                             className="w-full text-zinc-700 flex justify-start items-center gap-2 px-1 py-[2px] rounded-md transition duration-200 ease-in-out cursor-pointer hover:bg-zinc-400/20"
