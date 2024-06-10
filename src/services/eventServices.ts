@@ -13,10 +13,16 @@ export const getEvents = () => {
   return api.get('events');
 };
 
+export const getNext5Events = () => {
+  return api.get('/events/date');
+};
+
 export const createOnlineEvent = (event: any) => {
+  console.log('Evento no create:', event)
   return api.post('/events/online', event);
 };
 
 export const createInPersonEvent = (event: any) => {
+  console.log('Evento no create:', event)
   return api.post('/events/inPerson', event);
 };

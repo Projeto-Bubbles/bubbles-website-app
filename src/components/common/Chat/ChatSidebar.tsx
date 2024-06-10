@@ -1,4 +1,10 @@
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { BubbleProps } from '../../../interfaces/bubble';
+import {
+  getBubblesForUser,
+  getLocalUser,
+} from '../../../services/userServices';
 import Avatar from '../Avatar';
 import BackButton from './../BackButton';
 
@@ -8,15 +14,14 @@ interface ChatSidebar {
 
 export function ChatSidebar({ joinBubbleChat }: ChatSidebar) {
   const navigate = useNavigate();
+  const user: any = getLocalUser();
+  const [bubbles, setBubbles] = useState<BubbleProps[]>([]);
 
-  const avatars = [
-    { id: 1, name: 'Bolha 1' },
-    { id: 2, name: 'Futeboula' },
-    { id: 3, name: 'Vamos juntos' },
-    { id: 4, name: 'Receba' },
-    { id: 5, name: 'Pega e tome' },
-    { id: 6, name: 'Ui papai' },
-  ];
+  useEffect(() => {
+    getBubblesForUser(user.id).then((response) => {
+      setBubbles(response.data);
+    });
+  }, []);
 
   return (
     <aside className="w-full h-full bg-zinc-300 flex flex-col items-center justify-between py-10 rounded-r-2xl relative">
@@ -29,22 +34,18 @@ export function ChatSidebar({ joinBubbleChat }: ChatSidebar) {
       </div>
 
       <div className="w-[400px] flex flex-col items-center justify-start gap-4 max-h-[400px] py-2 overflow-y-auto scrollbar-hide absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        {avatars.map((avatar, index) => (
+        {bubbles.map((bubble, index) => (
           <div key={index} className="relative flex items-center group">
             <span className="w-max bg-slate-800 text-slate-100 p-1 rounded-md absolute translate-x-16 opacity-0 transition ease-in-out duration-200 group-hover:opacity-100 z-50">
-              {avatar.name}
+              {bubble.title}
             </span>
 
-            <div className="bg-red-500 text-slate-100 font-medium size-4 grid place-content-center rounded-full leading-none absolute right-0 bottom-0">
+            {/* <div className="bg-red-500 text-slate-100 font-medium size-4 grid place-content-center rounded-full leading-none absolute right-0 bottom-0">
               1
-            </div>
+            </div> */}
 
-            <div onClick={() => joinBubbleChat(avatar.id)}>
-              <Avatar
-                image={`https://picsum.photos/id/${index + 67}/200/300`}
-                isLogged
-                size="md"
-              />
+            <div onClick={() => joinBubbleChat(bubble.idBubble!!)}>
+              <Avatar image={bubble.image} isLogged size="md" />
             </div>
           </div>
         ))}

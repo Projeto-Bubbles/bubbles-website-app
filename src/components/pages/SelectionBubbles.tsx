@@ -28,7 +28,7 @@ function SelectionBubbles() {
   return (
     <>
       <div className="w-screen h-screen bg-[url('../../src/assets/bubbles-effect.png')] bg-cover flex justify-center items-center overflow-hidden">
-        <div className="w-3/4 flex justify-between items-center">
+        <div className="w-3/4 flex justify-center gap-96 items-center">
           <div className="flex flex-col justify-center items-start gap-2">
             <div className="w-10 h-10 p-2 grid place-content-center bg-blue-200 rounded-full">
               <ArrowRight size={28} color="#3f3f46" weight="duotone" />
@@ -37,14 +37,6 @@ function SelectionBubbles() {
             <h1 className="text-8xl text-zinc-700 leading-none w-32">
               Escolha suas bolhas.
             </h1>
-
-            <span
-              className={`text-zinc-700 font-medium bg-slate-300 rounded-full px-2 uppercase transition duration-300 ease-in-out mt-4 ${
-                selectedBubbles.length < 3 ? 'opacity-100 ' : 'opacity-0'
-              }`}
-            >
-              Selecione no mínimo 3 bolhas
-            </span>
           </div>
 
           <div className="flex flex-col justify-center items-center gap-8 translate-y-14">
@@ -64,7 +56,11 @@ function SelectionBubbles() {
             <div className="w-2/4 flex flex-col justify-center items-center gap-2">
               <Button
                 onClick={saveBubblesList}
-                text="Selecionar bolhas"
+                text={
+                  selectedBubbles.length < 3
+                    ? 'Selecione no mínimo 3 bolhas'
+                    : 'Selecionar bolhas'
+                }
                 color="bg-blue-200"
                 disabled={selectedBubbles.length < 3}
                 icon={<ArrowRight size={16} color="#3f3f46" weight="duotone" />}

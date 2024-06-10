@@ -11,6 +11,8 @@ import {
   editBubble,
   getFilteredBubbles,
 } from '../../services/bubbleServices';
+import { getLocalUser } from '../../services/userServices';
+import { getCoverUrl, uploadFileBubbles } from '../../utils/supabase';
 import Search from '../Search';
 import { Bubble } from '../common/Bubble';
 import Button from '../common/Button';
@@ -19,10 +21,13 @@ import Select from '../common/Fields/Select';
 import Textarea from '../common/Fields/Textarea';
 import Modal from '../common/Modal';
 import Navbar from '../common/Navbar';
+import { NotFoundItem } from '../common/NotFoundItem';
+import { Skeleton } from '../common/Skeleton';
 
 function SearchBubbles() {
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const user: any = getLocalUser();
   const [currentContent, setCurrentContent] = useState<string | undefined>();
+  const [coverUrl, setCoverUrl] = useState('');
 
   const [isVisibleEdit, setIsVisibleEdit] = useState(false);
   const [postId, setPostId] = useState(0);
@@ -38,7 +43,7 @@ function SearchBubbles() {
   const [bubblesList, setBubblesList] = useState<BubbleProps[]>([]);
   const [bubblesDefault, setBubblesDefault] = useState<BubbleProps[]>([]);
 
-  const [image, setImage] = useState<File | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleSearchBubbles = (e: any) => {
     const searchBubble = e.target.value.toLowerCase();
@@ -64,12 +69,15 @@ function SearchBubbles() {
     return { label: bubbles.title, value: bubbles.category };
   });
 
-  const createNewBubble = (data: BubbleProps) => {
+  const createNewBubble = async (data: BubbleProps) => {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const bubbleData = {
       ...data,
+      image: coverUrl,
       creator: user.id,
     };
+
+    console.log('Bubble data being sent to DB:', bubbleData);
 
     toast.promise(
       createBubble(bubbleData).then(() => {
@@ -89,9 +97,11 @@ function SearchBubbles() {
     const categories = selectedBubbles.map((bubble) => bubble.category);
 
     getFilteredBubbles(categories).then((response) => {
+      setIsLoading(false);
+
       const bubbleListMapped: BubbleProps[] = response.data.map(
         (bubble: BubbleProps) => {
-          bubble.users = Math.floor(Math.random() * (100 - 10 + 1) + 10);
+          bubble.users = Math.floor(Math.random() * (11 - 10 + 1) + 10);
           return bubble;
         }
       );
@@ -109,10 +119,14 @@ function SearchBubbles() {
     e.preventDefault();
   };
 
-  const handleOnDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    if (e.dataTransfer.files.length > 0) {
-      setImage(e.dataTransfer.files[0]);
+  const handleOnDrop = async (event: any) => {
+    const file = event.target.files[0];
+    if (file) {
+      const filePath = await uploadFileBubbles(file);
+      console.log('File path from Supabase:', filePath);
+      const url = await getCoverUrl(filePath);
+      console.log('Cover URL from Supabase:', url);
+      setCoverUrl(url);
     }
   };
 
@@ -221,29 +235,46 @@ function SearchBubbles() {
           {isVisible && (
             <Modal onClose={() => setIsVisible(false)}>
               <form
-                onSubmit={handleSubmit(createNewBubble)}
+                onSubmit={handleSubmit(async (data) => {
+                  if (coverUrl) {
+                    await createNewBubble(data);
+                  } else {
+                    toast.error(
+                      'Por favor, carregue uma imagem antes de criar a bolha.'
+                    );
+                  }
+                })}
                 className="w-full flex flex-col gap-8"
               >
-                <div
-                  onDragOver={handleDragOver}
-                  onDrop={handleOnDrop}
-                  className="w-full h-60 flex flex-col justify-center items-center gap-4 rounded-md border-dotted border-2 border-zinc-500 overflow-hidden"
-                >
-                  {image ? (
-                    <img
-                      src={URL.createObjectURL(image)}
-                      alt="Imagem da bolha"
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <>
-                      <Export size={32} weight="duotone" color="#6b7280" />
-                      <h1 className="text-zinc-500 font-medium">
-                        Arraste uma foto para a bolha
-                      </h1>
-                    </>
-                  )}
-                </div>
+                <label htmlFor="bubble-upload" className="cursor-pointer">
+                  <div
+                    onDragOver={handleDragOver}
+                    onDrop={handleOnDrop}
+                    className="w-full h-60 flex flex-col justify-center items-center gap-4 rounded-md border-dotted border-2 border-zinc-500 overflow-hidden"
+                  >
+                    {coverUrl ? (
+                      <img
+                        src={coverUrl}
+                        alt="Imagem da bolha"
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <>
+                        <Export size={32} weight="duotone" color="#6b7280" />
+                        <h1 className="text-zinc-500 font-medium">
+                          Arraste uma foto para a bolha
+                        </h1>
+                      </>
+                    )}
+                  </div>
+                </label>
+                <input
+                  id="bubble-upload"
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleOnDrop}
+                />
 
                 <div className="w-full flex justify-between items-center gap-8">
                   <div className="w-3/5">
@@ -322,41 +353,64 @@ function SearchBubbles() {
                 ))}
               </div>
 
-              <div className="w-full grid grid-cols-4 gap-12 place-content-items">
-                {bubblesList.map((bubble, index) => (
-                  <div
-                    key={index}
-                    className="h-full flex justify-center items-start gap-1"
-                  >
-                    <Bubble.Card
-                      {...bubble}
-                      users={bubble.users}
-                      image={`https://source.unsplash.com/random/500x500/?${bubble.category}`}
-                    />
+              {isLoading || bubblesList.length > 0 ? (
+                <div className="w-full grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 place-content-items">
+                  {isLoading
+                    ? [...Array(8)].map((_, index) => (
+                        <Skeleton.BubbleCard key={index} />
+                      ))
+                    : bubblesList.length > 0 &&
+                      bubblesList.map((bubble, index) => (
+                        <div
+                          key={index}
+                          className="h-full flex justify-center items-start gap-1"
+                        >
+                          <Bubble.Card
+                            {...bubble}
+                            users={bubble.users}
+                            image={
+                              bubble.image ||
+                              `https://pixabay.com/api/?key=38574386-1013b01930119137985017093&q=${bubble.category}&image_type=photo&per_page=1`
+                            }
+                          />
 
-                    {bubble?.creator?.idUser === user.id && (
-                      <div className="bg-zinc-300 w-5 flex flex-col justify-center items-center gap-2 rounded-md">
-                        <span
-                          onClick={() =>
-                            onEdit(bubble.idBubble ?? 0, bubble.title)
-                          }
-                          role="editar"
-                          className="w-full text-zinc-700 flex justify-center items-center gap-2 px-1 py-[2px] rounded-md transition duration-200 ease-in-out cursor-pointer hover:bg-zinc-400/20"
-                        >
-                          <Pencil size={16} color="#334141" weight="duotone" />
-                        </span>
-                        <span
-                          onClick={() => onDelete(bubble.idBubble ?? 0)}
-                          role="excluir"
-                          className="w-full text-zinc-700 flex justify-center items-center gap-2 px-1 py-[2px] rounded-md transition duration-200 ease-in-out cursor-pointer hover:bg-slate-400/20"
-                        >
-                          <Trash size={16} color="#334141" weight="duotone" />
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
+                          {bubble?.creator?.id === user.id && (
+                            <div className="bg-zinc-300 w-5 flex flex-col justify-center items-center gap-2 rounded-md">
+                              <span
+                                onClick={() =>
+                                  onEdit(bubble.idBubble ?? 0, bubble.title)
+                                }
+                                role="editar"
+                                className="w-full text-zinc-700 flex justify-center items-center gap-2 px-1 py-[2px] rounded-md transition duration-200 ease-in-out cursor-pointer hover:bg-zinc-400/20"
+                              >
+                                <Pencil
+                                  size={16}
+                                  color="#334141"
+                                  weight="duotone"
+                                />
+                              </span>
+                              <span
+                                onClick={() => onDelete(bubble.idBubble ?? 0)}
+                                role="excluir"
+                                className="w-full text-zinc-700 flex justify-center items-center gap-2 px-1 py-[2px] rounded-md transition duration-200 ease-in-out cursor-pointer hover:bg-slate-400/20"
+                              >
+                                <Trash
+                                  size={16}
+                                  color="#334141"
+                                  weight="duotone"
+                                />
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                </div>
+              ) : (
+                <NotFoundItem
+                  errorMessage="Essa bolha não existe ainda 🙁"
+                  disclaimer="Que tal criar você mesmo!?"
+                />
+              )}
             </div>
           </Search>
         </>

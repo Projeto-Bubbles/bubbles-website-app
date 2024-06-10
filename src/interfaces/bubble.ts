@@ -19,7 +19,7 @@ export interface BubbleProps {
 export interface EventProps {
   idEvent?: number;
   title: string;
-  moment: Date;
+  dateTime: Date;
   duration: number;
   organizer?: UserProps;
   bubble?: BubbleProps;

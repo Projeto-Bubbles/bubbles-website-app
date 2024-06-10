@@ -13,6 +13,7 @@ import {
 } from 'phosphor-react';
 import { ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { bubbles } from '../../data/bubbles';
@@ -23,6 +24,7 @@ import { createUser } from '../../services/userServices';
 import { Bubble } from '../common/Bubble';
 import Input from '../common/Fields/Input';
 import Navbar from './../common/Navbar';
+// import { api } from '../../utils/axios';
 
 function SignPage() {
   const navigate = useNavigate();
@@ -104,6 +106,8 @@ function SignPage() {
 
   return (
     <>
+      <Toaster />
+
       <Navbar redirectPage={previousPage} />
 
       <div className="w-screen pt-28 flex flex-col justify-center items-center gap-1 ">

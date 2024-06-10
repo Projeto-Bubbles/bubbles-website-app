@@ -20,7 +20,7 @@ export function AccountCard({
 }: AccountCardProps) {
   return (
     <div
-      className={`${background} w-full min-h-[300px] max-h-[400px] p-6 rounded-lg flex flex-col items-start justify-start gap-4`}
+      className={`${background} w-full min-h-[300px] max-h-[400px] p-6 rounded-xl flex flex-col items-start justify-start gap-4 overflow-hidden`}
     >
       <div className="w-full flex items-center justify-between">
         <div className="flex items-center justify-start gap-3">

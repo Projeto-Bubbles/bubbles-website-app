@@ -20,6 +20,22 @@ export const getInterests = (): number => {
   return interests.length;
 };
 
+export const getBubblesForUser = (userId: number) => {
+  return api.get(`/members/user/${userId}`);
+};
+
+export const addUserToBubble = (userId: number, bubbleId: number) => {
+  return api.post(`/members/user/${userId}/bubble/${bubbleId}`);
+};
+
+export const getEventsForUser = (userId: number) => {
+  return api.get(`/participation/${userId}`);
+};
+
+export const addUserToEvent = (data: { idUser: number; idEvent: number }) => {
+  return api.post('/participation/create', data);
+};
+
 export const createUser = (data: any) => {
   return api.post('/users', data);
 };
