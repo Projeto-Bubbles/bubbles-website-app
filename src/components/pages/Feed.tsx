@@ -3,6 +3,7 @@ import {
   CalendarBlank,
   ChatsTeardrop,
   Compass,
+  Export,
   PaperPlaneRight,
   Pencil,
   Trash,
@@ -30,6 +31,7 @@ import { PostType } from '../common/Post/PostRoot';
 import SidebarTopic from '../common/SidebarTopic';
 import Event from './../common/Event/index';
 import { EventProps } from '../../interfaces/bubble';
+import { uploadFilePosts, getFileUrl } from '../../utils/supabase';
 
 function Feed() {
   localStorage.setItem('previousPage', 'feed');
@@ -39,6 +41,8 @@ function Feed() {
   const [isVisible, setIsVisible] = useState(false);
 
   const [postId, setPostId] = useState(0);
+
+  const [coverUrl, setCoverUrl] = useState('');
 
   const [posts, setPosts] = useState<PostProps[]>([]);
 
@@ -50,9 +54,10 @@ function Feed() {
     getPosts().then((response) => setPosts(response.data));
   };
 
-  const handleCreatePost = (contents: string) => {
+  const handleCreatePost = (image: string, contents: string) => {
     const post: any = {
       dateTime: new Date(),
+      image,
       contents,
       idAuthor: user.id,
       idBubble: 1,
@@ -90,14 +95,14 @@ function Feed() {
     createComment(comment, postId).then(() => getAllPosts());
   };
 
-  const handleValue = (e: any, type: PostType, postId: number) => {
+  const handleValue = (e: React.KeyboardEvent<HTMLInputElement>, type: PostType, postId: number) => {
     if (e.key === 'Enter') {
-      const content = e.target.value;
+      const content = e.currentTarget.value;
 
       if (content === '') return;
 
       if (type === PostType.CREATE) {
-        handleCreatePost(content);
+        handleCreatePost(coverUrl, content);
       }
 
       if (type === PostType.VIEW) {
@@ -210,6 +215,19 @@ function Feed() {
 
     fetchEvents();
   }, []);
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
+  const handleOnDrop = async (event: any) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const filePath = await uploadFilePosts(file);
+      const url = await getFileUrl(filePath);
+      setCoverUrl(url);
+    }
+  };
 
   return (
     <>
@@ -332,7 +350,36 @@ function Feed() {
                   )}
                   <Post.Content
                     isNotLogged={!user.email}
-                    content="Compartilhe suas ideias com a bubbles! 🫧"
+                    content="Compartilhe seu momento com a bubbles! 🫧"
+                  />
+                  <label htmlFor="post-upload" className="cursor-pointer">
+                    <div
+                      onDragOver={handleDragOver}
+                      onDrop={handleOnDrop}
+                      className="w-full flex items-center justify-center gap-4 mx-auto rounded-md border-dotted border-2 border-zinc-500 overflow-hidden p-2"
+                    >
+                      {coverUrl ? (
+                        <img
+                          src={coverUrl}
+                          alt="Imagem da bolha"
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <>
+                          <Export size={32} weight="duotone" color="#6b7280" />
+                          <h1 className="text-zinc-500 font-medium">
+                            Mostre como você está
+                          </h1>
+                        </>
+                      )}
+                    </div>
+                  </label>
+                  <input
+                    id="post-upload"
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleOnDrop}
                   />
                   <Input
                     type="text"
@@ -393,7 +440,7 @@ function Feed() {
                         </div>
                       </Post.Header>
                       <Post.Content
-                        image={post.image}
+                        media={post.image}
                         content={post.contents}
                       />
 

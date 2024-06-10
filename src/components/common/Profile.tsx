@@ -3,9 +3,8 @@ import { Image } from 'phosphor-react';
 import { getInterests, getLocalUser } from '../../services/userServices';
 import {
   uploadFileUsers,
-  getProfilePictureUrl,
+  getFileUrl,
   uploadFileUserCover,
-  getProfileCoverUrl,
 } from '../../utils/supabase';
 import Avatar from './Avatar';
 import { api } from '../../utils/axios';
@@ -27,7 +26,7 @@ function Profile({ events, bubbles }: ProfileProps) {
 
     if (file) {
       const filePath = await uploadFileUsers(file);
-      const url = await getProfilePictureUrl(filePath);
+      const url = await getFileUrl(filePath);
       setAvatarUrl(url);
 
       const user = getLocalUser();
@@ -49,7 +48,7 @@ function Profile({ events, bubbles }: ProfileProps) {
 
     if (file) {
       const filePath = await uploadFileUserCover(file);
-      const url = await getProfileCoverUrl(filePath);
+      const url = await getFileUrl(filePath);
       setCoverUrl(url);
 
       const user = getLocalUser();

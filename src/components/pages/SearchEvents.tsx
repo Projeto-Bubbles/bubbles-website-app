@@ -14,7 +14,7 @@ import {
   getFilteredEvents,
 } from '../../services/eventServices';
 // import { getLocalUser } from '../../services/userServices';
-import { uploadFileEvents, getCoverEventsUrl } from '../../utils/supabase';
+import { uploadFileEvents, getFileUrl } from '../../utils/supabase';
 import Search from '../Search';
 import { Bubble } from '../common/Bubble';
 import Button from '../common/Button';
@@ -179,7 +179,7 @@ function SearchEvents() {
     const file = event.target.files[0];
     if (file) {
       const filePath = await uploadFileEvents(file);
-      const url = await getCoverEventsUrl(filePath);
+      const url = await getFileUrl(filePath);
       setEventCoverUrl(url);
     }
   };

@@ -5,6 +5,14 @@ export const supabase = createClient(
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImducXdtb3FlYnBxZm1xdGh5cWtoIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcxNzcwNjMzMiwiZXhwIjoyMDMzMjgyMzMyfQ.UoVcqWY9Fn1VEKxkzPuc1iMImgCcC8CgNJKRKfNUVCY'
 );
 
+export async function getFileUrl(filePath: string) {
+  const { data } = await supabase.storage
+    .from('bubbles-bucket')
+    .getPublicUrl(filePath);
+
+  return data.publicUrl;
+}
+
 export async function uploadFileUsers(file: File) {
   console.log('file passou no upload: ' + file.name);
 
@@ -17,14 +25,6 @@ export async function uploadFileUsers(file: File) {
   } else {
     return data.path;
   }
-}
-
-export async function getProfilePictureUrl(filePath: string) {
-  const { data } = await supabase.storage
-    .from('bubbles-bucket')
-    .getPublicUrl(filePath);
-
-  return data.publicUrl;
 }
 
 export async function uploadFileUserCover(file: File) {
@@ -41,14 +41,6 @@ export async function uploadFileUserCover(file: File) {
   }
 }
 
-export async function getProfileCoverUrl(filePath: string) {
-  const { data } = await supabase.storage
-    .from('bubbles-bucket')
-    .getPublicUrl(filePath);
-
-  return data.publicUrl;
-}
-
 export async function uploadFileBubbles(file: File) {
   console.log('file passou no upload: ' + file.name);
 
@@ -61,14 +53,6 @@ export async function uploadFileBubbles(file: File) {
   } else {
     return data.path;
   }
-}
-
-export async function getCoverUrl(filePath: string) {
-  const { data } = await supabase.storage
-    .from('bubbles-bucket')
-    .getPublicUrl(filePath);
-
-  return data.publicUrl;
 }
 
 export async function uploadFileEvents(file: File) {
@@ -85,10 +69,16 @@ export async function uploadFileEvents(file: File) {
   }
 }
 
-export async function getCoverEventsUrl(filePath: string) {
-  const { data } = await supabase.storage
-    .from('bubbles-bucket')
-    .getPublicUrl(filePath);
+export async function uploadFilePosts(file: File) {
+  console.log('file passou no upload: ' + file.name);
 
-  return data.publicUrl;
+  const { data, error } = await supabase.storage
+    .from('bubbles-bucket')
+    .upload(`Posts/${new Date().toISOString() + '-' + file.name}`, file);
+
+  if (error) {
+    return error.message;
+  } else {
+    return data.path;
+  }
 }

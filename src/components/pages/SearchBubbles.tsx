@@ -20,7 +20,7 @@ import Select from '../common/Fields/Select';
 import Textarea from '../common/Fields/Textarea';
 import Modal from '../common/Modal';
 import Navbar from '../common/Navbar';
-import { uploadFileBubbles, getCoverUrl } from '../../utils/supabase';
+import { uploadFileBubbles, getFileUrl} from '../../utils/supabase';
 
 function SearchBubbles() {
   const user: any = getLocalUser();
@@ -117,9 +117,7 @@ function SearchBubbles() {
     const file = event.target.files[0];
     if (file) {
       const filePath = await uploadFileBubbles(file);
-      console.log('File path from Supabase:', filePath);
-      const url = await getCoverUrl(filePath);
-      console.log('Cover URL from Supabase:', url);
+      const url = await getFileUrl(filePath);
       setCoverUrl(url);
     }
   };
