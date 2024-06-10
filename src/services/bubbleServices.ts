@@ -13,7 +13,12 @@ export const getBubbles = (): any => {
   return api.get('/bubbles');
 };
 
+export const getBubblesById = (id: number): any => {
+  return api.get(`/bubbles/${id}`);
+};
+
 export const createBubble = (bubble: any) => {
+  console.log('Bolha no create:', bubble);
   return api.post('/bubbles/create', bubble);
 };
 

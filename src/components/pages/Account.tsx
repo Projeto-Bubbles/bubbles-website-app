@@ -76,7 +76,7 @@ function Account() {
         <div className="mt-24 w-3/4 flex flex-col items-center gap-10">
           <Profile events={userEvents.length} bubbles={userBubbles.length} />
 
-          <div className="w-full bg-red grid grid-cols-1 lg:grid-cols-[27%_37%_30%] gap-[3%] ">
+          <div className="w-full bg-red grid grid-cols-1 lg:grid-cols-[27%_37%_30%] gap-[3%]">
             <AccountCard
               editAboutMe
               onEnableTextArea={enableTextArea}
@@ -101,7 +101,7 @@ function Account() {
               <div className="w-full flex flex-col items-start justify-start gap-4">
                 <h2 className="font-bold text-xl text-slate-400">Interesses</h2>
 
-                <div className="w-full flex flex-wrap items-start justify-start gap-4">
+                <div className="w-full flex flex-wrap items-start justify-start gap-4 overflow-y-auto">
                   {interests.map((interest) => (
                     <Bubble.Tag
                       key={interest.title}
@@ -124,9 +124,12 @@ function Account() {
                 userEvents.map((event: any) => (
                   <HorizontalCard
                     key={event.idParticipation}
-                    image={`https://picsum.photos/id/${Math.floor(
-                      Math.random() * 100
-                    ).toString()}/200/300`}
+                    image={
+                      event?.event.image ||
+                      `https://picsum.photos/id/${Math.floor(
+                        Math.random() * 100
+                      ).toString()}/200/300`
+                    }
                     event={event}
                   />
                 ))}
@@ -141,9 +144,12 @@ function Account() {
                 userBubbles.map((bubble) => (
                   <HorizontalCard
                     key={bubble.idBubble}
-                    image={`https://picsum.photos/id/${Math.floor(
-                      Math.random() * 100
-                    ).toString()}/200/300`}
+                    image={
+                      bubble.image ||
+                      `https://picsum.photos/id/${Math.floor(
+                        Math.random() * 100
+                      ).toString()}/200/300`
+                    }
                     bubble={bubble}
                   />
                 ))}

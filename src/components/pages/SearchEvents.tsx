@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Browser, Calendar, Export, MapPin } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { bubbles } from '../../data/bubbles';
 import { Category } from '../../enums/category';
 import useBubbles from '../../hooks/useBubbles';
@@ -10,22 +10,26 @@ import { BubbleProps, EventProps } from '../../interfaces/bubble';
 import { getBubbles } from '../../services/bubbleServices';
 import {
   createInPersonEvent,
+  createOnlineEvent,
   getFilteredEvents,
 } from '../../services/eventServices';
-import { getLocalUser } from '../../services/userServices';
+// import { getLocalUser } from '../../services/userServices';
+import { getCoverEventsUrl, uploadFileEvents } from '../../utils/supabase';
 import Search from '../Search';
 import { Bubble } from '../common/Bubble';
 import Button from '../common/Button';
 import { Event } from '../common/Event';
 import Input from '../common/Fields/Input';
 import Select from '../common/Fields/Select';
-import Textarea from '../common/Fields/Textarea';
+// import Textarea from '../common/Fields/Textarea';
 import Modal from '../common/Modal';
 import Navbar from '../common/Navbar';
+import { NotFoundItem } from '../common/NotFoundItem';
+import { Skeleton } from '../common/Skeleton';
 
 function SearchEvents() {
   const bubblesTag = bubbles(12);
-  const user: any = getLocalUser();
+  // const user: any = getLocalUser();
 
   const userBubbles: BubbleProps[] = JSON.parse(
     localStorage.getItem('bubbles') || '[]'
@@ -33,9 +37,9 @@ function SearchEvents() {
   const { selectedBubbles, toggleBubble } = useBubbles(userBubbles);
 
   const [isVisible, setIsVisible] = useState(false);
-  const [image, setImage] = useState<File | null>(null);
   const [eventType, setEventType] = useState('presencial');
   const [address, setAddress] = useState<any>({});
+  const [coverUrl, setEventCoverUrl] = useState('');
 
   const [bubbleOptions, setBubblesOptions] = useState<
     {
@@ -47,12 +51,14 @@ function SearchEvents() {
   const [eventsList, setEventsList] = useState<EventProps[]>([]);
   const [eventsDefault, setEventsDefault] = useState<EventProps[]>([]);
 
+  const [isLoading, setIsLoading] = useState(true);
+
   const {
     register,
     formState: { errors, isValid },
     handleSubmit,
     reset,
-  } = useForm();
+  } = useForm<EventProps>();
 
   const handleSearchEvents = (e: any) => {
     const searchEvent = e.target.value.toLowerCase();
@@ -70,9 +76,9 @@ function SearchEvents() {
 
   const getEvents = (categories: (Category | undefined)[]) => {
     getFilteredEvents(categories).then((response) => {
-      // Atualize tanto a lista padrão quanto a lista atual com a nova resposta
       setEventsList(response.data);
       setEventsDefault(response.data);
+      setIsLoading(false);
     });
   };
 
@@ -93,27 +99,28 @@ function SearchEvents() {
     getEvents(categories);
   }, [selectedBubbles]);
 
-  const createEvent = (data: any) => {
+  const createEvent = async (data: EventProps) => {
     const categories = selectedBubbles.map((bubble) => bubble.category);
     const user = JSON.parse(localStorage.getItem('user') || '{}');
 
     const eventData = {
       title: data.title,
       duration: 90,
-      dateTime: data.date,
+      image: coverUrl,
+      dateTime: data.dateTime,
       idCreator: user.id,
       idBubble: data.bubble,
     };
 
     if (eventType === 'presencial') {
-      const cep = data.cep.replace(/\D/g, '');
+      const cep = data.address?.cep.replace(/\D/g, '');
 
       axios
         .get(`https://viacep.com.br/ws/${cep}/json/`)
         .then((response) => {
           setAddress(response.data);
 
-          const houseNumber = data.address.replace(/\D/g, '');
+          const houseNumber = data.address?.houseNumber.replace(/\D/g, '');
 
           const eventInPersonData = {
             ...eventData,
@@ -149,12 +156,12 @@ function SearchEvents() {
     if (eventType === 'online') {
       const eventOnlineData = {
         ...eventData,
-        link: data.url,
+        link: data.link,
         platform: data.platform,
       };
 
       toast.promise(
-        createInPersonEvent(eventOnlineData).then(() => {
+        createOnlineEvent(eventOnlineData).then(() => {
           getEvents(categories);
           setIsVisible(false);
         }),
@@ -165,7 +172,6 @@ function SearchEvents() {
         }
       );
     }
-
     reset();
   };
 
@@ -173,43 +179,63 @@ function SearchEvents() {
     e.preventDefault();
   };
 
-  const handleOnDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    if (e.dataTransfer.files.length > 0) {
-      setImage(e.dataTransfer.files[0]);
+  const handleOnDrop = async (event: any) => {
+    const file = event.target.files[0];
+    if (file) {
+      const filePath = await uploadFileEvents(file);
+      const url = await getCoverEventsUrl(filePath);
+      setEventCoverUrl(url);
     }
   };
 
   return (
     <>
       <Navbar redirectPage="/feed" isLogged />
+      <Toaster />
 
       {isVisible && (
         <Modal onClose={() => setIsVisible(false)}>
           <form
-            onSubmit={handleSubmit(createEvent)}
+            onSubmit={handleSubmit(async (data) => {
+              if (coverUrl) {
+                await createEvent(data);
+              } else {
+                toast.error(
+                  'Por favor, carregue uma imagem antes de criar o evento.'
+                );
+              }
+            })}
             className="w-full flex flex-col gap-8"
           >
-            <div
-              onDragOver={handleDragOver}
-              onDrop={handleOnDrop}
-              className="w-full h-60 flex flex-col justify-center items-center gap-4 rounded-md border-dotted border-2 border-zinc-500 overflow-hidden"
-            >
-              {image ? (
-                <img
-                  src={URL.createObjectURL(image)}
-                  alt="Imagem do evento"
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <>
-                  <Export size={32} weight="duotone" color="#6b7280" />
-                  <h1 className="text-zinc-500 font-medium">
-                    Arraste uma foto para o evento
-                  </h1>
-                </>
-              )}
-            </div>
+            <label htmlFor="event-upload" className="cursor-pointer">
+              <div
+                onDragOver={handleDragOver}
+                onDrop={handleOnDrop}
+                className="w-full h-60 flex flex-col justify-center items-center gap-4 rounded-md border-dotted border-2 border-zinc-500 overflow-hidden"
+              >
+                {coverUrl ? (
+                  <img
+                    src={coverUrl}
+                    alt="Imagem do evento"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <>
+                    <Export size={32} weight="duotone" color="#6b7280" />
+                    <h1 className="text-zinc-500 font-medium">
+                      Arraste uma foto para o evento
+                    </h1>
+                  </>
+                )}
+              </div>
+            </label>
+            <input
+              id="event-upload"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleOnDrop}
+            />
 
             <div className="w-full flex justify-between items-center gap-8">
               <div className="w-3/5">
@@ -220,7 +246,7 @@ function SearchEvents() {
                   {...register('title', {
                     required: 'Não esqueça o nome do evento',
                   })}
-                  helperText={errors?.name?.message}
+                  helperText={errors?.title?.message}
                 />
               </div>
 
@@ -231,10 +257,10 @@ function SearchEvents() {
                   icon={<Calendar size={16} color="#71717A" weight="duotone" />}
                   placeholder="12/12/12"
                   color="bg-zinc-100/70"
-                  {...register('date', {
+                  {...register('dateTime', {
                     required: 'Data não informada',
                   })}
-                  helperText={errors?.date?.message}
+                  helperText={errors?.dateTime?.message}
                 />
               </div>
             </div>
@@ -290,10 +316,10 @@ function SearchEvents() {
                     icon={<MapPin size={16} color="#71717A" weight="duotone" />}
                     placeholder="Endereço"
                     color="bg-zinc-100/70"
-                    {...register('address', {
+                    {...register('address.houseNumber', {
                       required: 'Endereço não informado',
                     })}
-                    helperText={errors?.address?.message}
+                    helperText={errors?.address?.houseNumber?.message}
                   />
                 ) : (
                   <Input
@@ -303,10 +329,10 @@ function SearchEvents() {
                     }
                     placeholder="URL"
                     color="bg-zinc-100/70"
-                    {...register('url', {
+                    {...register('link', {
                       required: 'URL não informado',
                     })}
-                    helperText={errors?.url?.message}
+                    helperText={errors?.link?.message}
                   />
                 )}
               </div>
@@ -318,10 +344,10 @@ function SearchEvents() {
                     icon={<MapPin size={16} color="#71717A" weight="duotone" />}
                     placeholder="XXXXX-XXX"
                     color="bg-zinc-100/70"
-                    {...register('cep', {
+                    {...register('address.cep', {
                       required: 'Informe o cep',
                     })}
-                    helperText={errors?.address?.message}
+                    helperText={errors?.address?.cep?.message}
                   />
                 ) : (
                   <Input
@@ -334,21 +360,11 @@ function SearchEvents() {
                     {...register('platform', {
                       required: 'Insira a plataforma',
                     })}
-                    helperText={errors?.url?.message}
+                    helperText={errors?.link?.message}
                   />
                 )}
               </div>
             </div>
-
-            <Textarea
-              label="Descrição do evento"
-              color="bg-zinc-100/70"
-              {...register('description', {
-                required: 'Coloque uma breve descrição',
-              })}
-              maxLength={100}
-              helperText={errors?.description?.message}
-            />
 
             <Button
               type="submit"
@@ -388,22 +404,37 @@ function SearchEvents() {
             ))}
           </div>
 
-          <div className="w-full grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 place-content-items">
-            {eventsList &&
-              eventsList.map((event) => (
-                <Event.Card
-                  key={event.idEvent}
-                  idEvent={event.idEvent}
-                  title={event.title}
-                  bubble={event.bubble}
-                  address={event.address}
-                  link={event.link}
-                  platform={event.platform}
-                  dateTime={event.dateTime}
-                  duration={event.duration}
-                />
-              ))}
-          </div>
+          {isLoading || eventsList.length > 0 ? (
+            <div className="w-full grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 place-content-items">
+              {isLoading ? (
+                <>
+                  {[...Array(6)].map((_, index) => (
+                    <Skeleton.EventCard key={index} />
+                  ))}
+                </>
+              ) : (
+                eventsList.map((event) => (
+                  <Event.Card
+                    key={event.idEvent}
+                    idEvent={event.idEvent}
+                    title={event.title}
+                    image={event.image}
+                    bubble={event.bubble}
+                    address={event.address}
+                    link={event.link}
+                    platform={event.platform}
+                    dateTime={event.dateTime}
+                    duration={event.duration}
+                  />
+                ))
+              )}
+            </div>
+          ) : (
+            <NotFoundItem
+              errorMessage="Esse evento ainda não existe 🙁"
+              disclaimer="Que tal criar ou participar de um?"
+            />
+          )}
         </div>
       </Search>
     </>

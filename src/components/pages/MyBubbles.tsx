@@ -2,7 +2,9 @@ import { Microphone, PaperPlaneRight } from 'phosphor-react';
 import { useEffect, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
 import { useSpeechRecognition } from '../../hooks/useSpeechRecognition';
+import { BubbleProps } from '../../interfaces/bubble';
 import { ChatMessage } from '../../interfaces/chat';
+import { getBubblesById } from '../../services/bubbleServices';
 import { getLocalUser } from '../../services/userServices';
 import { Bubble } from '../common/Bubble';
 import { Chat } from '../common/Chat';
@@ -12,6 +14,7 @@ export function MyBubbles() {
   const [message, setMessage] = useState('');
   const [chats, setChats] = useState<ChatMessage[]>([]);
   const [bubbleId, setBubbleId] = useState<number | null>(null);
+  const [bubble, setBubble] = useState<BubbleProps>();
   const { isRecording, transcript, handleStartRecording, handleStopRecording } =
     useSpeechRecognition();
 
@@ -80,6 +83,10 @@ export function MyBubbles() {
   };
 
   const joinBubbleChat = (bubbleId: number) => {
+    getBubblesById(bubbleId).then((bubble: any) => {
+      setBubble(bubble.data);
+    });
+
     setBubbleId(bubbleId);
     socket.current.emit('joinBubble', bubbleId);
   };
@@ -139,11 +146,11 @@ export function MyBubbles() {
             </div>
           </>
         ) : (
-          <h1>Opa! Comece a conversar com suas bolhas!</h1>
+          <Chat.Start />
         )}
       </div>
 
-      <Bubble.Details />
+      {bubble && <Bubble.Details bubble={bubble} />}
     </main>
   );
 }
