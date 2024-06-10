@@ -40,16 +40,12 @@ export function ChatSidebar({ joinBubbleChat }: ChatSidebar) {
               {bubble.title}
             </span>
 
-            <div className="bg-red-500 text-slate-100 font-medium size-4 grid place-content-center rounded-full leading-none absolute right-0 bottom-0">
+            {/* <div className="bg-red-500 text-slate-100 font-medium size-4 grid place-content-center rounded-full leading-none absolute right-0 bottom-0">
               1
-            </div>
+            </div> */}
 
             <div onClick={() => joinBubbleChat(bubble.idBubble!!)}>
-              <Avatar
-                image={`https://picsum.photos/id/${index + 67}/200/300`}
-                isLogged
-                size="md"
-              />
+              <Avatar image={bubble.image} isLogged size="md" />
             </div>
           </div>
         ))}
