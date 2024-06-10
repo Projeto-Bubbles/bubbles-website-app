@@ -23,7 +23,7 @@ export function MyBubbles() {
   const socket = useRef<any>(null);
 
   useEffect(() => {
-    socket.current = io('ws://localhost:5000');
+    socket.current = io('ws://54.174.35.212:5000');
 
     return () => {
       socket.current.disconnect();
