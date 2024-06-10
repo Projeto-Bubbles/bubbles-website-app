@@ -23,7 +23,7 @@ function Navbar({ withMenu, redirectPage, isLogged }: NavbarProps) {
       >
         <div className="w-24">
           <Link to={redirectPage ?? '/'}>
-            <img src="../src/assets/bubbles-logo-glass.png" alt="logo" />
+            <img src={"https://gnqwmoqebpqfmqthyqkh.supabase.co/storage/v1/object/public/bubbles-bucket/bubbles-logo-glass.png"} alt="logo" />
           </Link>
         </div>
 
