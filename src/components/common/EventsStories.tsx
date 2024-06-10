@@ -15,7 +15,7 @@ export function EventsStories() {
         await getNext5Events().then((response) => {
           setEvents(response.data.slice(0, 5));
 
-          setIsLoading(true);
+          setIsLoading(false);
         });
       } catch (error) {
         console.error('Erro ao buscar eventos:', error);
