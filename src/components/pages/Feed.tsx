@@ -11,9 +11,7 @@ import {
 import { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
-import { EventProps } from '../../interfaces/bubble';
 import { PostProps } from '../../interfaces/post';
-import { getNext5Events } from '../../services/eventServices';
 import {
   createComment,
   createPost,
@@ -30,7 +28,7 @@ import { Post } from '../common/Post';
 import { PostType } from '../common/Post/PostRoot';
 import SidebarTopic from '../common/SidebarTopic';
 import { Skeleton } from '../common/Skeleton';
-import Event from './../common/Event/index';
+import { EventsStories } from './../common/EventsStories';
 
 function Feed() {
   localStorage.setItem('previousPage', 'feed');
@@ -197,21 +195,6 @@ function Feed() {
     getAllPosts();
   }, []);
 
-  const [events, setEvents] = useState<EventProps[]>([]);
-
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const response = await getNext5Events();
-        setEvents(response.data.slice(0, 5));
-      } catch (error) {
-        console.error('Erro ao buscar eventos:', error);
-      }
-    };
-
-    fetchEvents();
-  }, []);
-
   return (
     <>
       <Toaster />
@@ -302,22 +285,7 @@ function Feed() {
 
             {/* Feed Content */}
             <div className="w-5/12 min-h-screen m-auto flex flex-col justify-start items-center gap-10 pt-28">
-              {/* Events */}
-              <div className="w-full mb-10">
-                <div className="flex justify-start items-center gap-2 mb-6">
-                  <div className="w-6 h-6 bg-zinc-200 flex justify-center items-center rounded-full p-1">
-                    <CalendarBlank size={16} color="#423F46" weight="duotone" />
-                  </div>
-                  <h1 className="text-zinc-600 font-bold text-xl leading-none">
-                    Próximos eventos
-                  </h1>
-                </div>
-                <div className="w-full h-72 flex justify-between items-center gap-2">
-                  {events.map((event, index) => (
-                    <Event.Story key={index} {...event} />
-                  ))}
-                </div>
-              </div>
+              <EventsStories />
 
               {/* Post */}
               <div className="w-full flex flex-col gap-12">
