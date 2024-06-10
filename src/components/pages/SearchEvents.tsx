@@ -24,6 +24,8 @@ import Select from '../common/Fields/Select';
 // import Textarea from '../common/Fields/Textarea';
 import Modal from '../common/Modal';
 import Navbar from '../common/Navbar';
+import { NotFoundItem } from '../common/NotFoundItem';
+import { Skeleton } from '../common/Skeleton';
 
 function SearchEvents() {
   const bubblesTag = bubbles(12);
@@ -49,6 +51,8 @@ function SearchEvents() {
   const [eventsList, setEventsList] = useState<EventProps[]>([]);
   const [eventsDefault, setEventsDefault] = useState<EventProps[]>([]);
 
+  const [isLoading, setIsLoading] = useState(true);
+
   const {
     register,
     formState: { errors, isValid },
@@ -72,9 +76,9 @@ function SearchEvents() {
 
   const getEvents = (categories: (Category | undefined)[]) => {
     getFilteredEvents(categories).then((response) => {
-      // Atualize tanto a lista padrão quanto a lista atual com a nova resposta
       setEventsList(response.data);
       setEventsDefault(response.data);
+      setIsLoading(false);
     });
   };
 
@@ -362,16 +366,6 @@ function SearchEvents() {
               </div>
             </div>
 
-            {/* <Textarea
-              label="Descrição do evento"
-              color="bg-zinc-100/70"
-              {...register('description', {
-                required: 'Coloque uma breve descrição',
-              })}
-              maxLength={100}
-              helperText={errors?.description?.message}
-            /> */}
-
             <Button
               type="submit"
               text="Criar evento"
@@ -410,23 +404,37 @@ function SearchEvents() {
             ))}
           </div>
 
-          <div className="w-full grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 place-content-items">
-            {eventsList &&
-              eventsList.map((event) => (
-                <Event.Card
-                  key={event.idEvent}
-                  idEvent={event.idEvent}
-                  title={event.title}
-                  image={event.image}
-                  bubble={event.bubble}
-                  address={event.address}
-                  link={event.link}
-                  platform={event.platform}
-                  dateTime={event.dateTime}
-                  duration={event.duration}
-                />
-              ))}
-          </div>
+          {isLoading || eventsList.length > 0 ? (
+            <div className="w-full grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 place-content-items">
+              {isLoading ? (
+                <>
+                  {[...Array(6)].map((_, index) => (
+                    <Skeleton.EventCard key={index} />
+                  ))}
+                </>
+              ) : (
+                eventsList.map((event) => (
+                  <Event.Card
+                    key={event.idEvent}
+                    idEvent={event.idEvent}
+                    title={event.title}
+                    image={event.image}
+                    bubble={event.bubble}
+                    address={event.address}
+                    link={event.link}
+                    platform={event.platform}
+                    dateTime={event.dateTime}
+                    duration={event.duration}
+                  />
+                ))
+              )}
+            </div>
+          ) : (
+            <NotFoundItem
+              errorMessage="Esse evento ainda não existe 🙁"
+              disclaimer="Que tal criar ou participar de um?"
+            />
+          )}
         </div>
       </Search>
     </>

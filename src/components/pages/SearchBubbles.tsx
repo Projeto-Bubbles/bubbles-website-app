@@ -12,6 +12,7 @@ import {
   getFilteredBubbles,
 } from '../../services/bubbleServices';
 import { getLocalUser } from '../../services/userServices';
+import { getFileUrl, uploadFileBubbles } from '../../utils/supabase';
 import Search from '../Search';
 import { Bubble } from '../common/Bubble';
 import Button from '../common/Button';
@@ -20,7 +21,8 @@ import Select from '../common/Fields/Select';
 import Textarea from '../common/Fields/Textarea';
 import Modal from '../common/Modal';
 import Navbar from '../common/Navbar';
-import { uploadFileBubbles, getFileUrl} from '../../utils/supabase';
+import { NotFoundItem } from '../common/NotFoundItem';
+import { Skeleton } from '../common/Skeleton';
 
 function SearchBubbles() {
   const user: any = getLocalUser();
@@ -40,6 +42,8 @@ function SearchBubbles() {
   const [isVisible, setIsVisible] = useState(false);
   const [bubblesList, setBubblesList] = useState<BubbleProps[]>([]);
   const [bubblesDefault, setBubblesDefault] = useState<BubbleProps[]>([]);
+
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleSearchBubbles = (e: any) => {
     const searchBubble = e.target.value.toLowerCase();
@@ -93,9 +97,11 @@ function SearchBubbles() {
     const categories = selectedBubbles.map((bubble) => bubble.category);
 
     getFilteredBubbles(categories).then((response) => {
+      setIsLoading(false);
+
       const bubbleListMapped: BubbleProps[] = response.data.map(
         (bubble: BubbleProps) => {
-          bubble.users = Math.floor(Math.random() * (100 - 10 + 1) + 10);
+          bubble.users = Math.floor(Math.random() * (11 - 10 + 1) + 10);
           return bubble;
         }
       );
@@ -345,44 +351,64 @@ function SearchBubbles() {
                 ))}
               </div>
 
-              <div className="w-full grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 place-content-items">
-                {bubblesList.map((bubble, index) => (
-                  <div
-                    key={index}
-                    className="h-full flex justify-center items-start gap-1"
-                  >
-                    <Bubble.Card
-                      {...bubble}
-                      users={bubble.users}
-                      image={
-                        bubble.image ||
-                        `https://source.unsplash.com/random/500x500/?${bubble.category}`
-                      }
-                    />
+              {isLoading || bubblesList.length > 0 ? (
+                <div className="w-full grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 place-content-items">
+                  {isLoading
+                    ? [...Array(8)].map((_, index) => (
+                        <Skeleton.BubbleCard key={index} />
+                      ))
+                    : bubblesList.length > 0 &&
+                      bubblesList.map((bubble, index) => (
+                        <div
+                          key={index}
+                          className="h-full flex justify-center items-start gap-1"
+                        >
+                          <Bubble.Card
+                            {...bubble}
+                            users={bubble.users}
+                            image={
+                              bubble.image ||
+                              `https://pixabay.com/api/?key=38574386-1013b01930119137985017093&q=${bubble.category}&image_type=photo&per_page=1`
+                            }
+                          />
 
-                    {bubble?.creator?.id === user.id && (
-                      <div className="bg-zinc-300 w-5 flex flex-col justify-center items-center gap-2 rounded-md">
-                        <span
-                          onClick={() =>
-                            onEdit(bubble.idBubble ?? 0, bubble.title)
-                          }
-                          role="editar"
-                          className="w-full text-zinc-700 flex justify-center items-center gap-2 px-1 py-[2px] rounded-md transition duration-200 ease-in-out cursor-pointer hover:bg-zinc-400/20"
-                        >
-                          <Pencil size={16} color="#334141" weight="duotone" />
-                        </span>
-                        <span
-                          onClick={() => onDelete(bubble.idBubble ?? 0)}
-                          role="excluir"
-                          className="w-full text-zinc-700 flex justify-center items-center gap-2 px-1 py-[2px] rounded-md transition duration-200 ease-in-out cursor-pointer hover:bg-slate-400/20"
-                        >
-                          <Trash size={16} color="#334141" weight="duotone" />
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
+                          {bubble?.creator?.id === user.id && (
+                            <div className="bg-zinc-300 w-5 flex flex-col justify-center items-center gap-2 rounded-md">
+                              <span
+                                onClick={() =>
+                                  onEdit(bubble.idBubble ?? 0, bubble.title)
+                                }
+                                role="editar"
+                                className="w-full text-zinc-700 flex justify-center items-center gap-2 px-1 py-[2px] rounded-md transition duration-200 ease-in-out cursor-pointer hover:bg-zinc-400/20"
+                              >
+                                <Pencil
+                                  size={16}
+                                  color="#334141"
+                                  weight="duotone"
+                                />
+                              </span>
+                              <span
+                                onClick={() => onDelete(bubble.idBubble ?? 0)}
+                                role="excluir"
+                                className="w-full text-zinc-700 flex justify-center items-center gap-2 px-1 py-[2px] rounded-md transition duration-200 ease-in-out cursor-pointer hover:bg-slate-400/20"
+                              >
+                                <Trash
+                                  size={16}
+                                  color="#334141"
+                                  weight="duotone"
+                                />
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                </div>
+              ) : (
+                <NotFoundItem
+                  errorMessage="Essa bolha não existe ainda 🙁"
+                  disclaimer="Que tal criar você mesmo!?"
+                />
+              )}
             </div>
           </Search>
         </>

@@ -3,9 +3,9 @@ import {
   AppWindow,
   Calendar,
   CheckCircle,
+  Clock,
   Link,
   MapPin,
-  Timer,
 } from 'phosphor-react';
 import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
@@ -26,7 +26,7 @@ function EventCard({
   platform,
 }: EventProps) {
   const targetBubble = bubbles(12).find((b) => b.category === bubble?.category);
-  
+
   const user: any = getLocalUser();
 
   const [isClicked, setIsClicked] = useState(false);
@@ -56,7 +56,10 @@ function EventCard({
         <div className="w-3/12 h-[280px] rounded-2xl overflow-hidden">
           <img
             className="w-full h-full object-cover transition duration-700 ease-in-outut hover:scale-125 hover:rotate-6"
-            src={image || `https://source.unsplash.com/random/500x500/?${bubble?.category}`}
+            src={
+              image ||
+              `https://source.unsplash.com/random/500x500/?${bubble?.category}`
+            }
             alt={title}
           />
         </div>
@@ -71,7 +74,7 @@ function EventCard({
                 fixed
               />
 
-              <h1 className="bg-slate-300/50 rounded-full flex justify-between items-center gap-2 px-2 font-semibold text-zinc-700 text-sm">
+              <h1 className="bg-slate-300/50 rounded-full flex justify-between items-center gap-2 px-2 pb-[0.1rem] font-semibold text-zinc-700 text-sm">
                 {link ? 'online' : 'presencial'}
               </h1>
             </div>
@@ -89,32 +92,32 @@ function EventCard({
           <div className="flex flex-wrap gap-2">
             {link ? (
               <>
-                <div className="bg-blue-200/70 rounded-full flex justify-between items-center gap-2 px-2 font-semibold text-zinc-700">
-                  <Link size={11} color="#71717A" weight="duotone" />
+                <div className="bg-blue-200/70 rounded-full flex justify-between items-center gap-1 px-2 font-semibold text-zinc-700">
+                  <Link size={12} color="#71717A" weight="duotone" />
                   <a href={link} target="_blank">
                     Link
                   </a>
                 </div>
 
-                <div className="bg-zinc-300/70 rounded-full flex justify-between items-center gap-2 px-2 text-sm font-semibold text-zinc-700">
-                  <AppWindow size={11} color="#71717A" weight="duotone" />
+                <div className="bg-zinc-300/70 rounded-full flex justify-between items-center gap-1 px-2 text-sm font-semibold text-zinc-700">
+                  <AppWindow size={12} color="#71717A" weight="duotone" />
                   {platform}
                 </div>
               </>
             ) : (
-              <div className="bg-zinc-300/70 rounded-full flex justify-between items-center gap-2 px-2 text-sm font-semibold text-zinc-700 leading-none">
-                <MapPin size={11} color="#71717A" weight="duotone" />
+              <div className="bg-zinc-300/70 rounded-full flex justify-between items-center gap-1 px-2 text-sm font-semibold text-zinc-700 leading-none">
+                <MapPin size={12} color="#71717A" weight="duotone" />
                 {address?.street}
               </div>
             )}
 
-            <div className="bg-zinc-300/70 rounded-full flex justify-between items-center gap-2 px-2 text-sm font-semibold text-zinc-700">
-              <Calendar size={11} color="#71717A" weight="duotone" />
+            <div className="bg-zinc-300/70 rounded-full flex justify-between items-center gap-1 px-2 text-sm font-semibold text-zinc-700">
+              <Calendar size={12} color="#71717A" weight="duotone" />
               {format(new Date(dateTime), 'dd/MM')}
             </div>
 
-            <div className="bg-zinc-300/70 rounded-full flex justify-between items-center  gap-2 px-2 text-sm font-semibold text-zinc-700">
-              <Timer size={11} color="#71717A" weight="duotone" />
+            <div className="bg-zinc-300/70 rounded-full flex justify-between items-center  gap-1 px-2 text-sm font-semibold text-zinc-700">
+              <Clock size={12} color="#71717A" weight="duotone" />
               {format(new Date(dateTime), 'HH:mm')}
             </div>
           </div>

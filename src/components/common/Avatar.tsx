@@ -24,7 +24,7 @@ function Avatar({ name, image, username, isLogged, size }: AvatarProps) {
         className={`${common} grid place-content-center bg-slate-300 rounded-3xl ring-2 ring-[#C1C0C0] overflow-hidden transition-all duration-300 ease-in-out hover:rounded-xl`}
       >
         {isLogged && image ? (
-          <img src={image} className="w-full h-full object-cover" />
+          <img src={image} className={`${common} object-cover`} />
         ) : (
           <User size={icon} color="#3f3f46" weight="duotone" />
         )}

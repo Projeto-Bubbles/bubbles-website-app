@@ -12,7 +12,9 @@ import {
 import { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import { EventProps } from '../../interfaces/bubble';
 import { PostProps } from '../../interfaces/post';
+import { getNext5Events } from '../../services/eventServices';
 import {
   createComment,
   createPost,
@@ -20,7 +22,6 @@ import {
   editPost,
   getPosts,
 } from '../../services/postServices';
-import { getNext5Events } from '../../services/eventServices';
 import Button from '../common/Button';
 import Input from '../common/Fields/Input';
 import Textarea from '../common/Fields/Textarea';
@@ -29,8 +30,8 @@ import Navbar from '../common/Navbar';
 import { Post } from '../common/Post';
 import { PostType } from '../common/Post/PostRoot';
 import SidebarTopic from '../common/SidebarTopic';
+import { Skeleton } from '../common/Skeleton';
 import Event from './../common/Event/index';
-import { EventProps } from '../../interfaces/bubble';
 import { uploadFilePosts, getFileUrl } from '../../utils/supabase';
 
 function Feed() {
@@ -337,7 +338,7 @@ function Feed() {
               </div>
 
               {/* Post */}
-              <div className="w-full flex flex-col gap-16">
+              <div className="w-full flex flex-col gap-12">
                 <Post.Root
                   type={user.email ? PostType.CREATE : PostType.NOT_LOGGED}
                 >
@@ -485,8 +486,13 @@ function Feed() {
                       />
                     </Post.Root>
                   ))}
+
                 {posts.length === 0 && (
-                  <h1>🙁 Ops, não conseguimos trazer os posts</h1>
+                  <>
+                    {[...Array(4)].map((_, index) => (
+                      <Skeleton.Post key={index} />
+                    ))}
+                  </>
                 )}
               </div>
             </div>
