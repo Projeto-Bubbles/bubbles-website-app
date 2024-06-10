@@ -3,6 +3,7 @@ import { UserProps } from './user';
 export interface PostProps {
   idPost?: number;
   moment: Date;
+  image?: string;
   contents: string;
   author: UserProps;
   bubble?: string;

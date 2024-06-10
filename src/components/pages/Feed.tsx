@@ -392,7 +392,10 @@ function Feed() {
                           </span>
                         </div>
                       </Post.Header>
-                      <Post.Content content={post.contents} />
+                      <Post.Content
+                        image={post.image}
+                        content={post.contents}
+                      />
 
                       {post.comments && post.comments?.length > 0 && (
                         <Post.ShowComments>
